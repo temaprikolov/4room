@@ -34,6 +34,7 @@ body.light { --bg: #f2f4f8; --s1: #ffffff; --s2: #eaecf2; --s3s: #d5d8e4; --s4: 
 .btn-g { background: transparent; color: var(--t3); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 .btn-xs { padding: 3px 10px; font-size: 11px; }
+.btn-r { background: rgba(224,82,82,0.15); border-color: var(--red); color: var(--red); }
 .btn-help { background: linear-gradient(135deg, var(--purple), var(--pink)); color: #fff; }
 input, textarea, select {
   background: var(--s1); color: var(--t1); border: 1px solid var(--border);
@@ -134,6 +135,9 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .bubble.mine { background: linear-gradient(135deg, var(--blue), #2952a3); color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
 .bubble.theirs { background: var(--s3s); align-self: flex-start; border-bottom-left-radius: 3px; }
 .chat-input-area { padding: 10px 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+.flex { display: flex; align-items: center; gap: 8px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
 </style>
 </head>
 <body>
@@ -171,6 +175,42 @@ function mkId() { return String(++S.counter); }
 function persist() { localStorage.setItem('4r_data', JSON.stringify(S)); localStorage.setItem('4r_users', JSON.stringify(users)); localStorage.setItem('4r_registrations', JSON.stringify(registrations)); localStorage.setItem('4r_session', JSON.stringify(sess)); }
 function loadData() { let d = localStorage.getItem('4r_data'); if (d) try { let p = JSON.parse(d); Object.assign(S, p); if (!S.reactions) S.reactions = {}; if (!S.polls) S.polls = {}; } catch(e) {} }
 loadData();
+
+// ==================== АДМИН ПРИ ПЕРВОМ ЗАПУСКЕ ====================
+if (users.length === 0) {
+  let adminUser = {
+    id: 'u' + mkId(),
+    username: 'temaprikolov',
+    password: 'Daraso19',
+    avatarBase64: null,
+    bio: 'Администратор платформы 4room',
+    badges: ['early', 'verified'],
+    verified: true,
+    isAdmin: true,
+    banned: false,
+    threadCount: 0,
+    commentCount: 0,
+    friends: [],
+    bookmarkedThreads: [],
+    bookmarkedBeats: [],
+    bookmarkedDrumkits: [],
+    bookmarkedServices: [],
+    createdAt: Date.now(),
+    lastSeen: Date.now()
+  };
+  users.push(adminUser);
+  persist();
+  console.log('✅ Админ создан: temaprikolov / Daraso19');
+} else {
+  let existingAdmin = users.find(u => u.username === 'temaprikolov');
+  if (existingAdmin && !existingAdmin.isAdmin) {
+    existingAdmin.isAdmin = true;
+    existingAdmin.verified = true;
+    persist();
+    console.log('✅ Пользователь temaprikolov назначен админом');
+  }
+}
+
 function getUser(id) { return users.find(u => u.id === id); }
 function updateUser(id, data) { let idx = users.findIndex(u => u.id === id); if (idx !== -1) { users[idx] = { ...users[idx], ...data }; if (sess && sess.id === id) sess = { ...sess, ...data }; persist(); } }
 
@@ -389,25 +429,87 @@ function addFriend(uid) { let me = getUser(sess.id); if (!me) return; let friend
 
 // ==================== АДМИН-ПАНЕЛЬ ====================
 function renderAdmin() {
-  if (!sess?.isAdmin) { document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">Доступно только администраторам</div></div>`; showPage('p-admin'); return; }
-  let el = document.getElementById('p-admin');
+  if (!sess) {
+    document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">Войдите в аккаунт</div></div>`;
+    showPage('p-admin');
+    return;
+  }
+  let currentUser = getUser(sess.id);
+  if (!currentUser || !currentUser.isAdmin) {
+    document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администраторов.</div></div>`;
+    showPage('p-admin');
+    return;
+  }
   let totalReplies = Object.values(S.replies).flat().length;
-  let statsHtml = `<div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px;font-weight:700">${users.length}</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px;font-weight:700">${S.threads.length}</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px;font-weight:700">${totalReplies}</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px;font-weight:700">${S.beats.length}</div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb" style="font-size:28px;font-weight:700">${S.drumkits.length}</div></div><div class="card"><div class="ph">Услуги</div><div class="pb" style="font-size:28px;font-weight:700">${S.services.length}</div></div></div>`;
-  let usersHtml = `<div class="stitle">Управление пользователями</div><div id="admin-users-list"></div>`;
-  el.innerHTML = `<div class="w"><h1 style="margin-bottom:20px">⚙ Админ-панель</h1>${statsHtml}${usersHtml}</div>`;
+  let statsHtml = `<div class="g2" style="margin-bottom:24px">
+    <div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px;font-weight:700">${users.length}</div></div>
+    <div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px;font-weight:700">${S.threads.length}</div></div>
+    <div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px;font-weight:700">${totalReplies}</div></div>
+    <div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px;font-weight:700">${S.beats.length}</div></div>
+    <div class="card"><div class="ph">Драмкиты</div><div class="pb" style="font-size:28px;font-weight:700">${S.drumkits.length}</div></div>
+    <div class="card"><div class="ph">Услуги</div><div class="pb" style="font-size:28px;font-weight:700">${S.services.length}</div></div>
+  </div>`;
   let listHtml = '';
   users.forEach(u => {
-    listHtml += `<div class="flex" style="justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">${esc(u.username)}</div><div style="font-size:11px;color:var(--t3)">ID: ${u.id}</div><div style="font-size:10px;color:var(--t4)">Рег: ${new Date(u.createdAt).toLocaleDateString()}</div></div><div class="flex" style="gap:8px;flex-wrap:wrap"><button class="btn btn-xs ${u.isAdmin ? 'btn-p' : 'btn-d'}" onclick="toggleAdmin('${u.id}', ${!u.isAdmin})">${u.isAdmin ? '👑 Админ' : '➕ Сделать админом'}</button><button class="btn btn-xs ${u.verified ? 'btn-p' : 'btn-d'}" onclick="toggleVerified('${u.id}', ${!u.verified})">${u.verified ? '✓ Верифицирован' : '○ Верифицировать'}</button><button class="btn btn-xs btn-r" onclick="banUser('${u.id}')">${u.banned ? '🚫 Разбанить' : '🔨 Забанить'}</button><button class="btn btn-xs btn-r" onclick="deleteUser('${u.id}')">🗑 Удалить</button></div></div>`;
+    let userThreads = S.threads.filter(t => t.op?.uid === u.id).length;
+    let userComments = Object.values(S.replies).flat().filter(r => r.uid === u.id).length;
+    listHtml += `<div class="flex" style="justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px">
+      <div style="min-width:150px"><div style="font-weight:600">${esc(u.username)} ${u.isAdmin ? '👑' : ''} ${u.verified ? '✓' : ''}</div><div style="font-size:10px;color:var(--t4)">ID: ${u.id.slice(0,8)}... | Тем: ${userThreads} | Ответов: ${userComments}</div></div>
+      <div class="flex" style="gap:8px;flex-wrap:wrap">
+        <button class="btn btn-xs ${u.isAdmin ? 'btn-p' : 'btn-d'}" onclick="toggleAdmin('${u.id}', ${!u.isAdmin})">${u.isAdmin ? 'Убрать админа' : 'Сделать админом'}</button>
+        <button class="btn btn-xs ${u.verified ? 'btn-p' : 'btn-d'}" onclick="toggleVerified('${u.id}', ${!u.verified})">${u.verified ? 'Снять верификацию' : 'Верифицировать'}</button>
+        <button class="btn btn-xs btn-r" onclick="banUser('${u.id}')">${u.banned ? 'Разбанить' : 'Забанить'}</button>
+        <button class="btn btn-xs btn-r" onclick="deleteUser('${u.id}')">Удалить</button>
+      </div>
+    </div>`;
   });
-  document.getElementById('admin-users-list').innerHTML = listHtml;
+  let content = `<div class="w"><h1 style="margin-bottom:20px">⚙ Админ-панель</h1>${statsHtml}<div class="stitle">👥 Управление пользователями</div><div id="admin-users-list">${listHtml}</div><div style="margin-top:20px;padding:12px;background:var(--s3s);border-radius:var(--r);font-size:12px"><span class="pill">ℹ️ Инфо</span> Первый зарегистрированный пользователь становится админом. Сейчас админы: ${users.filter(u => u.isAdmin).map(u => u.username).join(', ') || 'нет'}</div></div>`;
+  document.getElementById('p-admin').innerHTML = content;
   showPage('p-admin');
 }
-function toggleAdmin(uid, makeAdmin) { updateUser(uid, { isAdmin: makeAdmin }); renderAdmin(); }
-function toggleVerified(uid, makeVerified) { updateUser(uid, { verified: makeVerified }); renderAdmin(); }
-function banUser(uid) { let user = getUser(uid); if (!user) return; updateUser(uid, { banned: !user.banned }); toast(user.banned ? 'Пользователь разбанен' : 'Пользователь забанен'); renderAdmin(); }
-function deleteUser(uid) { if (uid === sess?.id) { toast('Нельзя удалить себя', true); return; } users = users.filter(u => u.id !== uid); persist(); toast('Пользователь удалён'); renderAdmin(); }
 
-function renderBookmarks() { document.getElementById('p-bmarks').innerHTML = `<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>`; showPage('p-bmarks'); }
+function toggleAdmin(uid, makeAdmin) { 
+  let user = getUser(uid);
+  if (user) {
+    user.isAdmin = makeAdmin;
+    updateUser(uid, { isAdmin: makeAdmin });
+    toast(makeAdmin ? '👑 Назначен админом' : '👑 Права админа сняты');
+    renderAdmin();
+  }
+}
+function toggleVerified(uid, makeVerified) { 
+  let user = getUser(uid);
+  if (user) {
+    user.verified = makeVerified;
+    updateUser(uid, { verified: makeVerified });
+    toast(makeVerified ? '✓ Пользователь верифицирован' : '✗ Верификация снята');
+    renderAdmin();
+  }
+}
+function banUser(uid) { 
+  let user = getUser(uid);
+  if (user && user.username === 'temaprikolov') {
+    toast('❌ Нельзя забанить главного администратора', true);
+    return;
+  }
+  updateUser(uid, { banned: !user.banned });
+  toast(user.banned ? '🔓 Пользователь разбанен' : '🔨 Пользователь забанен');
+  renderAdmin();
+}
+function deleteUser(uid) { 
+  if (uid === sess?.id) { toast('❌ Нельзя удалить себя', true); return; }
+  let user = getUser(uid);
+  if (user && user.username === 'temaprikolov') {
+    toast('❌ Нельзя удалить главного администратора', true);
+    return;
+  }
+  users = users.filter(u => u.id !== uid); 
+  persist(); 
+  toast('🗑 Пользователь удалён'); 
+  renderAdmin();
+}
+
+function renderBookmarks() { let el = document.getElementById('p-bmarks'); el.innerHTML = `<div class="wn"><h1>🔖 Закладки</h1><div class="empty"><div class="empty-ico">📌</div><p>Здесь будут сохранённые темы, биты и услуги</p></div></div>`; showPage('p-bmarks'); }
 
 // ==================== ПЛЕЕР ====================
 let player = { audio: null, init() { this.audio = new Audio(); this.audio.volume = 0.8; }, play(url, title, artist) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('p-art').textContent = artist || ''; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio?.paused ? '▶' : '⏸'; }, hide() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
