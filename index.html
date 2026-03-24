@@ -46,6 +46,21 @@ body {
   font-size: 14px;
   line-height: 1.5;
   min-height: 100vh;
+  padding-bottom: 72px;
+}
+
+body.light {
+  --bg: #f2f4f8;
+  --s1: #ffffff;
+  --s2: #eaecf2;
+  --s3s: #d5d8e4;
+  --s4: #c8ccda;
+  --border: #cdd0de;
+  --border2: #b5b9cc;
+  --t1: #1a1b2e;
+  --t2: #363755;
+  --t3: #585a78;
+  --t4: #878aaa;
 }
 
 .w, .wn {
@@ -592,8 +607,8 @@ input:focus, textarea:focus {
   <div id="p-services" class="page"></div>
   <div id="p-music" class="page"></div>
   <div id="p-profile" class="page"></div>
+  <div id="p-admin" class="page"></div>
   <div id="p-bmarks" class="page"></div>
-  <div id="p-welcome" class="page"></div>
 </main>
 
 <footer style="border-top:1px solid var(--border);padding:20px;text-align:center;font-size:12px;color:var(--t4)">4room — социальная платформа для музыкантов и продюсеров</footer>
@@ -606,17 +621,59 @@ input:focus, textarea:focus {
 </div>
 <div id="msg-bd" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:499;display:none;"></div>
 <div id="player" style="position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(18,19,27,.98);backdrop-filter:blur(16px);border-top:1px solid var(--border);z-index:300;display:none;align-items:center;padding:0 20px;gap:12px;"><div id="p-cov" style="width:44px;height:44px;border-radius:8px;background:var(--s3s);display:flex;align-items:center;justify-content:center;">♪</div><div style="flex:1"><div id="p-ttl" style="font-weight:500">—</div><div id="p-art" style="font-size:11px;color:var(--t3)"></div></div><button id="p-pbtn" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--t1);width:40px;">▶</button><div style="flex:1;max-width:300px;height:4px;background:var(--s4);border-radius:4px;cursor:pointer;" id="p-bar"><div id="p-bar-f" style="height:100%;background:var(--blue);width:0%;border-radius:4px;"></div></div><span id="p-time" style="font-size:12px;min-width:45px;">0:00</span><input type="range" class="p-vol" min="0" max="1" step="0.05" value="0.8" style="width:80px;"><button id="p-close" style="background:none;border:none;color:var(--t4);cursor:pointer;font-size:18px;">✕</button></div>
-<nav id="mob-bnav"><div class="mbn"><button class="mb-btn" data-nav="home">🏠<span>Главная</span></button><button class="mb-btn" data-nav="beats">♪<span>Биты</span></button><button class="mb-btn" data-nav="drumkits">🥁<span>Драмкиты</span></button><button class="mb-btn" data-nav="services">🛠<span>Услуги</span></button></div></nav>
+<nav id="mob-bnav"><div class="mbn"><button class="mb-btn" data-nav="home">🏠<span>Главная</span></button><button class="mb-btn" data-nav="beats">♪<span>Биты</span></button><button class="mb-btn" data-nav="drumkits">🥁<span>Драмкиты</span></button><button class="mb-btn" data-nav="services">🛠<span>Услуги</span></button><button class="mb-btn" data-nav="admin">⚙<span>Админ</span></button></div></nav>
+
+<div id="edit-profile-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>✎ Редактировать профиль</span><button onclick="closeEditModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;">✕</button></div>
+    <div class="modal-body">
+      <div class="stitle">Основное</div>
+      <input id="edit-bio" type="text" placeholder="О себе" style="width:100%">
+      <div class="stitle mt-3">Аватар</div>
+      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadAvatarModal()">📷 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeAvatar()">🗑 Удалить</button></div>
+      <div class="pf mt-3"><button class="btn btn-p" onclick="saveProfileEdit()">Сохранить</button><button class="btn btn-g" onclick="closeEditModal()">Отмена</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="repost-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>🔁 Репост</span><button onclick="closeRepostModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;">✕</button></div>
+    <div class="modal-body">
+      <div class="stitle">Куда репостнуть?</div>
+      <button class="btn btn-p w-100 mt-2" onclick="repostToMyWall()">📌 На свою стену</button>
+      <div class="stitle mt-3">В личные сообщения</div>
+      <input id="repost-user-search" type="text" placeholder="Поиск пользователя..." oninput="searchUserForRepost()">
+      <div id="repost-user-results" style="max-height:200px;overflow-y:auto;margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ==================== КОНФИГ ====================
 const ADMIN_LOGIN = 'temaprikolov';
 const ADMIN_PASS = 'Daraso19';
 
+// ==================== ПОЛНАЯ ОЧИСТКА ДАННЫХ ====================
+// Удаляем все старые данные при первом запуске новой версии
+if (!localStorage.getItem('4r_cleaned')) {
+  localStorage.clear();
+  localStorage.setItem('4r_cleaned', 'true');
+  console.log('Все данные очищены, начинаем с чистого листа');
+}
+
 // ==================== СОСТОЯНИЕ ====================
 let S = { 
-  threads: [], replies: {}, beats: [], drumkits: [], services: [], 
-  wallPosts: {}, convs: [], reactions: {}, postViews: {}, comments: {},
+  threads: [], 
+  replies: {}, 
+  beats: [], 
+  drumkits: [], 
+  services: [], 
+  wallPosts: {}, 
+  convs: [], 
+  reactions: {}, 
+  postViews: {}, 
+  comments: {},
   counter: 1000 
 };
 let users = JSON.parse(localStorage.getItem('4r_users') || '[]');
@@ -624,6 +681,7 @@ let sess = JSON.parse(localStorage.getItem('4r_session') || 'null');
 let _theme = localStorage.getItem('4r_theme') || 'dark';
 let _bg = 'all', _bs = 'newest';
 let _activeConv = null;
+let _repostPostId = null, _repostAuthor = null, _repostContent = null;
 
 // ==================== УТИЛИТЫ ====================
 function toast(msg, isErr) {
@@ -655,11 +713,25 @@ function loadData() {
       if (!S.comments) S.comments = {};
     } catch(e) { console.error('Error loading data', e); } 
   }
-  // Создаем админа если его нет
-  let adminExists = users.find(function(u) { return u.username === ADMIN_LOGIN; });
+  
+  // Создаем админа ТОЛЬКО если его нет в системе
+  let adminExists = false;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].username === ADMIN_LOGIN) {
+      adminExists = true;
+      // Убеждаемся что у него есть админ-флаг
+      if (!users[i].isAdmin) users[i].isAdmin = true;
+      if (!users[i].badges) users[i].badges = [];
+      if (users[i].badges.indexOf('admin') === -1) users[i].badges.push('admin');
+      if (users[i].badges.indexOf('verified') === -1) users[i].badges.push('verified');
+      break;
+    }
+  }
+  
+  // Если админа нет - создаем
   if (!adminExists) {
-    users.unshift({
-      id: 'u_admin',
+    let adminUser = {
+      id: 'u_admin_' + Date.now(),
       username: ADMIN_LOGIN,
       password: ADMIN_PASS,
       avatarBase64: null,
@@ -671,35 +743,48 @@ function loadData() {
       friends: [],
       followers: [],
       createdAt: Date.now()
-    });
+    };
+    users.unshift(adminUser);
     persist();
+    console.log('Админский аккаунт создан:', ADMIN_LOGIN);
   }
 }
 loadData();
 
-function getUser(id) { return users.find(function(u) { return u.id === id; }); }
-function updateUser(id, data) { 
-  let idx = -1;
+function getUser(id) { 
   for (let i = 0; i < users.length; i++) {
-    if (users[i].id === id) { idx = i; break; }
+    if (users[i].id === id) return users[i];
   }
-  if (idx !== -1) { 
-    for (let key in data) { users[idx][key] = data[key]; }
-    if (sess && sess.id === id) sess = users[idx]; 
-    persist(); 
+  return null;
+}
+function updateUser(id, data) { 
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].id === id) { 
+      for (let key in data) { users[i][key] = data[key]; }
+      if (sess && sess.id === id) sess = users[i]; 
+      persist(); 
+      break;
+    }
   } 
 }
-function isAdmin() { return sess && sess.username === ADMIN_LOGIN; }
+function isAdmin() { 
+  if (!sess) return false;
+  // Только пользователь с логином temaprikolov может быть админом
+  return sess.username === ADMIN_LOGIN;
+}
 
 // ==================== РЕГИСТРАЦИЯ ====================
 function register(username, password) {
   if (!username || username.length < 3) return { ok: false, err: 'Имя не менее 3 символов' };
   if (!password || password.length < 4) return { ok: false, err: 'Пароль не менее 4 символов' };
-  let existing = false;
+  
+  // Запрещаем регистрацию админского логина для других
+  if (username === ADMIN_LOGIN) return { ok: false, err: 'Это имя занято' };
+  
   for (let i = 0; i < users.length; i++) {
-    if (users[i].username === username) { existing = true; break; }
+    if (users[i].username === username) return { ok: false, err: 'Имя занято' };
   }
-  if (existing) return { ok: false, err: 'Имя занято' };
+  
   let newUser = {
     id: 'u' + mkId(),
     username: username,
@@ -707,7 +792,7 @@ function register(username, password) {
     avatarBase64: null,
     bio: '',
     badges: ['early'],
-    isAdmin: false,
+    isAdmin: false,  // Никто кроме админа не может быть админом
     banned: false,
     privacy: { wall: 'all', comment: 'all', profileLocked: false },
     friends: [],
@@ -728,16 +813,26 @@ function login(username, password) {
   }
   if (!user) return { ok: false, err: 'Неверное имя или пароль' };
   if (user.banned) return { ok: false, err: 'Аккаунт заблокирован' };
+  
+  // При входе проверяем админ-статус
+  let isAdminUser = (username === ADMIN_LOGIN && password === ADMIN_PASS);
+  if (isAdminUser && !user.isAdmin) {
+    user.isAdmin = true;
+    if (user.badges.indexOf('admin') === -1) user.badges.push('admin');
+    persist();
+  }
+  
   sess = { id: user.id, username: user.username, isAdmin: user.isAdmin, avatarBase64: user.avatarBase64 };
   persist();
   return { ok: true, user: user };
 }
-function logout() { sess = null; persist(); render(); }
+function logout() { sess = null; persist(); buildHeader(); render(); }
 
 // ==================== HEADER ====================
 function buildHeader() {
   let nav = document.getElementById('hnav');
   if (nav && sess) {
+    let adminButton = isAdmin() ? '<button class="hl" onclick="nav(\'#/admin\')">⚙ Админ-панель</button>' : '';
     nav.innerHTML = 
       '<button class="hl" onclick="nav(\'#/board/tech\')">⚙ Тех-раздел</button>' +
       '<button class="hl" onclick="nav(\'#/board/art\')">◈ Арт</button>' +
@@ -745,7 +840,8 @@ function buildHeader() {
       '<button class="hl" onclick="nav(\'#/board/shitposting\')">✦ Шитпостинг</button>' +
       '<button class="hl" onclick="nav(\'#/beats\')">♪ Биты</button>' +
       '<button class="hl" onclick="nav(\'#/drumkits\')">🥁 Драмкиты</button>' +
-      '<button class="hl" onclick="nav(\'#/services\')">🛠 Услуги</button>';
+      '<button class="hl" onclick="nav(\'#/services\')">🛠 Услуги</button>' +
+      adminButton;
   }
   let hr = document.getElementById('hr');
   if (hr) {
@@ -758,6 +854,7 @@ function buildHeader() {
           '<div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;">' +
             '<div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">' + esc(sess.username) + '</div>' +
             '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/profile\');closeUmenu()">👤 Мой профиль</div>' +
+            '<div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>' +
             '<div style="height:1px;background:var(--border);margin:4px 0"></div>' +
             '<div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>' +
           '</div>' +
@@ -914,7 +1011,7 @@ function doRegister() {
   let res = register(username, password);
   if (!res.ok) { let errDiv = document.getElementById('reg-error'); if (errDiv) errDiv.textContent = res.err; return; }
   closeAuth();
-  sess = { id: res.user.id, username: res.user.username, isAdmin: res.user.isAdmin, avatarBase64: res.user.avatarBase64 };
+  sess = { id: res.user.id, username: res.user.username, isAdmin: false, avatarBase64: res.user.avatarBase64 };
   persist();
   buildHeader();
   render();
@@ -926,25 +1023,22 @@ function nav(hash) {
   render(); 
 }
 
-// ==================== ПРИВЕТСТВИЕ ====================
-function renderWelcome() {
-  let el = document.getElementById('p-welcome');
-  el.innerHTML = '<div class="wn" style="text-align:center;padding:60px 20px"><div class="empty-ico" style="font-size:80px">🎵</div><h1 style="font-size:32px;margin:20px 0">Добро пожаловать в 4room</h1><p style="color:var(--t2);margin-bottom:30px">Социальная платформа для музыкантов и продюсеров</p><div class="flex" style="justify-content:center;gap:16px"><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button></div></div>';
-  showPage('p-welcome');
-}
-
 // ==================== ОСНОВНЫЕ СТРАНИЦЫ ====================
 function renderHome() {
   let threads = (S.threads || []).slice().sort(function(a,b) { return b.lastActivity - a.lastActivity; }).slice(0, 20);
   let el = document.getElementById('p-home');
-  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">Последние темы</h1><div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div class="post-content" style="font-size:13px;color:var(--t2)">' + esc(th.op ? th.op.content.slice(0, 100) : '') + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>' + '</div></div>';
+  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">Последние темы</h1><div class="feed">' + (threads.length ? threads.map(function(th) { 
+    return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div class="post-content" style="font-size:13px;color:var(--t2)">' + esc(th.op ? th.op.content.slice(0, 100) : '') + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>';
+  }).join('') : '<div class="empty">Нет тем. Создайте первую тему!</div>') + '</div></div>';
   showPage('p-home');
 }
 function renderBoard(id) {
   let threads = (S.threads || []).filter(function(t) { return t.boardId === id; });
   let boardNames = { tech: 'Тех-раздел', art: 'Арт', music: 'Музыка', shitposting: 'Шитпостинг' };
   let el = document.getElementById('p-board');
-  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">' + (boardNames[id] || id) + '</h1><button class="btn btn-p mb-4" onclick="showNewThreadForm(\'' + id + '\')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread(\'' + id + '\')">Создать</button></div></div></div><div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">В этом разделе пока нет тем</div>' + '</div></div>';
+  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">' + (boardNames[id] || id) + '</h1><button class="btn btn-p mb-4" onclick="showNewThreadForm(\'' + id + '\')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread(\'' + id + '\')">Создать</button></div></div></div><div class="feed">' + (threads.length ? threads.map(function(th) { 
+    return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>';
+  }).join('') : '<div class="empty">В этом разделе пока нет тем</div>') + '</div></div>';
   showPage('p-board');
 }
 function showNewThreadForm() { document.getElementById('new-thread-form').style.display = 'block'; }
@@ -968,7 +1062,9 @@ function renderThread(id) {
   if (!thread) { document.getElementById('p-thread').innerHTML = '<div class="wn"><div class="empty">Тема не найдена</div></div>'; showPage('p-thread'); return; }
   let replies = S.replies[id] || [];
   let el = document.getElementById('p-thread');
-  el.innerHTML = '<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">' + esc(thread.title) + '</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">' + (thread.op.author ? thread.op.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(thread.op.author) + '</div><div style="font-size:12px;color:var(--t3)">' + relTime(thread.op.createdAt) + '</div></div></div><div style="white-space:pre-wrap;line-height:1.6">' + esc(thread.op.content) + '</div></div></div><div class="stitle">Ответы (' + replies.length + ')</div>' + replies.map(function(r) { return '<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">' + (r.author ? r.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(r.author) + '</div><div style="font-size:11px;color:var(--t3)">' + relTime(r.createdAt) + '</div></div></div><div style="white-space:pre-wrap">' + esc(r.content) + '</div></div></div>'; }).join('') + '<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply(\'' + id + '\')">Отправить</button></div></div></div></div>';
+  el.innerHTML = '<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">' + esc(thread.title) + '</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">' + (thread.op.author ? thread.op.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(thread.op.author) + '</div><div style="font-size:12px;color:var(--t3)">' + relTime(thread.op.createdAt) + '</div></div></div><div style="white-space:pre-wrap;line-height:1.6">' + esc(thread.op.content) + '</div></div></div><div class="stitle">Ответы (' + replies.length + ')</div>' + (replies.length ? replies.map(function(r) { 
+    return '<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">' + (r.author ? r.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(r.author) + '</div><div style="font-size:11px;color:var(--t3)">' + relTime(r.createdAt) + '</div></div></div><div style="white-space:pre-wrap">' + esc(r.content) + '</div></div></div>';
+  }).join('') : '<div class="empty">Пока нет ответов</div>') + '<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply(\'' + id + '\')">Отправить</button></div></div></div></div>';
   showPage('p-thread');
 }
 function addReply(threadId) {
@@ -994,7 +1090,14 @@ function renderProfile(uid) {
   let isOwn = sess && sess.id === user.id;
   let posts = S.wallPosts[uid] || [];
   let el = document.getElementById('p-profile');
-  el.innerHTML = '<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background:linear-gradient(135deg, var(--blue), var(--purple));height:120px"></div><div class="profile-avatar-wrapper" style="margin-top:-40px">' + getAvatarHTML(user, 80) + '</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">' + esc(user.username) + '</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">' + (user.badges || []).map(function(b) { return '<span class="pill">' + (b === 'admin' ? '👑 Админ' : b === 'verified' ? '✓ Верифицирован' : b === 'early' ? '🌱 Ранний' : b) + '</span>'; }).join('') + '</div><div style="color:var(--t3);margin:12px 0">' + esc(user.bio || 'Нет описания') + '</div><div class="stats"><div><div style="font-weight:700">' + posts.length + '</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">' + (user.followers ? user.followers.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div></div>' + (!isOwn ? '<button class="btn btn-p" onclick="startDM(\'' + user.id + '\', \'Привет!\')">✉ Написать</button>' : '') + '</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">' + (isOwn ? '<textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" style="width:100%"></textarea><div class="pf"><button class="btn btn-p" onclick="createWallPost(\'' + uid + '\', document.getElementById(\'wall-post-content\').value)">Опубликовать</button></div>' : '') + '<div id="wall-posts">' + (posts.map(function(p) { return '<div class="wall-post"><div class="wall-post-header"><div><div class="wall-post-author">' + esc(p.author) + '</div><div class="wall-post-time">' + relTime(p.createdAt) + '</div></div></div><div class="wall-post-content">' + esc(p.content) + '</div></div>'; }).join('') || '<div class="empty">Нет записей на стене</div>') + '</div></div></div></div>';
+  el.innerHTML = '<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background:linear-gradient(135deg, var(--blue), var(--purple));height:120px"></div><div class="profile-avatar-wrapper" style="margin-top:-40px">' + getAvatarHTML(user, 80) + '</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">' + esc(user.username) + '</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">' + (user.badges || []).map(function(b) { 
+    if (b === 'admin') return '<span class="pill" style="background:rgba(224,82,82,0.2);color:#e05252">👑 Админ</span>';
+    if (b === 'verified') return '<span class="pill" style="background:rgba(79,126,212,0.2);color:#4f7ed4">✓ Верифицирован</span>';
+    if (b === 'early') return '<span class="pill">🌱 Ранний</span>';
+    return '<span class="pill">' + b + '</span>';
+  }).join('') + '</div><div style="color:var(--t3);margin:12px 0">' + esc(user.bio || 'Нет описания') + '</div><div class="stats"><div><div style="font-weight:700">' + posts.length + '</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">' + (user.followers ? user.followers.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div></div>' + (!isOwn ? '<button class="btn btn-p" onclick="startDM(\'' + user.id + '\', \'Привет!\')">✉ Написать</button>' : '') + '</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">' + (isOwn ? '<textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" style="width:100%"></textarea><div class="pf"><button class="btn btn-p" onclick="createWallPost(\'' + uid + '\', document.getElementById(\'wall-post-content\').value)">Опубликовать</button></div>' : '') + '<div id="wall-posts">' + (posts.length ? posts.map(function(p) { 
+    return '<div class="wall-post"><div class="wall-post-header"><div><div class="wall-post-author">' + esc(p.author) + '</div><div class="wall-post-time">' + relTime(p.createdAt) + '</div></div></div><div class="wall-post-content">' + esc(p.content) + '</div></div>';
+  }).join('') : '<div class="empty">Нет записей на стене</div>') + '</div></div></div></div>';
   showPage('p-profile');
 }
 function createWallPost(targetUid, content) {
@@ -1008,22 +1111,29 @@ function createWallPost(targetUid, content) {
   if (wp) wp.value = '';
   renderProfile(targetUid);
 }
-function renderBeats() { renderMarketplace('beats'); }
-function renderDrumkits() { renderMarketplace('drumkits'); }
-function renderServices() { renderMarketplace('services'); }
-function renderMusic() { showPage('p-music'); }
-function renderBookmarks() { showPage('p-bmarks'); }
 
-function renderMarketplace(type) {
+// ==================== МАРКЕТПЛЕЙС ====================
+function renderBeats() { renderMarketplace('beats', '🎵 Маркетплейс битов', 'Продать бит'); }
+function renderDrumkits() { renderMarketplace('drumkits', '🥁 Драмкиты', 'Продать драмкит'); }
+function renderServices() { renderMarketplace('services', '🛠 Услуги', 'Предложить услугу'); }
+function renderMusic() { 
+  document.getElementById('p-music').innerHTML = '<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav(\'#/beats\')">Перейти в биты</button></div></div>';
+  showPage('p-music'); 
+}
+function renderBookmarks() { 
+  document.getElementById('p-bmarks').innerHTML = '<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>';
+  showPage('p-bmarks'); 
+}
+
+function renderMarketplace(type, title, buttonText) {
   let items = S[type] || [];
-  let titles = { beats: '🎵 Маркетплейс битов', drumkits: '🥁 Драмкиты', services: '🛠 Услуги' };
   let el = document.getElementById('p-' + type);
   let itemHtml = '';
   for (let i = 0; i < items.length; i++) {
     let it = items[i];
     itemHtml += '<div class="beat-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(it.title) + '</div><div class="price">' + (it.price > 0 ? it.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((it.desc || '').slice(0, 80)) + '</div><button class="btn btn-p btn-sm" onclick="buyItem(\'' + type + '\', \'' + it.id + '\')">' + (type === 'services' ? '📩 Заказать' : '💸 Купить') + '</button></div></div>';
   }
-  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>' + titles[type] + '</h1><button class="btn btn-p" onclick="toggleForm(\'' + type + '\')">+ ' + (type === 'beats' ? 'Продать бит' : type === 'drumkits' ? 'Продать драмкит' : 'Предложить услугу') + '</button></div><div id="form-' + type + '" style="display:none" class="panel mb-4"><div class="ph">Новый ' + (type === 'beats' ? 'бит' : type === 'drumkits' ? 'драмкит' : 'услуга') + '<button class="btn btn-g btn-sm" onclick="toggleForm(\'' + type + '\')">✕</button></div><div class="pb"><input id="' + type + '-title" placeholder="Название"><input id="' + type + '-price" type="number" placeholder="Цена (₽)"><textarea id="' + type + '-desc" rows="3" placeholder="Описание"></textarea><div class="pf"><button class="btn btn-g" onclick="toggleForm(\'' + type + '\')">Отмена</button><button class="btn btn-p" onclick="submitItem(\'' + type + '\')">Опубликовать</button></div></div></div><div class="beat-grid">' + (itemHtml || '<div class="empty">Пока ничего нет</div>') + '</div></div>';
+  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>' + title + '</h1><button class="btn btn-p" onclick="toggleForm(\'' + type + '\')">+ ' + buttonText + '</button></div><div id="form-' + type + '" style="display:none" class="panel mb-4"><div class="ph">Новый ' + (type === 'beats' ? 'бит' : type === 'drumkits' ? 'драмкит' : 'услуга') + '<button class="btn btn-g btn-sm" onclick="toggleForm(\'' + type + '\')">✕</button></div><div class="pb"><input id="' + type + '-title" placeholder="Название"><input id="' + type + '-price" type="number" placeholder="Цена (₽)"><textarea id="' + type + '-desc" rows="3" placeholder="Описание"></textarea><div class="pf"><button class="btn btn-g" onclick="toggleForm(\'' + type + '\')">Отмена</button><button class="btn btn-p" onclick="submitItem(\'' + type + '\')">Опубликовать</button></div></div></div><div class="beat-grid">' + (itemHtml || '<div class="empty">Пока ничего нет</div>') + '</div></div>';
   showPage('p-' + type);
 }
 function toggleForm(type) { let f = document.getElementById('form-' + type); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
@@ -1047,34 +1157,158 @@ function buyItem(type, id) {
   if (item) startDM(item.uid, 'Интересуюсь ' + (type === 'beats' ? 'битом' : type === 'drumkits' ? 'драмкитом' : 'услугой') + ': ' + item.title);
 }
 
-// ==================== РЕНДЕР ====================
-function render() {
-  buildHeader();
-  if (!sess) {
-    renderWelcome();
+// ==================== АДМИН-ПАНЕЛЬ ====================
+function renderAdmin() {
+  if (!isAdmin()) {
+    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администратора.</div></div>';
+    showPage('p-admin');
     return;
   }
-  let hash = location.hash.slice(1) || '/';
-  if (hash === '/' || hash === '') renderHome();
-  else if (hash === '/beats') renderBeats();
-  else if (hash === '/drumkits') renderDrumkits();
-  else if (hash === '/services') renderServices();
-  else if (hash === '/music') renderMusic();
-  else if (hash === '/profile') renderProfile(sess.id);
-  else if (hash === '/bmarks') renderBookmarks();
-  else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
-  else if (hash.startsWith('/thread/')) renderThread(hash.slice(8));
-  else if (hash.startsWith('/profile/')) renderProfile(hash.slice(9));
-  else renderHome();
-}
-function showPage(id) { 
-  let pages = ['p-home', 'p-board', 'p-thread', 'p-beats', 'p-drumkits', 'p-services', 'p-music', 'p-profile', 'p-bmarks', 'p-welcome'];
-  for (let i = 0; i < pages.length; i++) {
-    let p = document.getElementById(pages[i]);
-    if (p) p.classList.remove('on');
+  
+  let totalReplies = 0;
+  for (let key in S.replies) { totalReplies += S.replies[key].length; }
+  
+  let el = document.getElementById('p-admin');
+  let usersHtml = '';
+  for (let i = 0; i < users.length; i++) {
+    let u = users[i];
+    usersHtml += '<div class="flex justify-between" style="padding:12px;border-bottom:1px solid var(--border)"><div><b>' + esc(u.username) + '</b> ' + (u.isAdmin ? '👑' : '') + '<div style="font-size:11px">Бейджи: ' + (u.badges || []).join(', ') + '</div></div><div class="flex gap-2">' +
+      '<button class="btn btn-xs ' + (u.isAdmin ? 'btn-p' : 'btn-d') + '" onclick="toggleAdmin(\'' + u.id + '\')">' + (u.isAdmin ? 'Снять админа' : 'Сделать админом') + '</button>' +
+      '<button class="btn btn-xs btn-r" onclick="banUser(\'' + u.id + '\')">' + (u.banned ? 'Разбан' : 'Бан') + '</button>' +
+      '<button class="btn btn-xs btn-r" onclick="deleteUserAdmin(\'' + u.id + '\')">🗑</button></div></div>';
   }
-  let page = document.getElementById(id);
-  if (page) page.classList.add('on'); 
+  
+  el.innerHTML = '<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">' + users.length + '</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">' + S.threads.length + '</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">' + totalReplies + '</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">' + S.beats.length + '</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list">' + usersHtml + '</div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">' + S.beats.map(function(b) { return '<option value="' + b.id + '">' + esc(b.title) + ' (' + (getUser(b.uid) ? getUser(b.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">' + S.drumkits.map(function(d) { return '<option value="' + d.id + '">' + esc(d.title) + ' (' + (getUser(d.uid) ? getUser(d.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">' + S.services.map(function(s) { return '<option value="' + s.id + '">' + esc(s.title) + ' (' + (getUser(s.uid) ? getUser(s.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>';
+  showPage('p-admin');
+}
+function toggleAdmin(uid) {
+  if (!isAdmin()) return;
+  let u = getUser(uid);
+  if (u && u.username !== ADMIN_LOGIN) {
+    u.isAdmin = !u.isAdmin;
+    if (u.isAdmin) {
+      if (u.badges.indexOf('admin') === -1) u.badges.push('admin');
+    } else {
+      u.badges = u.badges.filter(function(b) { return b !== 'admin'; });
+    }
+    persist();
+    renderAdmin();
+    toast(u.isAdmin ? 'Назначен админом' : 'Права админа сняты');
+  }
+}
+function banUser(uid) {
+  if (!isAdmin()) return;
+  let u = getUser(uid);
+  if (u && u.username !== ADMIN_LOGIN) {
+    u.banned = !u.banned;
+    persist();
+    renderAdmin();
+    toast(u.banned ? 'Пользователь забанен' : 'Пользователь разбанен');
+  }
+}
+function deleteUserAdmin(uid) {
+  if (!isAdmin()) return;
+  if (uid === sess.id) return toast('Нельзя удалить себя', true);
+  let u = getUser(uid);
+  if (u && u.username === ADMIN_LOGIN) return toast('Нельзя удалить главного администратора', true);
+  users = users.filter(function(u) { return u.id !== uid; });
+  persist();
+  renderAdmin();
+  toast('Пользователь удалён');
+}
+function adminDeleteBeat() {
+  if (!isAdmin()) return;
+  let select = document.getElementById('admin-beat-select');
+  let id = select ? select.value : null;
+  if (id) { 
+    S.beats = S.beats.filter(function(b) { return b.id !== id; }); 
+    persist(); 
+    renderAdmin(); 
+    toast('Бит удалён'); 
+  } 
+}
+function adminDeleteDrumkit() {
+  if (!isAdmin()) return;
+  let select = document.getElementById('admin-dk-select');
+  let id = select ? select.value : null;
+  if (id) { 
+    S.drumkits = S.drumkits.filter(function(d) { return d.id !== id; }); 
+    persist(); 
+    renderAdmin(); 
+    toast('Драмкит удалён'); 
+  } 
+}
+function adminDeleteService() {
+  if (!isAdmin()) return;
+  let select = document.getElementById('admin-sv-select');
+  let id = select ? select.value : null;
+  if (id) { 
+    S.services = S.services.filter(function(s) { return s.id !== id; }); 
+    persist(); 
+    renderAdmin(); 
+    toast('Услуга удалена'); 
+  } 
+}
+
+// ==================== РЕДАКТИРОВАНИЕ ПРОФИЛЯ ====================
+function openEditModal() {
+  if (!sess) return;
+  let user = getUser(sess.id);
+  document.getElementById('edit-bio').value = user.bio || '';
+  document.getElementById('edit-profile-modal').classList.add('open');
+}
+function closeEditModal() { document.getElementById('edit-profile-modal').classList.remove('open'); }
+function uploadAvatarModal() { 
+  let input = document.createElement('input'); 
+  input.type = 'file'; 
+  input.accept = 'image/*'; 
+  input.onchange = function(e) { 
+    let file = e.target.files[0]; 
+    if (!file) return;
+    let reader = new FileReader(); 
+    reader.onload = function(ev) { 
+      updateUser(sess.id, { avatarBase64: ev.target.result }); 
+      closeEditModal(); 
+      renderProfile(sess.id); 
+      toast('Аватар обновлён!'); 
+    }; 
+    reader.readAsDataURL(file); 
+  }; 
+  input.click(); 
+}
+function removeAvatar() { updateUser(sess.id, { avatarBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Аватар удалён'); }
+function saveProfileEdit() {
+  updateUser(sess.id, { bio: document.getElementById('edit-bio').value });
+  closeEditModal();
+  renderProfile(sess.id);
+  toast('Профиль обновлён');
+}
+
+// ==================== РЕПОСТ ====================
+function openRepostModal(postId, author, content) {
+  _repostPostId = postId; _repostAuthor = author; _repostContent = content;
+  document.getElementById('repost-modal').classList.add('open');
+}
+function closeRepostModal() { document.getElementById('repost-modal').classList.remove('open'); _repostPostId = null; }
+function repostToMyWall() {
+  if (!_repostPostId) return;
+  createWallPost(sess.id, '🔁 Репост от ' + _repostAuthor + ':\n' + _repostContent);
+  closeRepostModal();
+  toast('Репост на стену');
+}
+function searchUserForRepost() {
+  let q = document.getElementById('repost-user-search') ? document.getElementById('repost-user-search').value.toLowerCase() : '';
+  let results = users.filter(function(u) { return u.username.toLowerCase().includes(q) && u.id !== sess.id; }).slice(0, 10);
+  let resDiv = document.getElementById('repost-user-results');
+  if (resDiv) {
+    resDiv.innerHTML = results.map(function(u) { return '<div class="conv-item" onclick="repostToDM(\'' + u.id + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
+  }
+}
+function repostToDM(userId) {
+  if (!_repostPostId) return;
+  startDM(userId, '🔁 Репост от ' + _repostAuthor + ':\n\n' + _repostContent);
+  closeRepostModal();
+  toast('Репост отправлен в ЛС');
 }
 
 // ==================== ПЛЕЕР ====================
@@ -1089,6 +1323,37 @@ player.audio.ontimeupdate = function() {
   let timeEl = document.getElementById('p-time');
   if (timeEl) timeEl.textContent = Math.floor(player.audio.currentTime / 60) + ':' + String(Math.floor(player.audio.currentTime % 60)).padStart(2,'0'); 
 };
+
+// ==================== РЕНДЕР ====================
+function render() {
+  buildHeader();
+  let hash = location.hash.slice(1) || '/';
+  if (!sess && hash !== '/') {
+    location.hash = '/';
+    return;
+  }
+  if (hash === '/' || hash === '') renderHome();
+  else if (hash === '/beats') renderBeats();
+  else if (hash === '/drumkits') renderDrumkits();
+  else if (hash === '/services') renderServices();
+  else if (hash === '/music') renderMusic();
+  else if (hash === '/profile') renderProfile(sess ? sess.id : null);
+  else if (hash === '/bmarks') renderBookmarks();
+  else if (hash === '/admin') renderAdmin();
+  else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
+  else if (hash.startsWith('/thread/')) renderThread(hash.slice(8));
+  else if (hash.startsWith('/profile/')) renderProfile(hash.slice(9));
+  else renderHome();
+}
+function showPage(id) { 
+  let pages = ['p-home', 'p-board', 'p-thread', 'p-beats', 'p-drumkits', 'p-services', 'p-music', 'p-profile', 'p-admin', 'p-bmarks'];
+  for (let i = 0; i < pages.length; i++) {
+    let p = document.getElementById(pages[i]);
+    if (p) p.classList.remove('on');
+  }
+  let page = document.getElementById(id);
+  if (page) page.classList.add('on'); 
+}
 
 // ==================== ЗАПУСК ====================
 document.addEventListener('DOMContentLoaded', function() {
@@ -1110,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < mbBtns.length; i++) {
     mbBtns[i].addEventListener('click', function() {
       var action = this.getAttribute('data-nav');
-      var pathMap = { home: '/', beats: '/beats', drumkits: '/drumkits', services: '/services' };
+      var pathMap = { home: '/', beats: '/beats', drumkits: '/drumkits', services: '/services', admin: '/admin' };
       nav('#' + pathMap[action]);
     });
   }
