@@ -46,21 +46,6 @@ body {
   font-size: 14px;
   line-height: 1.5;
   min-height: 100vh;
-  padding-bottom: 72px;
-}
-
-body.light {
-  --bg: #f2f4f8;
-  --s1: #ffffff;
-  --s2: #eaecf2;
-  --s3s: #d5d8e4;
-  --s4: #c8ccda;
-  --border: #cdd0de;
-  --border2: #b5b9cc;
-  --t1: #1a1b2e;
-  --t2: #363755;
-  --t3: #585a78;
-  --t4: #878aaa;
 }
 
 .w, .wn {
@@ -125,11 +110,6 @@ body.light {
   background: rgba(224,82,82,0.15);
   border-color: var(--red);
   color: var(--red);
-}
-
-.btn-help {
-  background: linear-gradient(135deg, var(--purple), var(--pink));
-  color: #fff;
 }
 
 input, textarea, select {
@@ -279,355 +259,162 @@ input:focus, textarea:focus {
   font-size: 28px;
 }
 
-.avatar-frame-default {
-  box-shadow: none;
-}
-
-.avatar-frame-gradient {
-  box-shadow: 0 0 0 3px var(--blue), 0 0 0 6px var(--purple);
-}
-
-.avatar-frame-neon {
-  box-shadow: 0 0 0 3px #fff, 0 0 15px 5px var(--blue);
-}
-
-.avatar-frame-fire {
-  box-shadow: 0 0 0 3px #f0a045, 0 0 15px 8px #e05252;
-}
-
-.avatar-frame-ice {
-  box-shadow: 0 0 0 3px #3dbccc, 0 0 15px 8px #4f7ed4;
-}
-
-.avatar-frame-gold {
-  box-shadow: 0 0 0 3px #ffd700, 0 0 15px 8px #ffb347;
-}
-
-.avatar-frame-rainbow {
-  animation: rainbow 3s infinite;
-  box-shadow: 0 0 0 4px red;
-}
-
-@keyframes rainbow {
-  0% { box-shadow: 0 0 0 4px red; }
-  17% { box-shadow: 0 0 0 4px orange; }
-  33% { box-shadow: 0 0 0 4px yellow; }
-  50% { box-shadow: 0 0 0 4px green; }
-  67% { box-shadow: 0 0 0 4px blue; }
-  83% { box-shadow: 0 0 0 4px indigo; }
-  100% { box-shadow: 0 0 0 4px violet; }
-}
-
-.profile-header-bg {
-  width: 100%;
-  height: 160px;
-  background-size: cover;
-  background-position: center;
-  background-color: var(--s3s);
-  border-radius: var(--r2) var(--r2) 0 0;
-  position: relative;
-}
-
-.profile-avatar-wrapper {
-  position: relative;
-  margin-top: -50px;
-  margin-bottom: 12px;
+.flex {
   display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-3 {
+  margin-top: 12px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 1000;
+  display: none;
+  align-items: center;
   justify-content: center;
 }
 
-.post, .wall-post {
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--s2);
+  border-radius: var(--r3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
   padding: 16px;
   border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.post:hover, .wall-post:hover {
-  background: var(--s3s);
-}
-
-.post-header, .wall-post-header {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.post-author, .wall-post-author {
+  justify-content: space-between;
   font-weight: 600;
-  cursor: pointer;
 }
 
-.post-author:hover, .wall-post-author:hover {
-  color: var(--blue);
+.modal-body {
+  padding: 16px;
 }
 
-.post-time, .wall-post-time {
-  font-size: 11px;
-  color: var(--t4);
-}
-
-.post-content, .wall-post-content {
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
-
-.post-actions {
-  display: flex;
-  gap: 16px;
-  margin-top: 12px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
-}
-
-.post-action {
-  background: none;
-  border: none;
-  color: var(--t3);
-  cursor: pointer;
-  font-size: 13px;
+.audio-player {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-family: inherit;
-}
-
-.post-action:hover {
-  color: var(--blue);
-}
-
-.repost-origin {
+  gap: 8px;
   background: var(--s3s);
+  padding: 8px;
   border-radius: var(--r);
-  padding: 8px 12px;
   margin-top: 8px;
-  font-size: 12px;
-  border-left: 3px solid var(--blue);
 }
 
-.reactions {
-  display: flex;
-  gap: 5px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-
-.reaction-btn {
-  background: var(--s3s);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 4px 10px;
-  font-size: 14px;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.reaction-btn.active {
-  background: rgba(79,126,212,.3);
-  border-color: var(--blue);
-}
-
-.comments-section {
-  margin-top: 12px;
-  padding-left: 48px;
-}
-
-.comment {
-  padding: 8px 0;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 10px;
-}
-
-.comment-avatar {
+.audio-player button {
+  background: var(--blue);
+  border: none;
+  color: white;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--s3s);
-  display: flex;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.file-label {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.comment-content {
-  flex: 1;
-}
-
-.comment-author {
-  font-weight: 600;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.comment-text {
-  font-size: 12px;
-  margin-top: 2px;
-}
-
-.comment-time {
-  font-size: 10px;
-  color: var(--t4);
-  margin-top: 2px;
-}
-
-.conv-list {
-  overflow-y: auto;
-  flex: 1;
-}
-
-.conv-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 14px;
-  cursor: pointer;
-  border-bottom: 1px solid var(--border);
-}
-
-.conv-item:hover {
-  background: var(--s3s);
-}
-
-.chat-msgs {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
   gap: 8px;
-}
-
-.bubble {
   padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  max-width: 80%;
-  word-break: break-word;
-}
-
-.bubble.mine {
-  background: linear-gradient(135deg, var(--blue), #2952a3);
-  color: #fff;
-  align-self: flex-end;
-  border-bottom-right-radius: 3px;
-}
-
-.bubble.theirs {
   background: var(--s3s);
-  align-self: flex-start;
-  border-bottom-left-radius: 3px;
-}
-
-.bubble img {
-  max-width: 200px;
-  max-height: 200px;
-  border-radius: 8px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-
-.chat-input-area {
-  padding: 10px 12px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.chat-input-toolbar {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-}
-
-.text-editor {
-  background: var(--s1);
-  border: 1px solid var(--border);
+  border: 1px dashed var(--border2);
   border-radius: var(--r);
-  overflow: hidden;
+  cursor: pointer;
+  font-size: 12px;
 }
 
-.editor-toolbar {
+.file-label:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--blue);
+  margin: 8px 0;
+}
+
+.error-text {
+  color: var(--red);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.gtabs, .stabs {
   display: flex;
-  gap: 4px;
-  padding: 6px 8px;
-  background: var(--s3s);
-  border-bottom: 1px solid var(--border);
+  gap: 8px;
   flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
-.editor-btn {
-  background: none;
+.gtab, .stab {
+  padding: 6px 14px;
+  border-radius: var(--r);
+  background: var(--s3s);
   border: none;
   color: var(--t2);
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
   font-family: inherit;
+  font-size: 13px;
 }
 
-.editor-btn:hover {
-  background: var(--s4);
-  color: var(--t1);
+.gtab.on, .stab.on {
+  background: var(--blue);
+  color: white;
 }
 
-.editor-textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 10px;
-  background: var(--s1);
-  color: var(--t1);
-  border: none;
-  resize: vertical;
-  font-family: inherit;
-  font-size: 14px;
-  outline: none;
+.beat-grid, .drumkit-grid, .service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.editor-preview {
-  padding: 10px;
-  min-height: 100px;
-  background: var(--s1);
-  border-top: 1px solid var(--border);
+.toolbar {
+  margin-bottom: 24px;
 }
 
-.emoji-picker {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius: var(--r2);
-  padding: 8px;
-  width: 280px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 100;
-  display: none;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.emoji-picker.open {
+.stats {
   display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0;
 }
 
-.emoji-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 4px;
-  transition: transform 0.1s;
-}
-
-.emoji-btn:hover {
-  transform: scale(1.2);
+.g2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 #hdr {
@@ -783,189 +570,6 @@ input:focus, textarea:focus {
   .g2 { grid-template-columns: 1fr; }
   .hi { padding: 0 12px; }
 }
-
-.flex {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.mt-2 {
-  margin-top: 8px;
-}
-
-.mt-3 {
-  margin-top: 12px;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
-}
-
-.gap-2 {
-  gap: 8px;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.open {
-  display: flex;
-}
-
-.modal-content {
-  background: var(--s2);
-  border-radius: var(--r3);
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  font-weight: 600;
-}
-
-.modal-body {
-  padding: 16px;
-}
-
-.audio-player {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--s3s);
-  padding: 8px;
-  border-radius: var(--r);
-  margin-top: 8px;
-}
-
-.audio-player button {
-  background: var(--blue);
-  border: none;
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.file-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: var(--s3s);
-  border: 1px dashed var(--border2);
-  border-radius: var(--r);
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.file-label:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.frame-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.frame-preview {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--s3s);
-  cursor: pointer;
-  transition: transform 0.2s;
-  border: 2px solid transparent;
-}
-
-.frame-preview:hover {
-  transform: scale(1.1);
-}
-
-.price {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--blue);
-  margin: 8px 0;
-}
-
-.error-text {
-  color: var(--red);
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.gtabs, .stabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.gtab, .stab {
-  padding: 6px 14px;
-  border-radius: var(--r);
-  background: var(--s3s);
-  border: none;
-  color: var(--t2);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-}
-
-.gtab.on, .stab.on {
-  background: var(--blue);
-  color: white;
-}
-
-.beat-grid, .drumkit-grid, .service-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.toolbar {
-  margin-bottom: 24px;
-}
-
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin: 16px 0;
-}
-
-.g2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
 </style>
 </head>
 <body>
@@ -988,13 +592,12 @@ input:focus, textarea:focus {
   <div id="p-services" class="page"></div>
   <div id="p-music" class="page"></div>
   <div id="p-profile" class="page"></div>
-  <div id="p-admin" class="page"></div>
   <div id="p-bmarks" class="page"></div>
+  <div id="p-welcome" class="page"></div>
 </main>
 
 <footer style="border-top:1px solid var(--border);padding:20px;text-align:center;font-size:12px;color:var(--t4)">4room — социальная платформа для музыкантов и продюсеров</footer>
 
-<!-- Модалки -->
 <div id="auth-ov" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:400;align-items:center;justify-content:center;">
   <div id="auth-box" style="background:var(--s2);border-radius:var(--r3);max-width:400px;width:100%;margin:20px;overflow:hidden;"></div>
 </div>
@@ -1002,86 +605,25 @@ input:focus, textarea:focus {
   <div id="mpi" style="flex:1;display:flex;flex-direction:column;"></div>
 </div>
 <div id="msg-bd" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:499;display:none;"></div>
-<div id="notif-panel" style="position:fixed;right:60px;top:64px;width:360px;max-height:80vh;background:var(--s2);border:1px solid var(--border);border-radius:var(--r3);z-index:500;display:none;flex-direction:column;"></div>
-<div id="search-ov" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:flex-start;justify-content:center;padding-top:100px;"><div id="search-box" style="background:var(--s2);border-radius:var(--r3);width:100%;max-width:560px;margin:0 20px;overflow:hidden;"><div style="display:flex;padding:16px;gap:12px;"><input id="s-inp" type="text" placeholder="Поиск..." style="flex:1"><button class="btn btn-g btn-sm" onclick="closeSearch()">✕</button></div><div id="s-res" style="max-height:400px;overflow-y:auto;"></div></div></div>
 <div id="player" style="position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(18,19,27,.98);backdrop-filter:blur(16px);border-top:1px solid var(--border);z-index:300;display:none;align-items:center;padding:0 20px;gap:12px;"><div id="p-cov" style="width:44px;height:44px;border-radius:8px;background:var(--s3s);display:flex;align-items:center;justify-content:center;">♪</div><div style="flex:1"><div id="p-ttl" style="font-weight:500">—</div><div id="p-art" style="font-size:11px;color:var(--t3)"></div></div><button id="p-pbtn" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--t1);width:40px;">▶</button><div style="flex:1;max-width:300px;height:4px;background:var(--s4);border-radius:4px;cursor:pointer;" id="p-bar"><div id="p-bar-f" style="height:100%;background:var(--blue);width:0%;border-radius:4px;"></div></div><span id="p-time" style="font-size:12px;min-width:45px;">0:00</span><input type="range" class="p-vol" min="0" max="1" step="0.05" value="0.8" style="width:80px;"><button id="p-close" style="background:none;border:none;color:var(--t4);cursor:pointer;font-size:18px;">✕</button></div>
-<nav id="mob-bnav"><div class="mbn"><button class="mb-btn" data-nav="home">🏠<span>Главная</span></button><button class="mb-btn" data-nav="search">🔍<span>Поиск</span></button><button class="mb-btn" data-nav="beats">♪<span>Биты</span></button><button class="mb-btn" data-nav="drumkits">🥁<span>Драмкиты</span></button><button class="mb-btn" data-nav="services">🛠<span>Услуги</span></button></div></nav>
-
-<div id="edit-profile-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header"><span>✎ Редактировать профиль</span><button onclick="closeEditModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;">✕</button></div>
-    <div class="modal-body">
-      <div class="stitle">Основное</div>
-      <input id="edit-bio" type="text" placeholder="О себе" style="width:100%">
-      <div class="stitle mt-3">Аватар</div>
-      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadAvatarModal()">📷 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeAvatar()">🗑 Удалить</button></div>
-      <div class="stitle mt-3">Шапка профиля</div>
-      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadBannerModal()">🖼 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeBanner()">🗑 Удалить</button></div>
-      <div class="stitle mt-3">Рамка аватара</div>
-      <div class="frame-buttons">
-        <div class="frame-preview avatar-frame-default" onclick="setAvatarFrame('default')"></div>
-        <div class="frame-preview avatar-frame-gradient" onclick="setAvatarFrame('gradient')"></div>
-        <div class="frame-preview avatar-frame-neon" onclick="setAvatarFrame('neon')"></div>
-        <div class="frame-preview avatar-frame-fire" onclick="setAvatarFrame('fire')"></div>
-        <div class="frame-preview avatar-frame-ice" onclick="setAvatarFrame('ice')"></div>
-        <div class="frame-preview avatar-frame-gold" onclick="setAvatarFrame('gold')"></div>
-        <div class="frame-preview avatar-frame-rainbow" onclick="setAvatarFrame('rainbow')"></div>
-      </div>
-      <div class="stitle mt-3">Настройки приватности</div>
-      <div class="flex justify-between"><span>Кто может писать на стене:</span><select id="privacy-wall"><option value="all">Все</option><option value="friends">Только друзья</option><option value="none">Никто</option></select></div>
-      <div class="flex justify-between mt-2"><span>Кто может комментировать:</span><select id="privacy-comment"><option value="all">Все</option><option value="friends">Только друзья</option><option value="none">Никто</option></select></div>
-      <div class="flex justify-between mt-2"><span>Закрытый профиль:</span><input type="checkbox" id="privacy-locked"></div>
-      <div class="pf mt-3"><button class="btn btn-p" onclick="saveProfileEdit()">Сохранить</button><button class="btn btn-g" onclick="closeEditModal()">Отмена</button></div>
-    </div>
-  </div>
-</div>
-
-<div id="repost-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header"><span>🔁 Репост</span><button onclick="closeRepostModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;">✕</button></div>
-    <div class="modal-body">
-      <div class="stitle">Куда репостнуть?</div>
-      <button class="btn btn-p w-100 mt-2" onclick="repostToMyWall()">📌 На свою стену</button>
-      <div class="stitle mt-3">В личные сообщения</div>
-      <input id="repost-user-search" type="text" placeholder="Поиск пользователя..." oninput="searchUserForRepost()">
-      <div id="repost-user-results" style="max-height:200px;overflow-y:auto;margin-top:8px;"></div>
-    </div>
-  </div>
-</div>
-
-<div id="group-chat-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header"><span>👥 Создать групповой чат</span><button onclick="closeGroupModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;">✕</button></div>
-    <div class="modal-body">
-      <input id="group-name" type="text" placeholder="Название группы">
-      <div class="stitle mt-2">Участники</div>
-      <input id="group-user-search" type="text" placeholder="Поиск..." oninput="searchUserForGroup()">
-      <div id="group-user-results" style="max-height:200px;overflow-y:auto;"></div>
-      <div id="selected-users" class="mt-2" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
-      <div class="pf mt-3"><button class="btn btn-p" onclick="createGroupChat()">Создать</button></div>
-    </div>
-  </div>
-</div>
+<nav id="mob-bnav"><div class="mbn"><button class="mb-btn" data-nav="home">🏠<span>Главная</span></button><button class="mb-btn" data-nav="beats">♪<span>Биты</span></button><button class="mb-btn" data-nav="drumkits">🥁<span>Драмкиты</span></button><button class="mb-btn" data-nav="services">🛠<span>Услуги</span></button></div></nav>
 
 <script>
 // ==================== КОНФИГ ====================
-const HELP_TG = 'https://t.me/prikolovwork';
+const ADMIN_LOGIN = 'temaprikolov';
+const ADMIN_PASS = 'Daraso19';
 
 // ==================== СОСТОЯНИЕ ====================
 let S = { 
   threads: [], replies: {}, beats: [], drumkits: [], services: [], 
-  wallPosts: {}, convs: [], stories: [], reports: [], polls: {}, 
-  reactions: {}, postViews: {}, comments: {}, notifications: {},
+  wallPosts: {}, convs: [], reactions: {}, postViews: {}, comments: {},
   counter: 1000 
 };
 let users = JSON.parse(localStorage.getItem('4r_users') || '[]');
-let registrations = JSON.parse(localStorage.getItem('4r_registrations') || '[]');
 let sess = JSON.parse(localStorage.getItem('4r_session') || 'null');
 let _theme = localStorage.getItem('4r_theme') || 'dark';
-let _homeTab = 'all';
 let _bg = 'all', _bs = 'newest';
 let _activeConv = null;
-let _selectedGroupUsers = [];
 
 // ==================== УТИЛИТЫ ====================
 function toast(msg, isErr) {
@@ -1091,16 +633,15 @@ function toast(msg, isErr) {
   el.className = 'toast' + (isErr ? ' toast-err' : ' toast-ok');
   el.textContent = msg;
   box.appendChild(el);
-  setTimeout(() => el.classList.add('on'), 10);
-  setTimeout(() => { el.classList.remove('on'); setTimeout(() => el.remove(), 300); }, 3200);
+  setTimeout(function() { el.classList.add('on'); }, 10);
+  setTimeout(function() { el.classList.remove('on'); setTimeout(function() { el.remove(); }, 300); }, 3200);
 }
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function relTime(ts) { let d = Math.floor((Date.now() - ts) / 1000); if (d < 60) return d + 'с'; if (d < 3600) return Math.floor(d / 60) + 'м'; if (d < 86400) return Math.floor(d / 3600) + 'ч'; return Math.floor(d / 86400) + 'д'; }
-function mkId() { return String(++S.counter); }
+function mkId() { S.counter = S.counter + 1; return String(S.counter); }
 function persist() { 
   localStorage.setItem('4r_data', JSON.stringify(S)); 
   localStorage.setItem('4r_users', JSON.stringify(users)); 
-  localStorage.setItem('4r_registrations', JSON.stringify(registrations)); 
   localStorage.setItem('4r_session', JSON.stringify(sess)); 
 }
 function loadData() { 
@@ -1110,176 +651,93 @@ function loadData() {
       let p = JSON.parse(d); 
       Object.assign(S, p); 
       if (!S.reactions) S.reactions = {}; 
-      if (!S.notifications) S.notifications = {}; 
       if (!S.postViews) S.postViews = {};
       if (!S.comments) S.comments = {};
     } catch(e) { console.error('Error loading data', e); } 
-  } 
+  }
+  // Создаем админа если его нет
+  let adminExists = users.find(function(u) { return u.username === ADMIN_LOGIN; });
+  if (!adminExists) {
+    users.unshift({
+      id: 'u_admin',
+      username: ADMIN_LOGIN,
+      password: ADMIN_PASS,
+      avatarBase64: null,
+      bio: 'Администратор платформы',
+      badges: ['admin', 'verified'],
+      isAdmin: true,
+      banned: false,
+      privacy: { wall: 'all', comment: 'all', profileLocked: false },
+      friends: [],
+      followers: [],
+      createdAt: Date.now()
+    });
+    persist();
+  }
 }
 loadData();
 
-function getUser(id) { return users.find(u => u.id === id); }
+function getUser(id) { return users.find(function(u) { return u.id === id; }); }
 function updateUser(id, data) { 
-  let idx = users.findIndex(u => u.id === id); 
+  let idx = -1;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].id === id) { idx = i; break; }
+  }
   if (idx !== -1) { 
-    users[idx] = { ...users[idx], ...data }; 
-    if (sess && sess.id === id) sess = { ...sess, ...data }; 
+    for (let key in data) { users[idx][key] = data[key]; }
+    if (sess && sess.id === id) sess = users[idx]; 
     persist(); 
   } 
 }
-function isAdmin() { return sess && sess.isAdmin === true; }
-function canModerate(targetUid) { return isAdmin() || (sess && sess.id === targetUid); }
-
-// ==================== РЕДАКТОР ТЕКСТА ====================
-const EMOJIS_LIST = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','☠️','👽','👾','🤖','🎃','❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','👍','👎','👊','✊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦵','🦶','👂','👃','🧠','🦷','🦴','👀','👁️','👅','👄'];
-
-function formatText(textareaId, openTag, closeTag) {
-  let textarea = document.getElementById(textareaId);
-  if (!textarea) return;
-  let start = textarea.selectionStart;
-  let end = textarea.selectionEnd;
-  let selected = textarea.value.substring(start, end);
-  let replacement = openTag + selected + closeTag;
-  textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
-  textarea.selectionStart = start + openTag.length;
-  textarea.selectionEnd = end + openTag.length;
-  textarea.focus();
-  updatePreview(textareaId);
-}
-function updatePreview(textareaId) {
-  let textarea = document.getElementById(textareaId);
-  let preview = document.getElementById('preview-' + textareaId);
-  if (!preview) return;
-  let text = textarea.value;
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
-  text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-  text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
-  preview.innerHTML = text;
-}
-function toggleEditorMode(textareaId) {
-  let preview = document.getElementById('preview-' + textareaId);
-  let textarea = document.getElementById(textareaId);
-  if (preview.style.display === 'none') {
-    preview.style.display = 'block';
-    textarea.style.display = 'none';
-  } else {
-    preview.style.display = 'none';
-    textarea.style.display = 'block';
-  }
-}
-function insertEmoji(textareaId, emoji) {
-  let textarea = document.getElementById(textareaId);
-  if (!textarea) return;
-  let start = textarea.selectionStart;
-  textarea.value = textarea.value.substring(0, start) + emoji + textarea.value.substring(start);
-  textarea.selectionStart = start + emoji.length;
-  textarea.selectionEnd = start + emoji.length;
-  textarea.focus();
-  updatePreview(textareaId);
-}
-function showEmojiPicker(textareaId, btn) {
-  let existing = document.querySelector('.emoji-picker.open');
-  if (existing) existing.remove();
-  let picker = document.createElement('div');
-  picker.className = 'emoji-picker';
-  EMOJIS_LIST.slice(0, 80).forEach(emoji => {
-    let btnEmoji = document.createElement('button');
-    btnEmoji.textContent = emoji;
-    btnEmoji.className = 'emoji-btn';
-    btnEmoji.onclick = function(e) { 
-      e.stopPropagation();
-      insertEmoji(textareaId, emoji); 
-      picker.remove(); 
-    };
-    picker.appendChild(btnEmoji);
-  });
-  let rect = btn.getBoundingClientRect();
-  picker.style.position = 'absolute';
-  picker.style.bottom = '100%';
-  picker.style.left = '0';
-  picker.style.marginBottom = '5px';
-  let parent = btn.parentElement;
-  parent.style.position = 'relative';
-  parent.appendChild(picker);
-  setTimeout(function() { picker.classList.add('open'); }, 10);
-  setTimeout(function() {
-    document.addEventListener('click', function closePicker(e) {
-      if (!picker.contains(e.target) && e.target !== btn) {
-        picker.remove();
-        document.removeEventListener('click', closePicker);
-      }
-    });
-  }, 100);
-}
-function formatMessageContent(content) {
-  if (!content) return '';
-  let text = esc(content);
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
-  text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-  text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
-  if (content && content.startsWith('data:image')) {
-    text = '<img src="' + content + '" style="max-width:200px;max-height:200px;border-radius:8px">';
-  }
-  return text;
-}
+function isAdmin() { return sess && sess.username === ADMIN_LOGIN; }
 
 // ==================== РЕГИСТРАЦИЯ ====================
-function getDeviceId() {
-  let id = localStorage.getItem('4r_device_id');
-  if (!id) { id = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); localStorage.setItem('4r_device_id', id); }
-  return id;
-}
-function canRegisterToday() {
-  let deviceId = getDeviceId();
-  let today = new Date().toDateString();
-  return !registrations.find(function(r) { return r.deviceId === deviceId && r.date === today; });
-}
-function addRegistrationRecord() {
-  let deviceId = getDeviceId();
-  let today = new Date().toDateString();
-  registrations = registrations.filter(function(r) { return !(r.deviceId === deviceId && r.date === today); });
-  registrations.push({ deviceId: deviceId, date: today, timestamp: Date.now() });
-  persist();
-}
 function register(username, password) {
   if (!username || username.length < 3) return { ok: false, err: 'Имя не менее 3 символов' };
   if (!password || password.length < 4) return { ok: false, err: 'Пароль не менее 4 символов' };
-  if (users.find(function(u) { return u.username === username; })) return { ok: false, err: 'Имя занято' };
-  if (!canRegisterToday()) return { ok: false, err: 'С одного устройства можно создать только один аккаунт в день' };
-  let isFirst = users.length === 0;
+  let existing = false;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].username === username) { existing = true; break; }
+  }
+  if (existing) return { ok: false, err: 'Имя занято' };
   let newUser = {
-    id: 'u' + mkId(), username: username, password: password,
-    avatarBase64: null, bannerBase64: null, avatarFrame: 'default',
-    bio: '', badges: isFirst ? ['early', 'verified', 'admin'] : ['early'],
-    verified: isFirst, isAdmin: isFirst, banned: false,
+    id: 'u' + mkId(),
+    username: username,
+    password: password,
+    avatarBase64: null,
+    bio: '',
+    badges: ['early'],
+    isAdmin: false,
+    banned: false,
     privacy: { wall: 'all', comment: 'all', profileLocked: false },
-    friends: [], followers: [], following: [],
-    bookmarkedThreads: [], bookmarkedBeats: [], bookmarkedDrumkits: [], bookmarkedServices: [],
-    createdAt: Date.now(), lastSeen: Date.now()
+    friends: [],
+    followers: [],
+    createdAt: Date.now()
   };
   users.push(newUser);
-  addRegistrationRecord();
   persist();
   return { ok: true, user: newUser };
 }
 function login(username, password) {
-  let user = users.find(function(u) { return u.username === username && u.password === password; });
+  let user = null;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].username === username && users[i].password === password) {
+      user = users[i];
+      break;
+    }
+  }
   if (!user) return { ok: false, err: 'Неверное имя или пароль' };
   if (user.banned) return { ok: false, err: 'Аккаунт заблокирован' };
   sess = { id: user.id, username: user.username, isAdmin: user.isAdmin, avatarBase64: user.avatarBase64 };
   persist();
   return { ok: true, user: user };
 }
-function logout() { sess = null; persist(); buildHeader(); render(); }
+function logout() { sess = null; persist(); render(); }
 
 // ==================== HEADER ====================
 function buildHeader() {
   let nav = document.getElementById('hnav');
-  if (nav) {
+  if (nav && sess) {
     nav.innerHTML = 
       '<button class="hl" onclick="nav(\'#/board/tech\')">⚙ Тех-раздел</button>' +
       '<button class="hl" onclick="nav(\'#/board/art\')">◈ Арт</button>' +
@@ -1292,64 +750,32 @@ function buildHeader() {
   let hr = document.getElementById('hr');
   if (hr) {
     if (sess) {
-      let user = getUser(sess.id);
       hr.innerHTML = 
-        '<button class="ico-btn" onclick="openSearch()">🔍</button>' +
         '<button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button>' +
         '<button class="ico-btn" onclick="openMsgPanel()">✉</button>' +
-        '<button class="ico-btn" onclick="toggleNotif()">🔔</button>' +
-        '<button class="btn btn-help btn-sm" onclick="window.open(\'' + HELP_TG + '\', \'_blank\')">❓ Помощь</button>' +
         '<div style="position:relative">' +
-          '<button class="ico-btn" onclick="toggleUmenu()" style="padding:0;width:auto;">' + getAvatarHTML(user, 36) + '</button>' +
+          '<button class="ico-btn" onclick="toggleUmenu()" style="padding:0;width:auto;">' + getAvatarHTML(sess, 36) + '</button>' +
           '<div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;">' +
             '<div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">' + esc(sess.username) + '</div>' +
             '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/profile\');closeUmenu()">👤 Мой профиль</div>' +
-            '<div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>' +
-            '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/bmarks\');closeUmenu()">🔖 Закладки</div>' +
-            (isAdmin() ? '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/admin\');closeUmenu()">⚙ Админ-панель</div>' : '') +
             '<div style="height:1px;background:var(--border);margin:4px 0"></div>' +
             '<div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>' +
           '</div>' +
         '</div>';
     } else {
-      hr.innerHTML = '<button class="ico-btn" onclick="openSearch()">🔍</button><button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button><button class="btn btn-help btn-sm" onclick="window.open(\'' + HELP_TG + '\', \'_blank\')">❓ Помощь</button><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button>';
+      hr.innerHTML = '<button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button>';
     }
   }
 }
 function getAvatarHTML(user, size) {
   if (!user) return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;"></div>';
-  let frameClass = 'avatar-frame-' + (user.avatarFrame || 'default');
   let bgStyle = user.avatarBase64 ? 'url(' + user.avatarBase64 + ') center/cover' : '#4f7ed4';
   let letter = !user.avatarBase64 ? (user.username ? user.username[0].toUpperCase() : '?') : '';
-  return '<div class="avatar ' + frameClass + '" style="width:' + size + 'px;height:' + size + 'px;background:' + bgStyle + ';display:flex;align-items:center;justify-content:center;font-weight:600;">' + letter + '</div>';
+  return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;background:' + bgStyle + ';display:flex;align-items:center;justify-content:center;font-weight:600;">' + letter + '</div>';
 }
 function toggleUmenu() { let m = document.getElementById('umenu'); if (m) m.style.display = m.style.display === 'none' ? 'block' : 'none'; }
 function closeUmenu() { var m = document.getElementById('umenu'); if (m) m.style.display = 'none'; }
 function toggleTheme() { _theme = _theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('4r_theme', _theme); document.body.classList.toggle('light', _theme === 'light'); buildHeader(); }
-function openSearch() { document.getElementById('search-ov').style.display = 'flex'; setTimeout(function() { var inp = document.getElementById('s-inp'); if (inp) inp.focus(); }, 100); }
-function closeSearch() { document.getElementById('search-ov').style.display = 'none'; }
-function toggleNotif() { 
-  let p = document.getElementById('notif-panel'); 
-  if (p.style.display === 'flex') { p.style.display = 'none'; return; }
-  let notifs = S.notifications[sess ? sess.id : null] || [];
-  p.innerHTML = '<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="pb">' + (notifs.length ? notifs.slice(0, 20).map(function(n) { return '<div style="padding:8px;border-bottom:1px solid var(--border)">' + getNotificationText(n) + '</div>'; }).join('') : '<div class="empty">Нет уведомлений</div>') + '</div>';
-  p.style.display = 'flex';
-}
-function getNotificationText(n) {
-  let fromUser = getUser(n.fromUserId);
-  if (n.type === 'reaction') return (fromUser ? fromUser.username : 'Кто-то') + ' отреагировал на ваш пост';
-  if (n.type === 'comment') return (fromUser ? fromUser.username : 'Кто-то') + ' прокомментировал ваш пост';
-  if (n.type === 'repost') return (fromUser ? fromUser.username : 'Кто-то') + ' сделал репост вашего поста';
-  if (n.type === 'message') return 'Новое сообщение от ' + (fromUser ? fromUser.username : 'Кого-то');
-  return 'Новое уведомление';
-}
-function addNotification(userId, type, fromUserId, postId) {
-  if (!userId) return;
-  if (!S.notifications[userId]) S.notifications[userId] = [];
-  S.notifications[userId].unshift({ id: mkId(), type: type, fromUserId: fromUserId, postId: postId, createdAt: Date.now(), read: false });
-  if (S.notifications[userId].length > 100) S.notifications[userId] = S.notifications[userId].slice(0, 100);
-  persist();
-}
 
 // ==================== СООБЩЕНИЯ ====================
 function openMsgPanel() { 
@@ -1363,106 +789,91 @@ function closeMsgPanel() {
   _activeConv = null;
 }
 function renderMsgPanel() {
-  if (!sess) { document.getElementById('mpi').innerHTML = '<div class="ph">Сообщения<div><button onclick="closeMsgPanel()">✕</button></div></div><div class="empty">Войдите чтобы видеть сообщения</div>'; return; }
-  let convs = S.convs.filter(function(c) { return c.participants && c.participants.includes(sess.id); });
-  let html = '<div class="ph">Сообщения<div class="flex"><input id="conv-search" type="text" placeholder="Поиск..." style="width:120px;padding:4px 8px;" oninput="filterConvs()"><button class="btn btn-xs btn-p" onclick="openGroupModal()" style="margin-left:5px">+ Группа</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div><div id="conv-list" class="conv-list">' + convs.map(function(c) { return '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">' + (c.type === 'group' ? '👥' : '💬') + '</div><div><div class="conv-name">' + esc(c.name || (c.type === 'group' ? 'Группа' : (getUser(c.participants.find(function(p) { return p !== sess.id; })) ? getUser(c.participants.find(function(p) { return p !== sess.id; })).username : 'Диалог'))) + '</div></div></div>'; }).join('') || '<div class="empty">Нет диалогов</div>' + '</div>';
-  if (_activeConv) { 
-    let conv = convs.find(function(c) { return c.id === _activeConv; });
+  if (!sess) return;
+  let convs = [];
+  for (let i = 0; i < S.convs.length; i++) {
+    if (S.convs[i].participants && S.convs[i].participants.indexOf(sess.id) !== -1) {
+      convs.push(S.convs[i]);
+    }
+  }
+  let html = '<div class="ph">Сообщения<button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div><div id="conv-list" class="conv-list">';
+  if (convs.length === 0) {
+    html += '<div class="empty">Нет диалогов</div>';
+  } else {
+    for (let i = 0; i < convs.length; i++) {
+      let c = convs[i];
+      let otherId = null;
+      for (let j = 0; j < c.participants.length; j++) {
+        if (c.participants[j] !== sess.id) { otherId = c.participants[j]; break; }
+      }
+      let otherUser = getUser(otherId);
+      html += '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">💬</div><div><div class="conv-name">' + esc(otherUser ? otherUser.username : 'Диалог') + '</div></div></div>';
+    }
+  }
+  html += '</div>';
+  if (_activeConv) {
+    let conv = null;
+    for (let i = 0; i < convs.length; i++) {
+      if (convs[i].id === _activeConv) { conv = convs[i]; break; }
+    }
     if (conv) renderChatView(conv);
     else { _activeConv = null; renderMsgPanel(); }
-    return; 
+    return;
   }
   document.getElementById('mpi').innerHTML = html;
 }
-function filterConvs() {
-  if (!sess) return;
-  let query = document.getElementById('conv-search') ? document.getElementById('conv-search').value.toLowerCase() : '';
-  let convs = S.convs.filter(function(c) { return c.participants && c.participants.includes(sess.id); });
-  let filtered = convs.filter(function(c) {
-    let name = c.name || (c.type === 'group' ? 'Группа' : (getUser(c.participants.find(function(p) { return p !== sess.id; })) ? getUser(c.participants.find(function(p) { return p !== sess.id; })).username : 'Диалог'));
-    return name.toLowerCase().includes(query || '');
-  });
-  let listDiv = document.getElementById('conv-list');
-  if (listDiv) {
-    listDiv.innerHTML = filtered.map(function(c) { return '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">' + (c.type === 'group' ? '👥' : '💬') + '</div><div><div class="conv-name">' + esc(c.name || (c.type === 'group' ? 'Группа' : (getUser(c.participants.find(function(p) { return p !== sess.id; })) ? getUser(c.participants.find(function(p) { return p !== sess.id; })).username : 'Диалог'))) + '</div></div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
-  }
-}
 function renderChatView(conv) {
   if (!conv) { _activeConv = null; renderMsgPanel(); return; }
-  let otherId = conv.participants ? conv.participants.find(function(p) { return p !== sess.id; }) : null;
+  let otherId = null;
+  for (let j = 0; j < conv.participants.length; j++) {
+    if (conv.participants[j] !== sess.id) { otherId = conv.participants[j]; break; }
+  }
   let otherUser = getUser(otherId);
-  let msgs = (conv.messages || []).map(function(m) { return '<div class="' + (m.fromUid === sess.id ? 'bubble mine' : 'bubble theirs') + '">' + formatMessageContent(m.content) + '<div style="font-size:10px;color:var(--t4);margin-top:2px">' + relTime(m.createdAt) + '</div></div>'; }).join('');
+  let msgs = '';
+  if (conv.messages) {
+    for (let i = 0; i < conv.messages.length; i++) {
+      let m = conv.messages[i];
+      msgs += '<div class="' + (m.fromUid === sess.id ? 'bubble mine' : 'bubble theirs') + '">' + esc(m.content) + '<div style="font-size:10px;color:var(--t4);margin-top:2px">' + relTime(m.createdAt) + '</div></div>';
+    }
+  }
   document.getElementById('mpi').innerHTML = 
-    '<div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>' + esc(conv.name || (otherUser ? otherUser.username : 'Диалог')) + '<div><button class="btn btn-xs btn-d" onclick="inviteToGroup(\'' + conv.id + '\')" ' + (conv.type !== 'group' ? 'style="display:none"' : '') + '>➕</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div>' +
+    '<div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>' + esc(otherUser ? otherUser.username : 'Диалог') + '<button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div>' +
     '<div class="chat-msgs" id="chat-msgs">' + (msgs || '<div class="empty">Нет сообщений</div>') + '</div>' +
     '<div class="chat-input-area">' +
-      '<div class="chat-input-toolbar">' +
-        '<button class="editor-btn" onclick="showEmojiPicker(\'chat-in\', this)">😀</button>' +
-        '<button class="editor-btn" onclick="sendImage()">🖼️</button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'**\', \'**\')"><b>B</b></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'*\', \'*\')"><i>I</i></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'~~\', \'~~\')"><s>S</s></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'`\', \'`\')"><code>{ }</code></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'> \', \'\')">"</button>' +
-      '</div>' +
-      '<div class="text-editor">' +
-        '<textarea id="chat-in" class="editor-textarea" placeholder="Сообщение..." onkeydown="if(event.key===\'Enter\' && !event.shiftKey){event.preventDefault();sendMsg()}" oninput="updatePreview(\'chat-in\')"></textarea>' +
-        '<div id="preview-chat-in" class="editor-preview" style="display:none"></div>' +
-      '</div>' +
-      '<div class="flex justify-between"><button class="btn btn-g btn-sm" onclick="toggleEditorMode(\'chat-in\')">📄 Предпросмотр</button><button class="btn btn-p btn-sm" onclick="sendMsg()">→ Отправить</button></div>' +
+      '<textarea id="chat-in" class="editor-textarea" placeholder="Сообщение..." rows="3" style="min-height:60px"></textarea>' +
+      '<div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="sendMsg()">→ Отправить</button></div>' +
     '</div>';
   setTimeout(function() { let el = document.getElementById('chat-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
 }
 function openConv(id) { _activeConv = id; renderMsgPanel(); }
 function sendMsg() {
-  if (!sess) { toast('Войдите чтобы отправлять сообщения', true); return; }
-  let conv = S.convs.find(function(c) { return c.id === _activeConv; });
+  if (!sess) return;
+  let conv = null;
+  for (let i = 0; i < S.convs.length; i++) {
+    if (S.convs[i].id === _activeConv) { conv = S.convs[i]; break; }
+  }
   if (!conv) return;
   let textarea = document.getElementById('chat-in');
   let text = textarea ? textarea.value.trim() : '';
   if (!text) return;
-  conv.messages = conv.messages || [];
+  if (!conv.messages) conv.messages = [];
   conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: text, createdAt: Date.now(), readBy: [sess.id] });
-  for (let p of conv.participants) {
-    if (p !== sess.id) addNotification(p, 'message', sess.id, null);
-  }
   persist();
   if (textarea) textarea.value = '';
   renderMsgPanel();
 }
-function sendImage() {
-  if (!sess) { toast('Войдите чтобы отправлять сообщения', true); return; }
-  let input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = function(e) {
-    let file = e.target.files[0];
-    if (!file) return;
-    let reader = new FileReader();
-    reader.onload = function(ev) {
-      let conv = S.convs.find(function(c) { return c.id === _activeConv; });
-      if (conv) {
-        conv.messages = conv.messages || [];
-        conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: ev.target.result, createdAt: Date.now(), readBy: [sess.id] });
-        for (let p of conv.participants) {
-          if (p !== sess.id) addNotification(p, 'message', sess.id, null);
-        }
-        persist();
-        renderMsgPanel();
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
 function startDM(userId, initialMessage) {
-  if (!sess) { toast('Войдите чтобы отправить сообщение', true); return; }
-  let targetUser = getUser(userId);
-  if (!targetUser) return;
-  let existing = S.convs.find(function(c) { return c.type === 'dm' && c.participants && c.participants.includes(sess.id) && c.participants.includes(userId); });
+  if (!sess) return;
+  let existing = null;
+  for (let i = 0; i < S.convs.length; i++) {
+    let c = S.convs[i];
+    if (c.type === 'dm' && c.participants && c.participants.indexOf(sess.id) !== -1 && c.participants.indexOf(userId) !== -1) {
+      existing = c; break;
+    }
+  }
   if (existing) {
     if (initialMessage) {
-      existing.messages = existing.messages || [];
+      if (!existing.messages) existing.messages = [];
       existing.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: initialMessage, createdAt: Date.now(), readBy: [sess.id] });
       persist();
     }
@@ -1474,57 +885,6 @@ function startDM(userId, initialMessage) {
     _activeConv = newConv.id;
   }
   openMsgPanel();
-  toast('Чат с ' + targetUser.username + ' открыт');
-}
-function openGroupModal() { 
-  if (!sess) { toast('Войдите чтобы создать групповой чат', true); return; }
-  document.getElementById('group-chat-modal').classList.add('open'); 
-  _selectedGroupUsers = [sess.id]; 
-  updateSelectedUsersDisplay(); 
-}
-function closeGroupModal() { document.getElementById('group-chat-modal').classList.remove('open'); }
-function searchUserForGroup() {
-  let q = document.getElementById('group-user-search') ? document.getElementById('group-user-search').value.toLowerCase() : '';
-  let results = users.filter(function(u) { return u.username.toLowerCase().includes(q) && !_selectedGroupUsers.includes(u.id) && u.id !== sess.id; }).slice(0, 10);
-  let resDiv = document.getElementById('group-user-results');
-  if (resDiv) {
-    resDiv.innerHTML = results.map(function(u) { return '<div class="conv-item" onclick="addToGroup(\'' + u.id + '\', \'' + esc(u.username) + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
-  }
-}
-function addToGroup(uid, name) { if (!_selectedGroupUsers.includes(uid)) { _selectedGroupUsers.push(uid); updateSelectedUsersDisplay(); searchUserForGroup(); } }
-function updateSelectedUsersDisplay() {
-  let selected = _selectedGroupUsers.filter(function(id) { return id !== sess.id; }).map(function(id) { return getUser(id); }).filter(function(u) { return u; });
-  let selDiv = document.getElementById('selected-users');
-  if (selDiv) {
-    selDiv.innerHTML = selected.map(function(u) { return '<span class="pill">' + esc(u.username) + ' <button onclick="removeFromGroup(\'' + u.id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;">✕</button></span>'; }).join('');
-  }
-}
-function removeFromGroup(uid) { _selectedGroupUsers = _selectedGroupUsers.filter(function(id) { return id !== uid; }); updateSelectedUsersDisplay(); }
-function createGroupChat() {
-  if (!sess) return;
-  if (_selectedGroupUsers.length < 2) { toast('Нужно минимум 2 участника', true); return; }
-  let nameInput = document.getElementById('group-name');
-  let name = nameInput ? nameInput.value.trim() : '';
-  name = name || 'Группа ' + _selectedGroupUsers.length;
-  let newConv = { id: 'c' + mkId(), type: 'group', name: name, participants: _selectedGroupUsers, messages: [], createdAt: Date.now() };
-  S.convs.push(newConv);
-  persist();
-  closeGroupModal();
-  _activeConv = newConv.id;
-  renderMsgPanel();
-  toast('Групповой чат создан!');
-}
-function inviteToGroup(convId) {
-  let conv = S.convs.find(function(c) { return c.id === convId; });
-  if (!conv || conv.type !== 'group') return;
-  let username = prompt('Введите username пользователя для приглашения:');
-  let user = users.find(function(u) { return u.username === username; });
-  if (user && !conv.participants.includes(user.id)) {
-    conv.participants.push(user.id);
-    persist();
-    toast(user.username + ' добавлен в чат');
-    renderMsgPanel();
-  } else { toast('Пользователь не найден или уже в чате', true); }
 }
 
 // ==================== АВТОРИЗАЦИЯ ====================
@@ -1533,9 +893,8 @@ function openAuth() {
   document.getElementById('auth-box').innerHTML = '<div class="ph">Вход<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="login-username" type="text" placeholder="Имя пользователя"><input id="login-password" type="password" placeholder="Пароль"><div id="login-error" class="error-text"></div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doLogin()">Войти</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Нет аккаунта?</p><button class="btn btn-d" onclick="openReg()">Регистрация</button></div>'; 
 }
 function openReg() {
-  let canReg = canRegisterToday();
   document.getElementById('auth-ov').style.display = 'flex'; 
-  document.getElementById('auth-box').innerHTML = '<div class="ph">Регистрация<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="reg-username" type="text" placeholder="Имя пользователя (мин 3 символа)"><input id="reg-password" type="password" placeholder="Пароль (мин 4 символа)"><input id="reg-password2" type="password" placeholder="Повторите пароль"><div id="reg-error" class="error-text">' + (!canReg ? '⚠️ С этого устройства уже создан аккаунт сегодня. Попробуйте завтра.' : '') + '</div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doRegister()"' + (!canReg ? ' disabled' : '') + '>Зарегистрироваться</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Уже есть аккаунт?</p><button class="btn btn-d" onclick="openAuth()">Войти</button></div>'; 
+  document.getElementById('auth-box').innerHTML = '<div class="ph">Регистрация<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="reg-username" type="text" placeholder="Имя пользователя (мин 3 символа)"><input id="reg-password" type="password" placeholder="Пароль (мин 4 символа)"><input id="reg-password2" type="password" placeholder="Повторите пароль"><div id="reg-error" class="error-text"></div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doRegister()">Зарегистрироваться</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Уже есть аккаунт?</p><button class="btn btn-d" onclick="openAuth()">Войти</button></div>'; 
 }
 function doLogin() {
   let username = document.getElementById('login-username') ? document.getElementById('login-username').value.trim() : '';
@@ -1563,56 +922,34 @@ function doRegister() {
 }
 function closeAuth() { document.getElementById('auth-ov').style.display = 'none'; }
 function nav(hash) { 
-  if (hash === '#/') hash = '#/';
   location.hash = hash; 
   render(); 
-  let mbBtns = document.querySelectorAll('.mb-btn');
-  mbBtns.forEach(function(btn) { btn.classList.remove('on'); });
 }
 
-// ==================== РЕНДЕР ====================
-function render() {
-  let hash = location.hash.slice(1) || '/';
-  buildHeader();
-  if (hash === '/' || hash === '') renderHome();
-  else if (hash === '/beats') renderBeats();
-  else if (hash === '/drumkits') renderDrumkits();
-  else if (hash === '/services') renderServices();
-  else if (hash === '/music') renderMusic();
-  else if (hash === '/profile') renderProfile(sess ? sess.id : null);
-  else if (hash === '/bmarks') renderBookmarks();
-  else if (hash === '/admin' && isAdmin()) renderAdmin();
-  else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
-  else if (hash.startsWith('/thread/')) renderThread(hash.slice(8));
-  else if (hash.startsWith('/profile/')) renderProfile(hash.slice(9));
-  else renderHome();
-}
-function showPage(id) { 
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('on'); }); 
-  let page = document.getElementById(id);
-  if (page) page.classList.add('on'); 
+// ==================== ПРИВЕТСТВИЕ ====================
+function renderWelcome() {
+  let el = document.getElementById('p-welcome');
+  el.innerHTML = '<div class="wn" style="text-align:center;padding:60px 20px"><div class="empty-ico" style="font-size:80px">🎵</div><h1 style="font-size:32px;margin:20px 0">Добро пожаловать в 4room</h1><p style="color:var(--t2);margin-bottom:30px">Социальная платформа для музыкантов и продюсеров</p><div class="flex" style="justify-content:center;gap:16px"><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button></div></div>';
+  showPage('p-welcome');
 }
 
-// ==================== HOME ====================
+// ==================== ОСНОВНЫЕ СТРАНИЦЫ ====================
 function renderHome() {
-  let el = document.getElementById('p-home');
   let threads = (S.threads || []).slice().sort(function(a,b) { return b.lastActivity - a.lastActivity; }).slice(0, 20);
-  el.innerHTML = '<div class="w"><div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div class="post-content" style="font-size:13px;color:var(--t2)">' + esc(th.op ? th.op.content.slice(0, 100) : '') + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>' + '</div></div>';
+  let el = document.getElementById('p-home');
+  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">Последние темы</h1><div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div class="post-content" style="font-size:13px;color:var(--t2)">' + esc(th.op ? th.op.content.slice(0, 100) : '') + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>' + '</div></div>';
   showPage('p-home');
 }
-
-// ==================== BOARD ====================
 function renderBoard(id) {
   let threads = (S.threads || []).filter(function(t) { return t.boardId === id; });
   let boardNames = { tech: 'Тех-раздел', art: 'Арт', music: 'Музыка', shitposting: 'Шитпостинг' };
   let el = document.getElementById('p-board');
-  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">' + (boardNames[id] || id) + '</h1>' + (sess ? '<button class="btn btn-p mb-4" onclick="showNewThreadForm(\'' + id + '\')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread(\'' + id + '\')">Создать</button></div></div></div>' : '') + '<div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">В этом разделе пока нет тем</div>' + '</div></div>';
+  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">' + (boardNames[id] || id) + '</h1><button class="btn btn-p mb-4" onclick="showNewThreadForm(\'' + id + '\')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread(\'' + id + '\')">Создать</button></div></div></div><div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">В этом разделе пока нет тем</div>' + '</div></div>';
   showPage('p-board');
 }
 function showNewThreadForm() { document.getElementById('new-thread-form').style.display = 'block'; }
 function hideNewThreadForm() { document.getElementById('new-thread-form').style.display = 'none'; }
 function createThread(boardId) {
-  if (!sess) { toast('Войдите чтобы создать тему', true); return; }
   let title = document.getElementById('nt-title') ? document.getElementById('nt-title').value.trim() : '';
   let content = document.getElementById('nt-content') ? document.getElementById('nt-content').value.trim() : '';
   if (!title || !content) { toast('Заполните все поля', true); return; }
@@ -1624,527 +961,124 @@ function createThread(boardId) {
   nav('#/thread/' + thread.id);
 }
 function renderThread(id) {
-  let thread = S.threads.find(function(t) { return t.id === id; });
+  let thread = null;
+  for (let i = 0; i < S.threads.length; i++) {
+    if (S.threads[i].id === id) { thread = S.threads[i]; break; }
+  }
   if (!thread) { document.getElementById('p-thread').innerHTML = '<div class="wn"><div class="empty">Тема не найдена</div></div>'; showPage('p-thread'); return; }
   let replies = S.replies[id] || [];
   let el = document.getElementById('p-thread');
-  el.innerHTML = '<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">' + esc(thread.title) + '</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">' + (thread.op.author ? thread.op.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(thread.op.author) + '</div><div style="font-size:12px;color:var(--t3)">' + relTime(thread.op.createdAt) + '</div></div></div><div style="white-space:pre-wrap;line-height:1.6">' + esc(thread.op.content) + '</div></div></div><div class="stitle">Ответы (' + replies.length + ')</div>' + replies.map(function(r) { return '<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">' + (r.author ? r.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(r.author) + '</div><div style="font-size:11px;color:var(--t3)">' + relTime(r.createdAt) + '</div></div></div><div style="white-space:pre-wrap">' + esc(r.content) + '</div>' + (canModerate(r.uid) ? '<div class="flex justify-between mt-2"><button class="btn btn-xs btn-r" onclick="deleteReply(\'' + id + '\', \'' + r.id + '\')">🗑 Удалить</button></div>' : '') + '</div></div>'; }).join('') + (sess ? '<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply(\'' + id + '\')">Отправить</button></div></div></div>' : '<div class="empty">Войдите чтобы ответить</div>') + '</div>';
+  el.innerHTML = '<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">' + esc(thread.title) + '</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">' + (thread.op.author ? thread.op.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(thread.op.author) + '</div><div style="font-size:12px;color:var(--t3)">' + relTime(thread.op.createdAt) + '</div></div></div><div style="white-space:pre-wrap;line-height:1.6">' + esc(thread.op.content) + '</div></div></div><div class="stitle">Ответы (' + replies.length + ')</div>' + replies.map(function(r) { return '<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">' + (r.author ? r.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(r.author) + '</div><div style="font-size:11px;color:var(--t3)">' + relTime(r.createdAt) + '</div></div></div><div style="white-space:pre-wrap">' + esc(r.content) + '</div></div></div>'; }).join('') + '<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply(\'' + id + '\')">Отправить</button></div></div></div></div>';
   showPage('p-thread');
 }
 function addReply(threadId) {
-  if (!sess) { toast('Войдите чтобы ответить', true); return; }
   let content = document.getElementById('reply-text') ? document.getElementById('reply-text').value.trim() : '';
   if (!content) { toast('Введите текст ответа', true); return; }
   let reply = { id: 'r' + mkId(), uid: sess.id, author: sess.username, content: content, createdAt: Date.now() };
   if (!S.replies[threadId]) S.replies[threadId] = [];
   S.replies[threadId].push(reply);
-  let thread = S.threads.find(function(t) { return t.id === threadId; });
-  if (thread) { thread.replyCount = (thread.replyCount || 0) + 1; thread.lastActivity = Date.now(); }
+  for (let i = 0; i < S.threads.length; i++) {
+    if (S.threads[i].id === threadId) { 
+      S.threads[i].replyCount = (S.threads[i].replyCount || 0) + 1; 
+      S.threads[i].lastActivity = Date.now(); 
+      break; 
+    }
+  }
   persist();
   toast('Ответ добавлен!');
   renderThread(threadId);
 }
-function deleteReply(threadId, replyId) {
-  let replies = S.replies[threadId] || [];
-  let reply = replies.find(function(r) { return r.id === replyId; });
-  if (reply && canModerate(reply.uid)) {
-    S.replies[threadId] = replies.filter(function(r) { return r.id !== replyId; });
-    let thread = S.threads.find(function(t) { return t.id === threadId; });
-    if (thread) thread.replyCount = Math.max(0, (thread.replyCount || 0) - 1);
-    persist();
-    toast('Ответ удалён');
-    renderThread(threadId);
-  }
-}
-
-// ==================== БИТЫ ====================
-function renderBeats() {
-  let beats = S.beats || [];
-  if (_bg !== 'all') beats = beats.filter(function(b) { return (b.customGenre || b.genre) === _bg; });
-  beats.sort(function(a,b) { return _bs === 'newest' ? b.createdAt - a.createdAt : _bs === 'price_asc' ? a.price - b.price : _bs === 'price_desc' ? b.price - a.price : (b.plays||0) - (a.plays||0); });
-  let genres = ['all'].concat([...new Set(beats.map(function(b) { return b.customGenre || b.genre; }).filter(Boolean))]);
-  let el = document.getElementById('p-beats');
-  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🎵 Маркетплейс битов</h1>' + (sess ? '<button class="btn btn-p" onclick="toggleBeatForm()">+ Продать бит</button>' : '') + '</div><div id="beat-form" style="display:none" class="panel mb-4"><div class="ph">Новый бит<button class="btn btn-g btn-sm" onclick="toggleBeatForm()">✕</button></div><div class="pb"><input id="bt-title" placeholder="Название бита"><div class="g2"><input id="bt-price" type="number" placeholder="Цена (₽)"><input id="bt-bpm" type="number" placeholder="BPM"></div><select id="bt-genre"><option>Rap</option><option>Trap</option><option>Hip-Hop</option><option>Другое</option></select><input id="bt-custom-genre" placeholder="Свой жанр" style="display:none"><input id="bt-contact" placeholder="Telegram для связи"><textarea id="bt-desc" rows="3" placeholder="Описание бита..."></textarea><div class="file-label" onclick="document.getElementById(\'bt-audio\').click()">🎵 Загрузить аудио (MP3/WAV)<input type="file" id="bt-audio" accept="audio/*" style="display:none"></div><div class="pf"><button class="btn btn-g" onclick="toggleBeatForm()">Отмена</button><button class="btn btn-p" onclick="submitBeat()">Опубликовать</button></div></div></div><div class="toolbar"><div class="gtabs">' + genres.map(function(g) { return '<button class="gtab ' + (_bg === g ? 'on' : '') + '" onclick="setBeatGenre(\'' + g + '\')">' + (g === 'all' ? 'Все' : g) + '</button>'; }).join('') + '</div><div class="stabs"><button class="stab ' + (_bs === 'newest' ? 'on' : '') + '" onclick="setBeatSort(\'newest\')">Новые</button><button class="stab ' + (_bs === 'price_asc' ? 'on' : '') + '" onclick="setBeatSort(\'price_asc\')">Дешевле</button><button class="stab ' + (_bs === 'price_desc' ? 'on' : '') + '" onclick="setBeatSort(\'price_desc\')">Дороже</button><button class="stab ' + (_bs === 'popular' ? 'on' : '') + '" onclick="setBeatSort(\'popular\')">Популярные</button></div></div><div class="beat-grid">' + beats.map(function(b) { return '<div class="beat-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(b.title) + '</div><div style="font-size:13px;color:var(--t3)">' + (b.bpm || '?') + ' BPM · ' + (b.genre || b.customGenre || '?') + '</div><div class="price">' + (b.price > 0 ? b.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((b.desc || '').slice(0, 80)) + '</div>' + (b.audioUrl ? '<div class="audio-player"><button onclick="event.stopPropagation();playBeatAudio(\'' + b.audioUrl + '\', \'' + esc(b.title) + '\')">▶</button><span>Прослушать</span></div>' : '') + '<div class="flex justify-between mt-2"><button class="btn btn-p btn-sm" onclick="buyBeat(\'' + b.id + '\')">💸 Купить</button>' + (canModerate(b.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteBeat(\'' + b.id + '\')">🗑</button>' : '') + '</div></div></div>'; }).join('') || '<div class="empty">Битов пока нет</div>' + '</div></div>';
-  showPage('p-beats');
-}
-function toggleBeatForm() { let f = document.getElementById('beat-form'); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
-function setBeatGenre(g) { _bg = g; renderBeats(); }
-function setBeatSort(s) { _bs = s; renderBeats(); }
-function playBeatAudio(url, title) { 
-  if (player.audio) {
-    player.audio.src = url;
-    player.audio.play();
-    document.getElementById('p-ttl').textContent = title;
-    document.getElementById('player').style.display = 'flex';
-  }
-}
-function submitBeat() { 
-  if (!sess) { toast('Войдите чтобы продавать биты', true); return; }
-  let title = document.getElementById('bt-title') ? document.getElementById('bt-title').value.trim() : ''; 
-  if (!title) { toast('Введите название', true); return; } 
-  let audioFile = document.getElementById('bt-audio') ? document.getElementById('bt-audio').files[0] : null;
-  let beat = { id: 'b' + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById('bt-price') ? document.getElementById('bt-price').value : 0) || 0, bpm: parseInt(document.getElementById('bt-bpm') ? document.getElementById('bt-bpm').value : 0) || 0, genre: document.getElementById('bt-genre') ? document.getElementById('bt-genre').value : '', desc: document.getElementById('bt-desc') ? document.getElementById('bt-desc').value : '', contact: document.getElementById('bt-contact') ? document.getElementById('bt-contact').value : '', audioUrl: null, createdAt: Date.now() };
-  if (audioFile) {
-    let reader = new FileReader();
-    reader.onload = function(e) { beat.audioUrl = e.target.result; S.beats.push(beat); persist(); toast('Бит опубликован!'); toggleBeatForm(); renderBeats(); };
-    reader.readAsDataURL(audioFile);
-  } else {
-    S.beats.push(beat); persist(); toast('Бит опубликован!'); toggleBeatForm(); renderBeats();
-  }
-}
-function buyBeat(id) { 
-  let beat = S.beats.find(function(b) { return b.id === id; }); 
-  if (!beat) return; 
-  if (sess) startDM(beat.uid, 'Интересуюсь битом: ' + beat.title); 
-  else toast('Свяжитесь с продавцом: ' + (beat.contact || 'Telegram не указан'), true); 
-}
-function deleteBeat(id) { 
-  let beat = S.beats.find(function(b) { return b.id === id; });
-  if (beat && canModerate(beat.uid)) { 
-    S.beats = S.beats.filter(function(b) { return b.id !== id; }); 
-    persist(); 
-    toast('Бит удалён'); 
-    renderBeats(); 
-  } 
-}
-
-// ==================== ДРАМКИТЫ ====================
-function renderDrumkits() { 
-  let kits = S.drumkits || []; 
-  let el = document.getElementById('p-drumkits'); 
-  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🥁 Драмкиты</h1>' + (sess ? '<button class="btn btn-p" onclick="toggleDrumkitForm()">+ Продать драмкит</button>' : '') + '</div><div id="drumkit-form" style="display:none" class="panel mb-4"><div class="ph">Новый драмкит<button class="btn btn-g btn-sm" onclick="toggleDrumkitForm()">✕</button></div><div class="pb"><input id="dk-title" placeholder="Название"><input id="dk-price" type="number" placeholder="Цена (₽)"><textarea id="dk-desc" rows="3" placeholder="Описание"></textarea><input id="dk-contact" placeholder="Telegram"><div class="file-label" onclick="document.getElementById(\'dk-zip\').click()">📦 Загрузить ZIP<input type="file" id="dk-zip" accept=".zip,.rar" style="display:none"></div><div class="pf"><button class="btn btn-g" onclick="toggleDrumkitForm()">Отмена</button><button class="btn btn-p" onclick="submitDrumkit()">Опубликовать</button></div></div></div><div class="drumkit-grid">' + kits.map(function(k) { return '<div class="drumkit-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(k.title) + '</div><div class="price">' + (k.price > 0 ? k.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((k.desc || '').slice(0, 80)) + '</div><div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="buyDrumkit(\'' + k.id + '\')">📥 Купить</button>' + (canModerate(k.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteDrumkit(\'' + k.id + '\')">🗑</button>' : '') + '</div></div></div>'; }).join('') || '<div class="empty">Драмкитов пока нет</div>' + '</div></div>'; 
-  showPage('p-drumkits'); 
-}
-function toggleDrumkitForm() { let f = document.getElementById('drumkit-form'); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
-function submitDrumkit() { 
-  if (!sess) { toast('Войдите чтобы продавать драмкиты', true); return; }
-  let title = document.getElementById('dk-title') ? document.getElementById('dk-title').value.trim() : ''; 
-  if (!title) { toast('Введите название', true); return; } 
-  let kit = { id: 'dk' + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById('dk-price') ? document.getElementById('dk-price').value : 0) || 0, desc: document.getElementById('dk-desc') ? document.getElementById('dk-desc').value : '', contact: document.getElementById('dk-contact') ? document.getElementById('dk-contact').value : '', zipFile: null, createdAt: Date.now() }; 
-  let zipInput = document.getElementById('dk-zip'); 
-  if (zipInput && zipInput.files[0]) { 
-    let reader = new FileReader(); 
-    reader.onload = function(e) { kit.zipFile = e.target.result; S.drumkits.push(kit); persist(); toast('Драмкит опубликован!'); toggleDrumkitForm(); renderDrumkits(); }; 
-    reader.readAsDataURL(zipInput.files[0]); 
-  } else { 
-    S.drumkits.push(kit); persist(); toast('Драмкит опубликован!'); toggleDrumkitForm(); renderDrumkits(); 
-  } 
-}
-function buyDrumkit(id) { 
-  let kit = S.drumkits.find(function(k) { return k.id === id; }); 
-  if (!kit) return; 
-  if (kit.zipFile) { 
-    let a = document.createElement('a'); 
-    a.href = kit.zipFile; 
-    a.download = kit.title + '.zip'; 
-    a.click(); 
-    toast('Скачивание началось!'); 
-  } else if (sess) startDM(kit.uid, 'Интересуюсь драмкитом: ' + kit.title); 
-  else toast('Свяжитесь: ' + (kit.contact || 'Telegram не указан'), true); 
-}
-function deleteDrumkit(id) { 
-  let kit = S.drumkits.find(function(d) { return d.id === id; });
-  if (kit && canModerate(kit.uid)) { 
-    S.drumkits = S.drumkits.filter(function(d) { return d.id !== id; }); 
-    persist(); 
-    toast('Драмкит удалён'); 
-    renderDrumkits(); 
-  } 
-}
-
-// ==================== УСЛУГИ ====================
-function renderServices() { 
-  let services = S.services || []; 
-  let el = document.getElementById('p-services'); 
-  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🛠 Услуги</h1>' + (sess ? '<button class="btn btn-p" onclick="toggleServiceForm()">+ Предложить услугу</button>' : '') + '</div><div id="service-form" style="display:none" class="panel mb-4"><div class="ph">Новая услуга<button class="btn btn-g btn-sm" onclick="toggleServiceForm()">✕</button></div><div class="pb"><input id="sv-title" placeholder="Название"><input id="sv-price" type="number" placeholder="Цена (₽)"><select id="sv-type"><option>Сведение</option><option>Мастеринг</option><option>Бит</option><option>Аранжировка</option><option>Другое</option></select><textarea id="sv-desc" rows="4" placeholder="Описание"></textarea><div class="g2"><div><label>До</label><input type="file" id="sv-before" accept="audio/*"></div><div><label>После</label><input type="file" id="sv-after" accept="audio/*"></div></div><input id="sv-contact" placeholder="Telegram"><div class="pf"><button class="btn btn-g" onclick="toggleServiceForm()">Отмена</button><button class="btn btn-p" onclick="submitService()">Опубликовать</button></div></div></div><div class="service-grid">' + services.map(function(s) { return '<div class="service-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(s.title) + '</div><div class="price">' + (s.price > 0 ? s.price + ' ₽' : 'Договорная') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((s.desc || '').slice(0, 100)) + '</div><div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="buyService(\'' + s.id + '\')">📩 Заказать</button>' + (canModerate(s.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteService(\'' + s.id + '\')">🗑</button>' : '') + '</div></div></div>'; }).join('') || '<div class="empty">Услуг пока нет</div>' + '</div></div>'; 
-  showPage('p-services'); 
-}
-function toggleServiceForm() { let f = document.getElementById('service-form'); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
-function submitService() { 
-  if (!sess) { toast('Войдите чтобы предлагать услуги', true); return; }
-  let title = document.getElementById('sv-title') ? document.getElementById('sv-title').value.trim() : ''; 
-  if (!title) { toast('Введите название', true); return; } 
-  let sv = { id: 'sv' + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById('sv-price') ? document.getElementById('sv-price').value : 0) || 0, type: document.getElementById('sv-type') ? document.getElementById('sv-type').value : '', desc: document.getElementById('sv-desc') ? document.getElementById('sv-desc').value : '', contact: document.getElementById('sv-contact') ? document.getElementById('sv-contact').value : '', beforeAudio: null, afterAudio: null, createdAt: Date.now() }; 
-  let beforeFile = document.getElementById('sv-before') ? document.getElementById('sv-before').files[0] : null; 
-  let afterFile = document.getElementById('sv-after') ? document.getElementById('sv-after').files[0] : null; 
-  let processFiles = function() { 
-    if (beforeFile) { 
-      let r = new FileReader(); 
-      r.onload = function(e) { sv.beforeAudio = e.target.result; 
-        if (afterFile) { 
-          let r2 = new FileReader(); 
-          r2.onload = function(e2) { sv.afterAudio = e2.target.result; S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); }; 
-          r2.readAsDataURL(afterFile); 
-        } else { S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); } 
-      }; 
-      r.readAsDataURL(beforeFile); 
-    } else { 
-      if (afterFile) { 
-        let r = new FileReader(); 
-        r.onload = function(e) { sv.afterAudio = e.target.result; S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); }; 
-        r.readAsDataURL(afterFile); 
-      } else { S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); } 
-    } 
-  }; 
-  processFiles(); 
-}
-function buyService(id) { 
-  let sv = S.services.find(function(s) { return s.id === id; }); 
-  if (!sv) return; 
-  if (sess) startDM(sv.uid, 'Интересуюсь услугой: ' + sv.title); 
-  else toast('Свяжитесь: ' + (sv.contact || 'Telegram не указан'), true); 
-}
-function deleteService(id) { 
-  let sv = S.services.find(function(s) { return s.id === id; });
-  if (sv && canModerate(sv.uid)) { 
-    S.services = S.services.filter(function(s) { return s.id !== id; }); 
-    persist(); 
-    toast('Услуга удалена'); 
-    renderServices(); 
-  } 
-}
-
-// ==================== ПРОФИЛЬ ====================
 function renderProfile(uid) {
-  if (!uid) { 
-    if (!sess) { 
-      document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="empty">Войдите чтобы просмотреть профиль<button class="btn btn-p mt-3" onclick="openAuth()">Войти</button></div></div>'; 
-      showPage('p-profile'); 
-      return; 
-    } 
-    uid = sess.id; 
-  }
   let user = getUser(uid);
-  if (!user) { 
-    document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="empty">Пользователь не найден</div></div>'; 
-    showPage('p-profile'); 
-    return; 
-  }
-  if (user.privacy && user.privacy.profileLocked && uid !== sess.id && !(user.friends && user.friends.includes(sess.id))) {
-    document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="card" style="text-align:center"><div style="padding:40px"><div class="empty-ico">🔒</div><div>Профиль закрыт</div><div style="font-size:12px;color:var(--t3);margin-top:8px">Только друзья могут видеть этот профиль</div></div></div></div>';
-    showPage('p-profile'); 
-    return;
-  }
+  if (!user) { document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="empty">Пользователь не найден</div></div>'; showPage('p-profile'); return; }
   let isOwn = sess && sess.id === user.id;
-  let canWrite = isOwn || (user.privacy && user.privacy.wall === 'all') || (user.privacy && user.privacy.wall === 'friends' && user.friends && user.friends.includes(sess.id));
-  let badgeNames = { early: '🌱 Ранний', verified: '✓ Верифицирован', admin: '👑 Админ', popular: '⭐ Популярный', pro: '🎧 Профессионал', gold: '🏆 Золотой' };
   let posts = S.wallPosts[uid] || [];
   let el = document.getElementById('p-profile');
-  el.innerHTML = '<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ' + (user.bannerBase64 ? 'url(' + user.bannerBase64 + ')' : 'linear-gradient(135deg, var(--blue), var(--purple))') + '"></div><div class="profile-avatar-wrapper">' + getAvatarHTML(user, 100) + '</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">' + esc(user.username) + '</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">' + (user.badges || []).map(function(b) { return '<span class="pill">' + (badgeNames[b] || b) + '</span>'; }).join('') + '</div><div style="color:var(--t3);margin:12px 0">' + esc(user.bio || 'Нет описания') + '</div><div class="stats"><div><div style="font-weight:700">' + posts.length + '</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">' + (user.followers ? user.followers.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">' + (user.friends ? user.friends.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>' + (sess && sess.id !== user.id ? '<div class="actions"><button class="btn btn-p" onclick="startDM(\'' + user.id + '\', \'Привет!\')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend(\'' + user.id + '\')" style="margin-left:12px">' + ((user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья') + '</button><button class="btn btn-d" onclick="toggleFollow(\'' + user.id + '\')" style="margin-left:12px">' + ((user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться') + '</button></div>' : '') + '</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">' + (canWrite && sess ? '<div class="text-editor"><div class="editor-toolbar"><button class="editor-btn" onclick="showEmojiPicker(\'wall-post-content\', this)">😀</button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'**\', \'**\')"><b>B</b></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'*\', \'*\')"><i>I</i></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'~~\', \'~~\')"><s>S</s></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'`\', \'`\')"><code>{ }</code></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'> \', \'\')">"</button><button class="editor-btn" onclick="toggleEditorMode(\'wall-post-content\')">📄</button></div><textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" oninput="updatePreview(\'wall-post-content\')"></textarea><div id="preview-wall-post-content" class="editor-preview" style="display:none"></div></div><div class="pf"><button class="btn btn-p" onclick="createWallPost(\'' + uid + '\', document.getElementById(\'wall-post-content\').value)">Опубликовать</button></div>' : '') + '<div id="wall-posts">' + (posts.map(function(p) { return renderWallPost(p, uid); }).join('') || '<div class="empty">Нет записей на стене</div>') + '</div></div></div></div>';
+  el.innerHTML = '<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background:linear-gradient(135deg, var(--blue), var(--purple));height:120px"></div><div class="profile-avatar-wrapper" style="margin-top:-40px">' + getAvatarHTML(user, 80) + '</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">' + esc(user.username) + '</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">' + (user.badges || []).map(function(b) { return '<span class="pill">' + (b === 'admin' ? '👑 Админ' : b === 'verified' ? '✓ Верифицирован' : b === 'early' ? '🌱 Ранний' : b) + '</span>'; }).join('') + '</div><div style="color:var(--t3);margin:12px 0">' + esc(user.bio || 'Нет описания') + '</div><div class="stats"><div><div style="font-weight:700">' + posts.length + '</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">' + (user.followers ? user.followers.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div></div>' + (!isOwn ? '<button class="btn btn-p" onclick="startDM(\'' + user.id + '\', \'Привет!\')">✉ Написать</button>' : '') + '</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">' + (isOwn ? '<textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" style="width:100%"></textarea><div class="pf"><button class="btn btn-p" onclick="createWallPost(\'' + uid + '\', document.getElementById(\'wall-post-content\').value)">Опубликовать</button></div>' : '') + '<div id="wall-posts">' + (posts.map(function(p) { return '<div class="wall-post"><div class="wall-post-header"><div><div class="wall-post-author">' + esc(p.author) + '</div><div class="wall-post-time">' + relTime(p.createdAt) + '</div></div></div><div class="wall-post-content">' + esc(p.content) + '</div></div>'; }).join('') || '<div class="empty">Нет записей на стене</div>') + '</div></div></div></div>';
   showPage('p-profile');
 }
-function renderWallPost(post, targetUid) {
-  let author = getUser(post.uid);
-  let reactions = S.reactions[post.id] || {};
-  let reactionCount = Object.values(reactions).reduce(function(a,b) { return a + b.length; }, 0);
-  let comments = S.comments[post.id] || [];
-  let isOwner = sess && (sess.id === post.uid || sess.id === targetUid);
-  if (!S.postViews[post.id]) S.postViews[post.id] = 0;
-  setTimeout(function() { if (document.getElementById('post-' + post.id)) { S.postViews[post.id]++; persist(); } }, 1000);
-  let authorAvatar = author ? getAvatarHTML(author, 32) : '<div class="avatar avatar-sm">' + (post.author ? post.author[0].toUpperCase() : '?') + '</div>';
-  return '<div class="wall-post" id="post-' + post.id + '"><div class="wall-post-header"><div onclick="nav(\'#/profile/' + post.uid + '\')" style="cursor:pointer">' + authorAvatar + '</div><div><div class="wall-post-author" onclick="nav(\'#/profile/' + post.uid + '\')">' + esc(post.author) + '</div><div class="wall-post-time">' + relTime(post.createdAt) + ' · 👁️ ' + (S.postViews[post.id] || 0) + '</div></div>' + (isOwner ? '<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost(\'' + post.id + '\', \'' + targetUid + '\')">🗑</button></div>' : '') + '</div><div class="wall-post-content">' + formatMessageContent(post.content) + '</div>' + (post.repost ? '<div class="repost-origin">🔁 Репост от ' + esc(post.repost.originalAuthor) + ': ' + formatMessageContent((post.repost.originalContent || '').slice(0, 100)) + '</div>' : '') + '<div class="reactions"><div class="reaction-buttons">' + ['❤️', '👍', '😂', '😮', '😢'].map(function(e) { return '<button class="reaction-btn ' + (reactions[e] && reactions[e].includes(sess ? sess.id : null) ? 'active' : '') + '" onclick="addReaction(\'' + post.id + '\', \'' + e + '\', \'' + targetUid + '\')">' + e + '<span class="reaction-count">' + (reactions[e] ? reactions[e].length : 0) + '</span></button>'; }).join('') + '</div>' + (reactionCount > 0 ? '<div class="reaction-list" style="font-size:11px;color:var(--t3);margin-top:4px">' + Object.entries(reactions).map(function(entry) { var e = entry[0]; var uids = entry[1]; return uids.length ? e + ' ' + uids.slice(0, 3).map(function(uid) { var u = getUser(uid); return u ? u.username : '?'; }).join(', ') + (uids.length > 3 ? ' +' + (uids.length-3) : '') : ''; }).filter(Boolean).join(' · ') + '</div>' : '') + '</div><div class="post-actions"><button class="post-action" onclick="toggleComments(\'' + post.id + '\')">💬 ' + comments.length + '</button><button class="post-action" onclick="openRepostModal(\'' + post.id + '\', \'' + esc(post.author) + '\', \'' + esc(post.content).replace(/'/g, "\\'") + '\')">🔁 Репост</button></div><div class="comments-section" id="comments-' + post.id + '" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-' + post.id + '" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment(\'' + post.id + '\', \'' + targetUid + '\', document.getElementById(\'comment-input-' + post.id + '\').value)">→</button></div>' + comments.map(function(c) { return '<div class="comment"><div class="comment-avatar" onclick="nav(\'#/profile/' + c.uid + '\')">' + (c.author ? c.author[0].toUpperCase() : '?') + '</div><div class="comment-content"><div class="comment-author" onclick="nav(\'#/profile/' + c.uid + '\')">' + esc(c.author) + '</div><div class="comment-text">' + formatMessageContent(c.content) + '</div><div class="comment-time">' + relTime(c.createdAt) + '</div></div>' + (canModerate(c.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteComment(\'' + post.id + '\', \'' + c.id + '\')">🗑</button>' : '') + '</div>'; }).join('') + '</div></div>';
-}
-function toggleComments(postId) { let el = document.getElementById('comments-' + postId); if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
-function addReaction(postId, emoji, targetUid) {
-  if (!sess) return toast('Войдите чтобы реагировать', true);
-  if (!S.reactions[postId]) S.reactions[postId] = {};
-  if (!S.reactions[postId][emoji]) S.reactions[postId][emoji] = [];
-  if (S.reactions[postId][emoji].includes(sess.id)) {
-    S.reactions[postId][emoji] = S.reactions[postId][emoji].filter(function(id) { return id !== sess.id; });
-  } else {
-    S.reactions[postId][emoji].push(sess.id);
-    let post = null;
-    for (let uid in S.wallPosts) {
-      post = S.wallPosts[uid] ? S.wallPosts[uid].find(function(p) { return p.id === postId; }) : null;
-      if (post) break;
-    }
-    if (post && post.uid !== sess.id) addNotification(post.uid, 'reaction', sess.id, postId);
-  }
-  persist();
-  renderProfile(targetUid);
-}
-function addComment(postId, targetUid, content) {
-  if (!sess) return toast('Войдите чтобы комментировать', true);
+function createWallPost(targetUid, content) {
   if (!content) return;
-  let targetUser = getUser(targetUid);
-  if (targetUser.privacy && targetUser.privacy.comment === 'friends' && !(targetUser.friends && targetUser.friends.includes(sess.id)) && targetUid !== sess.id) return toast('Только друзья могут комментировать', true);
-  if (targetUser.privacy && targetUser.privacy.comment === 'none' && targetUid !== sess.id) return toast('Комментирование отключено', true);
-  if (!S.comments[postId]) S.comments[postId] = [];
-  S.comments[postId].push({ id: 'c' + mkId(), uid: sess.id, author: sess.username, content: content, createdAt: Date.now() });
-  let post = null;
-  for (let uid in S.wallPosts) {
-    post = S.wallPosts[uid] ? S.wallPosts[uid].find(function(p) { return p.id === postId; }) : null;
-    if (post) break;
-  }
-  if (post && post.uid !== sess.id) addNotification(post.uid, 'comment', sess.id, postId);
-  persist();
-  renderProfile(targetUid);
-}
-function deleteComment(postId, commentId) { 
-  if (S.comments[postId]) { 
-    S.comments[postId] = S.comments[postId].filter(function(c) { return c.id !== commentId; }); 
-    persist(); 
-    render(); 
-    toast('Комментарий удалён'); 
-  } 
-}
-function createWallPost(targetUid, content, repostData) {
-  if (!sess) return toast('Войдите чтобы оставить запись', true);
-  if (!content && !repostData) return toast('Введите текст записи', true);
-  let targetUser = getUser(targetUid);
-  if (!targetUser) return;
-  if (targetUser.privacy && targetUser.privacy.wall === 'friends' && !(targetUser.friends && targetUser.friends.includes(sess.id)) && targetUid !== sess.id) return toast('Только друзья могут писать на этой стене', true);
-  if (targetUser.privacy && targetUser.privacy.wall === 'none' && targetUid !== sess.id) return toast('Этот пользователь закрыл стену', true);
-  if (targetUser.privacy && targetUser.privacy.profileLocked && targetUid !== sess.id && !(targetUser.friends && targetUser.friends.includes(sess.id))) return toast('Профиль закрыт', true);
-  let post = {
-    id: 'wp' + mkId(), uid: sess.id, author: sess.username, authorAvatar: sess.avatarBase64,
-    targetUid: targetUid, content: content || '', repost: repostData, createdAt: Date.now(), views: 0
-  };
+  let post = { id: 'wp' + mkId(), uid: sess.id, author: sess.username, targetUid: targetUid, content: content, createdAt: Date.now() };
   if (!S.wallPosts[targetUid]) S.wallPosts[targetUid] = [];
   S.wallPosts[targetUid].unshift(post);
-  if (repostData && targetUid !== repostData.originalAuthorId && repostData.originalAuthorId) addNotification(repostData.originalAuthorId, 'repost', sess.id, null);
   persist();
   toast('Пост опубликован!');
-  let wpContent = document.getElementById('wall-post-content');
-  if (wpContent) wpContent.value = '';
+  let wp = document.getElementById('wall-post-content');
+  if (wp) wp.value = '';
   renderProfile(targetUid);
 }
-function deleteWallPost(postId, targetUid) {
-  let posts = S.wallPosts[targetUid] || [];
-  let post = posts.find(function(p) { return p.id === postId; });
-  if (post && (canModerate(post.uid) || canModerate(targetUid))) {
-    S.wallPosts[targetUid] = posts.filter(function(p) { return p.id !== postId; });
-    persist();
-    toast('Пост удалён');
-    renderProfile(targetUid);
+function renderBeats() { renderMarketplace('beats'); }
+function renderDrumkits() { renderMarketplace('drumkits'); }
+function renderServices() { renderMarketplace('services'); }
+function renderMusic() { showPage('p-music'); }
+function renderBookmarks() { showPage('p-bmarks'); }
+
+function renderMarketplace(type) {
+  let items = S[type] || [];
+  let titles = { beats: '🎵 Маркетплейс битов', drumkits: '🥁 Драмкиты', services: '🛠 Услуги' };
+  let el = document.getElementById('p-' + type);
+  let itemHtml = '';
+  for (let i = 0; i < items.length; i++) {
+    let it = items[i];
+    itemHtml += '<div class="beat-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(it.title) + '</div><div class="price">' + (it.price > 0 ? it.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((it.desc || '').slice(0, 80)) + '</div><button class="btn btn-p btn-sm" onclick="buyItem(\'' + type + '\', \'' + it.id + '\')">' + (type === 'services' ? '📩 Заказать' : '💸 Купить') + '</button></div></div>';
   }
+  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>' + titles[type] + '</h1><button class="btn btn-p" onclick="toggleForm(\'' + type + '\')">+ ' + (type === 'beats' ? 'Продать бит' : type === 'drumkits' ? 'Продать драмкит' : 'Предложить услугу') + '</button></div><div id="form-' + type + '" style="display:none" class="panel mb-4"><div class="ph">Новый ' + (type === 'beats' ? 'бит' : type === 'drumkits' ? 'драмкит' : 'услуга') + '<button class="btn btn-g btn-sm" onclick="toggleForm(\'' + type + '\')">✕</button></div><div class="pb"><input id="' + type + '-title" placeholder="Название"><input id="' + type + '-price" type="number" placeholder="Цена (₽)"><textarea id="' + type + '-desc" rows="3" placeholder="Описание"></textarea><div class="pf"><button class="btn btn-g" onclick="toggleForm(\'' + type + '\')">Отмена</button><button class="btn btn-p" onclick="submitItem(\'' + type + '\')">Опубликовать</button></div></div></div><div class="beat-grid">' + (itemHtml || '<div class="empty">Пока ничего нет</div>') + '</div></div>';
+  showPage('p-' + type);
 }
-function toggleFriend(uid) { 
-  let me = getUser(sess.id); 
-  if (!me) return; 
-  let friends = me.friends || []; 
-  if (friends.includes(uid)) { 
-    updateUser(sess.id, { friends: friends.filter(function(f) { return f !== uid; }) }); 
-    toast('Удалён из друзей'); 
-  } else { 
-    updateUser(sess.id, { friends: friends.concat([uid]) }); 
-    toast('Друг добавлен'); 
-  } 
-  renderProfile(uid); 
+function toggleForm(type) { let f = document.getElementById('form-' + type); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
+function submitItem(type) {
+  let title = document.getElementById(type + '-title') ? document.getElementById(type + '-title').value.trim() : '';
+  if (!title) { toast('Введите название', true); return; }
+  let item = { id: type[0] + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById(type + '-price') ? document.getElementById(type + '-price').value : 0) || 0, desc: document.getElementById(type + '-desc') ? document.getElementById(type + '-desc').value : '', createdAt: Date.now() };
+  S[type].push(item);
+  persist();
+  toast('Опубликовано!');
+  toggleForm(type);
+  if (type === 'beats') renderBeats();
+  else if (type === 'drumkits') renderDrumkits();
+  else renderServices();
 }
-function toggleFollow(uid) { 
-  let me = getUser(sess.id); 
-  if (!me) return; 
-  let targetUser = getUser(uid);
-  let followers = targetUser.followers || []; 
-  if (followers.includes(sess.id)) { 
-    updateUser(uid, { followers: followers.filter(function(f) { return f !== sess.id; }) }); 
-    toast('Отписка'); 
-  } else { 
-    updateUser(uid, { followers: followers.concat([sess.id]) }); 
-    toast('Подписка оформлена'); 
-  } 
-  renderProfile(uid); 
-}
-
-// ==================== РЕДАКТИРОВАНИЕ ПРОФИЛЯ ====================
-function openEditModal() {
-  if (!sess) { toast('Войдите чтобы редактировать профиль', true); return; }
-  let user = getUser(sess.id);
-  document.getElementById('edit-bio').value = user.bio || '';
-  document.getElementById('privacy-wall').value = user.privacy ? user.privacy.wall : 'all';
-  document.getElementById('privacy-comment').value = user.privacy ? user.privacy.comment : 'all';
-  document.getElementById('privacy-locked').checked = user.privacy ? user.privacy.profileLocked : false;
-  document.getElementById('edit-profile-modal').classList.add('open');
-}
-function closeEditModal() { document.getElementById('edit-profile-modal').classList.remove('open'); }
-function uploadAvatarModal() { 
-  let input = document.createElement('input'); 
-  input.type = 'file'; 
-  input.accept = 'image/*'; 
-  input.onchange = function(e) { 
-    let file = e.target.files[0]; 
-    if (!file) return;
-    let reader = new FileReader(); 
-    reader.onload = function(ev) { 
-      updateUser(sess.id, { avatarBase64: ev.target.result }); 
-      closeEditModal(); 
-      renderProfile(sess.id); 
-      toast('Аватар обновлён!'); 
-    }; 
-    reader.readAsDataURL(file); 
-  }; 
-  input.click(); 
-}
-function uploadBannerModal() { 
-  let input = document.createElement('input'); 
-  input.type = 'file'; 
-  input.accept = 'image/*'; 
-  input.onchange = function(e) { 
-    let file = e.target.files[0];
-    if (!file) return;
-    let reader = new FileReader(); 
-    reader.onload = function(ev) { 
-      updateUser(sess.id, { bannerBase64: ev.target.result }); 
-      closeEditModal(); 
-      renderProfile(sess.id); 
-      toast('Шапка обновлена!'); 
-    }; 
-    reader.readAsDataURL(file); 
-  }; 
-  input.click(); 
-}
-function removeAvatar() { updateUser(sess.id, { avatarBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Аватар удалён'); }
-function removeBanner() { updateUser(sess.id, { bannerBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Шапка удалена'); }
-function setAvatarFrame(frame) { updateUser(sess.id, { avatarFrame: frame }); closeEditModal(); renderProfile(sess.id); toast('Рамка ' + frame + ' установлена'); }
-function saveProfileEdit() {
-  updateUser(sess.id, { 
-    bio: document.getElementById('edit-bio').value,
-    privacy: { 
-      wall: document.getElementById('privacy-wall').value, 
-      comment: document.getElementById('privacy-comment').value, 
-      profileLocked: document.getElementById('privacy-locked').checked 
-    }
-  });
-  closeEditModal();
-  renderProfile(sess.id);
-  toast('Профиль обновлён');
-}
-
-// ==================== РЕПОСТ ====================
-let _repostPostId = null, _repostAuthor = null, _repostContent = null;
-function openRepostModal(postId, author, content) {
-  _repostPostId = postId; _repostAuthor = author; _repostContent = content;
-  document.getElementById('repost-modal').classList.add('open');
-}
-function closeRepostModal() { document.getElementById('repost-modal').classList.remove('open'); _repostPostId = null; }
-function repostToMyWall() {
-  if (!_repostPostId) return;
-  createWallPost(sess.id, '', { originalAuthor: _repostAuthor, originalContent: _repostContent, originalId: _repostPostId, originalAuthorId: null });
-  closeRepostModal();
-  toast('Репост на стену');
-}
-function searchUserForRepost() {
-  let q = document.getElementById('repost-user-search') ? document.getElementById('repost-user-search').value.toLowerCase() : '';
-  let results = users.filter(function(u) { return u.username.toLowerCase().includes(q) && u.id !== sess.id; }).slice(0, 10);
-  let resDiv = document.getElementById('repost-user-results');
-  if (resDiv) {
-    resDiv.innerHTML = results.map(function(u) { return '<div class="conv-item" onclick="repostToDM(\'' + u.id + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
+function buyItem(type, id) {
+  let item = null;
+  for (let i = 0; i < S[type].length; i++) {
+    if (S[type][i].id === id) { item = S[type][i]; break; }
   }
-}
-function repostToDM(userId) {
-  if (!_repostPostId) return;
-  startDM(userId, '🔁 Репост от ' + _repostAuthor + ':\n\n' + _repostContent);
-  closeRepostModal();
-  toast('Репост отправлен в ЛС');
+  if (item) startDM(item.uid, 'Интересуюсь ' + (type === 'beats' ? 'битом' : type === 'drumkits' ? 'драмкитом' : 'услугой') + ': ' + item.title);
 }
 
-// ==================== МУЗЫКА ====================
-function renderMusic() { 
-  let el = document.getElementById('p-music'); 
-  el.innerHTML = '<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav(\'#/beats\')">Перейти в биты</button></div></div>'; 
-  showPage('p-music'); 
-}
-function renderBookmarks() { 
-  let el = document.getElementById('p-bmarks'); 
-  el.innerHTML = '<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>'; 
-  showPage('p-bmarks'); 
-}
-
-// ==================== АДМИН ====================
-function renderAdmin() {
+// ==================== РЕНДЕР ====================
+function render() {
+  buildHeader();
   if (!sess) {
-    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">Войдите в аккаунт</div></div>';
-    showPage('p-admin');
+    renderWelcome();
     return;
   }
-  if (!isAdmin()) {
-    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администраторов.</div></div>';
-    showPage('p-admin');
-    return;
+  let hash = location.hash.slice(1) || '/';
+  if (hash === '/' || hash === '') renderHome();
+  else if (hash === '/beats') renderBeats();
+  else if (hash === '/drumkits') renderDrumkits();
+  else if (hash === '/services') renderServices();
+  else if (hash === '/music') renderMusic();
+  else if (hash === '/profile') renderProfile(sess.id);
+  else if (hash === '/bmarks') renderBookmarks();
+  else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
+  else if (hash.startsWith('/thread/')) renderThread(hash.slice(8));
+  else if (hash.startsWith('/profile/')) renderProfile(hash.slice(9));
+  else renderHome();
+}
+function showPage(id) { 
+  let pages = ['p-home', 'p-board', 'p-thread', 'p-beats', 'p-drumkits', 'p-services', 'p-music', 'p-profile', 'p-bmarks', 'p-welcome'];
+  for (let i = 0; i < pages.length; i++) {
+    let p = document.getElementById(pages[i]);
+    if (p) p.classList.remove('on');
   }
-  let totalReplies = Object.values(S.replies).flat().length;
-  let el = document.getElementById('p-admin');
-  el.innerHTML = '<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">' + users.length + '</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">' + S.threads.length + '</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">' + totalReplies + '</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">' + S.beats.length + '</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list"></div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">' + S.beats.map(function(b) { return '<option value="' + b.id + '">' + esc(b.title) + ' (' + (getUser(b.uid) ? getUser(b.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">' + S.drumkits.map(function(d) { return '<option value="' + d.id + '">' + esc(d.title) + ' (' + (getUser(d.uid) ? getUser(d.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">' + S.services.map(function(s) { return '<option value="' + s.id + '">' + esc(s.title) + ' (' + (getUser(s.uid) ? getUser(s.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>';
-  let listHtml = '';
-  users.forEach(function(u) {
-    listHtml += '<div class="flex justify-between" style="padding:12px;border-bottom:1px solid var(--border)"><div><b>' + esc(u.username) + '</b> ' + (u.isAdmin ? '👑' : '') + ' ' + (u.verified ? '✓' : '') + '<div style="font-size:11px">Бейджи: ' + (u.badges || []).join(', ') + '</div></div><div class="flex gap-2"><select id="badge-' + u.id + '"><option value="">+ бейдж</option><option value="popular">⭐ Популярный</option><option value="pro">🎧 Профессионал</option><option value="gold">🏆 Золотой</option><option value="verified">✓ Верифицированный</option></select><button class="btn btn-xs btn-d" onclick="addBadge(\'' + u.id + '\')">➕</button><button class="btn btn-xs ' + (u.isAdmin ? 'btn-p' : 'btn-d') + '" onclick="toggleAdmin(\'' + u.id + '\')">' + (u.isAdmin ? '↓ Админ' : '↑ Админ') + '</button><button class="btn btn-xs btn-r" onclick="banUser(\'' + u.id + '\')">' + (u.banned ? 'Разбан' : 'Бан') + '</button><button class="btn btn-xs btn-r" onclick="deleteUserAdmin(\'' + u.id + '\')">🗑</button></div></div>';
-  });
-  let listDiv = document.getElementById('admin-users-list');
-  if (listDiv) listDiv.innerHTML = listHtml;
-  showPage('p-admin');
-}
-function toggleAdmin(uid) { 
-  let u = getUser(uid); 
-  if (u) { 
-    u.isAdmin = !u.isAdmin; 
-    persist(); 
-    renderAdmin(); 
-    toast(u.isAdmin ? 'Назначен админом' : 'Права админа сняты'); 
-  } 
-}
-function addBadge(uid) { 
-  let badgeSelect = document.getElementById('badge-' + uid);
-  let badge = badgeSelect ? badgeSelect.value : '';
-  if (badge) { 
-    let u = getUser(uid); 
-    if (u && !u.badges.includes(badge)) { 
-      u.badges.push(badge); 
-      persist(); 
-      renderAdmin(); 
-      toast('Бейдж ' + badge + ' добавлен'); 
-    } 
-  } 
-}
-function banUser(uid) { 
-  let u = getUser(uid); 
-  if (u) { 
-    u.banned = !u.banned; 
-    persist(); 
-    renderAdmin(); 
-    toast(u.banned ? 'Пользователь забанен' : 'Пользователь разбанен'); 
-  } 
-}
-function deleteUserAdmin(uid) { 
-  if (uid === sess.id) return toast('Нельзя удалить себя', true); 
-  users = users.filter(function(u) { return u.id !== uid; }); 
-  persist(); 
-  renderAdmin(); 
-  toast('Пользователь удалён'); 
-}
-function adminDeleteBeat() { 
-  let select = document.getElementById('admin-beat-select');
-  let id = select ? select.value : null;
-  if (id) { 
-    S.beats = S.beats.filter(function(b) { return b.id !== id; }); 
-    persist(); 
-    renderAdmin(); 
-    toast('Бит удалён'); 
-  } 
-}
-function adminDeleteDrumkit() { 
-  let select = document.getElementById('admin-dk-select');
-  let id = select ? select.value : null;
-  if (id) { 
-    S.drumkits = S.drumkits.filter(function(d) { return d.id !== id; }); 
-    persist(); 
-    renderAdmin(); 
-    toast('Драмкит удалён'); 
-  } 
-}
-function adminDeleteService() { 
-  let select = document.getElementById('admin-sv-select');
-  let id = select ? select.value : null;
-  if (id) { 
-    S.services = S.services.filter(function(s) { return s.id !== id; }); 
-    persist(); 
-    renderAdmin(); 
-    toast('Услуга удалена'); 
-  } 
+  let page = document.getElementById(id);
+  if (page) page.classList.add('on'); 
 }
 
 // ==================== ПЛЕЕР ====================
-let player = { audio: null, init: function() { this.audio = new Audio(); this.audio.volume = 0.8; }, play: function(url, title, artist) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle: function() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI: function() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio && this.audio.paused ? '▶' : '⏸'; }, hide: function() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
+let player = { audio: null, init: function() { this.audio = new Audio(); this.audio.volume = 0.8; }, play: function(url, title) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle: function() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI: function() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio && this.audio.paused ? '▶' : '⏸'; }, hide: function() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
 player.init(); 
 player.audio.onplay = function() { player.updateUI(); }; 
 player.audio.onpause = function() { player.updateUI(); }; 
@@ -2156,31 +1090,6 @@ player.audio.ontimeupdate = function() {
   if (timeEl) timeEl.textContent = Math.floor(player.audio.currentTime / 60) + ':' + String(Math.floor(player.audio.currentTime % 60)).padStart(2,'0'); 
 };
 
-// ==================== ПОИСК ====================
-var searchInput = document.getElementById('s-inp');
-if (searchInput) {
-  searchInput.addEventListener('input', function(e) { 
-    let q = e.target.value.toLowerCase(); 
-    let results = []; 
-    results.push.apply(results, (S.threads || []).filter(function(t) { return t.title.toLowerCase().includes(q); }).slice(0, 3).map(function(t) { return '<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav(\'#/thread/' + t.id + '\');closeSearch()">📄 ' + esc(t.title) + '</div>'; })); 
-    results.push.apply(results, users.filter(function(u) { return u.username.toLowerCase().includes(q); }).slice(0, 3).map(function(u) { return '<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav(\'#/profile/' + u.id + '\');closeSearch()">👤 ' + esc(u.username) + '</div>'; })); 
-    let resDiv = document.getElementById('s-res');
-    if (resDiv) resDiv.innerHTML = results.length ? results.join('') : '<div class="empty">Ничего не найдено</div>'; 
-  });
-}
-
-// ==================== МОБИЛЬНАЯ НАВИГАЦИЯ ====================
-var mbBtns = document.querySelectorAll('.mb-btn');
-mbBtns.forEach(function(btn, idx) {
-  btn.addEventListener('click', function() {
-    var navMap = ['home', 'search', 'beats', 'drumkits', 'services'];
-    var pathMap = { home: '/', search: 'search', beats: '/beats', drumkits: '/drumkits', services: '/services' };
-    var action = btn.getAttribute('data-nav') || navMap[idx];
-    if (action === 'search') openSearch();
-    else nav('#' + pathMap[action]);
-  });
-});
-
 // ==================== ЗАПУСК ====================
 document.addEventListener('DOMContentLoaded', function() {
   document.body.classList.toggle('light', _theme === 'light');
@@ -2188,8 +1097,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (logo) logo.onclick = function() { nav('#/'); };
   var msgBd = document.getElementById('msg-bd');
   if (msgBd) msgBd.onclick = closeMsgPanel;
-  var searchOv = document.getElementById('search-ov');
-  if (searchOv) searchOv.onclick = function(e) { if (e.target === e.currentTarget) closeSearch(); };
   var pClose = document.getElementById('p-close');
   if (pClose) pClose.addEventListener('click', function() { player.hide(); });
   var pPbtn = document.getElementById('p-pbtn');
@@ -2198,6 +1105,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (pBar) pBar.addEventListener('click', function(e) { if (player.audio) { var rect = e.target.getBoundingClientRect(); player.audio.currentTime = ((e.clientX - rect.left) / rect.width) * player.audio.duration; } });
   var pVol = document.querySelector('.p-vol');
   if (pVol) pVol.addEventListener('input', function(e) { if (player.audio) player.audio.volume = parseFloat(e.target.value); });
+  
+  var mbBtns = document.querySelectorAll('.mb-btn');
+  for (var i = 0; i < mbBtns.length; i++) {
+    mbBtns[i].addEventListener('click', function() {
+      var action = this.getAttribute('data-nav');
+      var pathMap = { home: '/', beats: '/beats', drumkits: '/drumkits', services: '/services' };
+      nav('#' + pathMap[action]);
+    });
+  }
+  
   render();
 });
 </script>
