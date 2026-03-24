@@ -472,7 +472,7 @@ function buildHeader() {
             <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/profile');closeUmenu()">👤 Мой профиль</div>
             <div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>
             <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/bmarks');closeUmenu()">🔖 Закладки</div>
-            ${sess.isAdmin ? `<div style="padding:10px 16px;cursor:pointer" onclick="nav('#/admin');closeUmenu()">⚙ Админ-панель</div>` : ''}
+            ${isAdmin() ? `<div style="padding:10px 16px;cursor:pointer" onclick="nav('#/admin');closeUmenu()">⚙ Админ-панель</div>` : ''}
             <div style="height:1px;background:var(--border);margin:4px 0"></div>
             <div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>
           </div>
@@ -1015,7 +1015,18 @@ function renderBookmarks() { let el = document.getElementById('p-bmarks'); el.in
 
 // ==================== АДМИН ====================
 function renderAdmin() {
-  if (!sess || !isAdmin()) { document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">⛔ Доступ запрещён</div></div>`; showPage('p-admin'); return; }
+  if (!sess) {
+    document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">Войдите в аккаунт</div></div>`;
+    showPage('p-admin');
+    return;
+  }
+  
+  if (!isAdmin()) {
+    document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администраторов.</div></div>`;
+    showPage('p-admin');
+    return;
+  }
+  
   let totalReplies = Object.values(S.replies).flat().length;
   let el = document.getElementById('p-admin');
   el.innerHTML = `<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">${users.length}</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">${S.threads.length}</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">${totalReplies}</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">${S.beats.length}</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list"></div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">${S.beats.map(b => `<option value="${b.id}">${esc(b.title)} (${getUser(b.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">${S.drumkits.map(d => `<option value="${d.id}">${esc(d.title)} (${getUser(d.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">${S.services.map(s => `<option value="${s.id}">${esc(s.title)} (${getUser(s.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>`;
