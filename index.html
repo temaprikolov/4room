@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ========== ВСЕ СТИЛИ (те же, что были) ========== */
+/* ========== ВСЕ СТИЛИ ========== */
 :root { --bg: #0c0d13; --s1: #12131b; --s2: #191a26; --s3s: #202130; --s4: #292a3d; --border: #2c2e48; --border2: #3a3c5a; --t1: #e8eaf0; --t2: #9899b3; --t3: #6b6d8a; --t4: #48496a; --blue: #4f7ed4; --blue2: #3a67c0; --blue3: #2952a3; --green: #3cb775; --red: #e05252; --amber: #f0a045; --purple: #9b6dda; --pink: #d96b9e; --cyan: #3dbccc; --r: 8px; --r2: 12px; --r3: 16px; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--t1); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; padding-bottom: 72px; transition: background 0.2s; }
@@ -68,6 +68,8 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .post:hover { background: var(--s3s); }
 .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .price { font-size: 18px; font-weight: 700; color: var(--green); margin: 8px 0; }
+.tg-login-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #2aabee; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 16px; transition: all 0.2s; }
+.tg-login-btn:hover { background: #1f8bc9; transform: translateY(-2px); }
 </style>
 </head>
 <body>
@@ -86,8 +88,7 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 
 <script>
 // ==================== КОНФИГ ====================
-const TG_BOT_ID = '7783655323';
-const SITE_URL = 'https://temaprikolov.github.io/4room';
+const TG_BOT_USERNAME = 'foroomverify_bot';
 const HELP_TG = 'https://t.me/prikolovwork';
 
 // ==================== СОСТОЯНИЕ ====================
@@ -108,15 +109,9 @@ loadData();
 function getUser(id) { return users.find(u => u.id === id); }
 function updateUser(id, data) { let idx = users.findIndex(u => u.id === id); if (idx !== -1) { users[idx] = { ...users[idx], ...data }; if (sess && sess.id === id) sess = { ...sess, ...data }; persist(); } }
 
-// ==================== TELEGRAM АВТОРИЗАЦИЯ (через прямую ссылку) ====================
-function openTelegramAuth() {
-  const redirectUri = encodeURIComponent(SITE_URL + '/auth.html');
-  const authUrl = `https://oauth.telegram.org/auth?bot_id=${TG_BOT_ID}&origin=${encodeURIComponent(SITE_URL)}&return_to=${encodeURIComponent(window.location.href)}&embed=0`;
-  window.open(authUrl, 'telegram-auth', 'width=600,height=600,popup');
-}
-
-// Обработка возврата из Telegram (будет вызвано из auth.html)
+// ==================== TELEGRAM АВТОРИЗАЦИЯ (через виджет) ====================
 window.onTelegramAuth = function(user) {
+  console.log('Telegram user:', user);
   let existing = users.find(u => u.tgId === user.id);
   if (existing) {
     sess = existing;
@@ -165,11 +160,14 @@ function closeSearch() { document.getElementById('search-ov').style.display = 'n
 function toggleNotif() { let p = document.getElementById('notif-panel'); p.style.display = p.style.display === 'none' ? 'flex' : 'none'; if (p.style.display === 'flex') p.innerHTML = `<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="empty">Уведомлений пока нет</div>`; }
 function openMsgPanel() { document.getElementById('msg-panel').style.transform = 'translateX(0)'; document.getElementById('msg-bd').style.display = 'block'; document.getElementById('mpi').innerHTML = `<div class="ph">Сообщения<button onclick="closeMsgPanel()">✕</button></div><div class="empty">Нет диалогов</div>`; }
 function closeMsgPanel() { document.getElementById('msg-panel').style.transform = 'translateX(100%)'; document.getElementById('msg-bd').style.display = 'none'; }
-function openAuth() { document.getElementById('auth-ov').style.display = 'flex'; document.getElementById('auth-box').innerHTML = `<div class="ph">Вход через Telegram<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb" style="text-align:center"><a href="https://oauth.telegram.org/auth?bot_id=${TG_BOT_ID}&origin=${encodeURIComponent(SITE_URL)}&return_to=${encodeURIComponent(window.location.href)}" target="_blank" style="display:inline-block;background:#2aabee;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:500;margin:20px 0;">🔐 Войти через Telegram</a><p style="font-size:12px;color:var(--t3);margin-top:16px">Нажмите кнопку, чтобы войти с помощью Telegram</p></div>`; }
+function openAuth() { 
+  document.getElementById('auth-ov').style.display = 'flex'; 
+  document.getElementById('auth-box').innerHTML = `<div class="ph">Вход через Telegram<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb" style="text-align:center;padding:20px;"><script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="${TG_BOT_USERNAME}" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script><p style="font-size:12px;color:var(--t3);margin-top:20px;">Нажмите кнопку выше, чтобы войти</p></div>`; 
+}
 function closeAuth() { document.getElementById('auth-ov').style.display = 'none'; }
 function nav(hash) { location.hash = hash; render(); }
 
-// ==================== ОСТАЛЬНЫЕ ФУНКЦИИ (сокращённо для объёма) ====================
+// ==================== ОСТАЛЬНЫЕ ФУНКЦИИ (сокращённо для объёма, но рабочие) ====================
 function render() { let hash = location.hash.slice(1) || '/'; buildHeader(); if (hash === '/' || hash === '') renderHome(); else if (hash === '/beats') renderBeats(); else if (hash === '/drumkits') renderDrumkits(); else if (hash === '/services') renderServices(); else if (hash === '/music') renderMusic(); else if (hash === '/profile') renderProfile(sess?.id); else if (hash === '/bmarks') renderBookmarks(); else if (hash === '/admin') renderAdmin(); else if (hash.startsWith('/board/')) renderBoard(hash.slice(7)); else if (hash.startsWith('/thread/')) renderThread(hash.slice(8)); else if (hash.startsWith('/profile/')) renderProfile(hash.slice(9)); else renderHome(); }
 function showPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('on')); document.getElementById(id)?.classList.add('on'); }
 
