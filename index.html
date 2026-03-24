@@ -8,24 +8,69 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0c0d13; --s1: #12131b; --s2: #191a26; --s3s: #202130; --s4: #292a3d;
-  --border: #2c2e48; --border2: #3a3c5a; --t1: #e8eaf0; --t2: #9899b3; --t3: #6b6d8a; --t4: #48496a;
-  --blue: #4f7ed4; --blue2: #3a67c0; --blue3: #2952a3; --green: #3cb775; --red: #e05252; --amber: #f0a045;
-  --purple: #9b6dda; --pink: #d96b9e; --cyan: #3dbccc; --r: 8px; --r2: 12px; --r3: 16px;
+  --bg: #0c0d13;
+  --s1: #12131b;
+  --s2: #191a26;
+  --s3s: #202130;
+  --s4: #292a3d;
+  --border: #2c2e48;
+  --border2: #3a3c5a;
+  --t1: #e8eaf0;
+  --t2: #9899b3;
+  --t3: #6b6d8a;
+  --t4: #48496a;
+  --blue: #4f7ed4;
+  --blue2: #3a67c0;
+  --blue3: #2952a3;
+  --green: #3cb775;
+  --red: #e05252;
+  --amber: #f0a045;
+  --purple: #9b6dda;
+  --pink: #d96b9e;
+  --cyan: #3dbccc;
+  --r: 8px;
+  --r2: 12px;
+  --r3: 16px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background: var(--bg); color: var(--t1); font-family: 'Inter', sans-serif; font-size: 14px;
-  line-height: 1.5; min-height: 100vh; padding-bottom: 72px; transition: background 0.2s;
+  background: var(--bg);
+  color: var(--t1);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 72px;
+  transition: background 0.2s;
 }
-body.light { --bg: #f2f4f8; --s1: #ffffff; --s2: #eaecf2; --s3s: #d5d8e4; --s4: #c8ccda; --border: #cdd0de; --border2: #b5b9cc; --t1: #1a1b2e; --t2: #363755; --t3: #585a78; --t4: #878aaa; }
+body.light {
+  --bg: #f2f4f8;
+  --s1: #ffffff;
+  --s2: #eaecf2;
+  --s3s: #d5d8e4;
+  --s4: #c8ccda;
+  --border: #cdd0de;
+  --border2: #b5b9cc;
+  --t1: #1a1b2e;
+  --t2: #363755;
+  --t3: #585a78;
+  --t4: #878aaa;
+}
 .w, .wn { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
 .wn { max-width: 780px; }
 .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-  padding: 8px 18px; border-radius: var(--r); font-size: 14px; font-weight: 500;
-  border: 1px solid transparent; cursor: pointer; transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 18px;
+  border-radius: var(--r);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 .btn-p { background: linear-gradient(135deg, var(--blue), var(--blue3)); color: #fff; }
 .btn-p:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,126,212,.4); }
@@ -36,12 +81,20 @@ body.light { --bg: #f2f4f8; --s1: #ffffff; --s2: #eaecf2; --s3s: #d5d8e4; --s4: 
 .btn-r { background: rgba(224,82,82,0.15); border-color: var(--red); color: var(--red); }
 .btn-help { background: linear-gradient(135deg, var(--purple), var(--pink)); color: #fff; }
 input, textarea, select {
-  background: var(--s1); color: var(--t1); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 10px 12px; font-size: 14px; outline: none;
+  background: var(--s1);
+  color: var(--t1);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
 }
 input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(79,126,212,.14); }
 .card, .panel, .post, .feed, .beat-card, .drumkit-card, .service-card, .wall-post {
-  background: var(--s2); border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
 }
 .ph { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-weight: 600; }
 .pb { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -51,9 +104,17 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .pill { display: inline-flex; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(79,126,212,.15); color: var(--blue); }
 .stitle { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; }
 .toast {
-  position: fixed; bottom: 80px; right: 16px; z-index: 700;
-  background: var(--s3s); border: 1px solid var(--border2); border-radius: var(--r2);
-  padding: 12px 20px; font-size: 13px; opacity: 0; transform: translateX(110%);
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  z-index: 700;
+  background: var(--s3s);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  padding: 12px 20px;
+  font-size: 13px;
+  opacity: 0;
+  transform: translateX(110%);
   transition: all 0.24s cubic-bezier(.34,1.56,.64,1);
 }
 .toast.on { opacity: 1; transform: none; }
@@ -61,10 +122,8 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .toast-ok { border-color: var(--green); color: #a8f0c0; }
 #toasts { position: fixed; bottom: 80px; right: 16px; z-index: 700; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; overflow: hidden; flex-shrink: 0; }
-.avatar img { width: 100%; height: 100%; object-fit: cover; }
 .avatar-sm { width: 32px; height: 32px; font-size: 13px; }
 .avatar-lg { width: 100px; height: 100px; font-size: 28px; }
-/* Рамки аватара */
 .avatar-frame-default { box-shadow: none; }
 .avatar-frame-gradient { box-shadow: 0 0 0 3px var(--blue), 0 0 0 6px var(--purple); }
 .avatar-frame-neon { box-shadow: 0 0 0 3px #fff, 0 0 15px 5px var(--blue); }
@@ -73,10 +132,8 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .avatar-frame-gold { box-shadow: 0 0 0 3px #ffd700, 0 0 15px 8px #ffb347; }
 .avatar-frame-rainbow { animation: rainbow 3s infinite; box-shadow: 0 0 0 4px red; }
 @keyframes rainbow { 0% { box-shadow: 0 0 0 4px red; } 17% { box-shadow: 0 0 0 4px orange; } 33% { box-shadow: 0 0 0 4px yellow; } 50% { box-shadow: 0 0 0 4px green; } 67% { box-shadow: 0 0 0 4px blue; } 83% { box-shadow: 0 0 0 4px indigo; } 100% { box-shadow: 0 0 0 4px violet; } }
-/* Шапка профиля */
 .profile-header-bg { width: 100%; height: 160px; background-size: cover; background-position: center; background-color: var(--s3s); border-radius: var(--r2) var(--r2) 0 0; position: relative; }
 .profile-avatar-wrapper { position: relative; margin-top: -50px; margin-bottom: 12px; display: flex; justify-content: center; }
-/* Посты */
 .post, .wall-post { padding: 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; }
 .post:hover, .wall-post:hover { background: var(--s3s); }
 .post-header, .wall-post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
@@ -97,7 +154,6 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .comment-content { flex: 1; }
 .comment-author { font-weight: 600; font-size: 12px; cursor: pointer; }
 .comment-text { font-size: 12px; margin-top: 2px; }
-/* Сообщения */
 .conv-list { overflow-y: auto; flex: 1; }
 .conv-item { display: flex; align-items: center; gap: 10px; padding: 11px 14px; cursor: pointer; border-bottom: 1px solid rgba(44,46,72,.5); }
 .conv-item:hover { background: var(--s3s); }
@@ -108,19 +164,16 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .bubble img { max-width: 200px; max-height: 200px; border-radius: 8px; margin-top: 5px; cursor: pointer; }
 .chat-input-area { padding: 10px 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
 .chat-input-toolbar { display: flex; gap: 5px; flex-wrap: wrap; }
-/* Редактор текста */
 .text-editor { background: var(--s1); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
 .editor-toolbar { display: flex; gap: 4px; padding: 6px 8px; background: var(--s3s); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .editor-btn { background: none; border: none; color: var(--t2); cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 14px; }
 .editor-btn:hover { background: var(--s4); color: var(--t1); }
 .editor-textarea { width: 100%; min-height: 100px; padding: 10px; background: var(--s1); color: var(--t1); border: none; resize: vertical; font-family: inherit; font-size: 14px; outline: none; }
 .editor-preview { padding: 10px; min-height: 100px; background: var(--s1); border-top: 1px solid var(--border); }
-/* Эмодзи-пикер */
 .emoji-picker { position: absolute; bottom: 100%; left: 0; background: var(--s2); border: 1px solid var(--border); border-radius: var(--r2); padding: 8px; width: 280px; max-height: 200px; overflow-y: auto; z-index: 100; display: none; flex-wrap: wrap; gap: 5px; }
 .emoji-picker.open { display: flex; }
 .emoji-btn { background: none; border: none; font-size: 24px; cursor: pointer; padding: 4px; transition: transform 0.1s; }
 .emoji-btn:hover { transform: scale(1.2); }
-/* Header */
 #hdr { background: rgba(12,13,19,.96); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 300; }
 .hi { display: flex; align-items: center; height: 56px; padding: 0 20px; gap: 16px; }
 .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
@@ -146,15 +199,18 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .mb-4 { margin-bottom: 16px; }
 .gap-2 { gap: 8px; }
 .w-100 { width: 100%; }
-/* Модалки */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 1000; display: none; align-items: center; justify-content: center; }
 .modal.open { display: flex; }
 .modal-content { background: var(--s2); border-radius: var(--r3); max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
 .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-weight: 600; }
 .modal-body { padding: 16px; }
-/* Аудио плеер */
 .audio-player { display: flex; align-items: center; gap: 8px; background: var(--s3s); padding: 8px; border-radius: var(--r); margin-top: 8px; }
 .audio-player button { background: var(--blue); border: none; color: white; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; }
+.file-label { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--s3s); border: 1px dashed var(--border2); border-radius: var(--r); cursor: pointer; font-size: 12px; }
+.file-label:hover { border-color: var(--blue); color: var(--blue); }
+.frame-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.frame-preview { width: 40px; height: 40px; border-radius: 50%; background: var(--s3s); cursor: pointer; transition: transform 0.2s; }
+.frame-preview:hover { transform: scale(1.1); }
 </style>
 </head>
 <body>
@@ -208,14 +264,14 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
       <div class="stitle mt-3">Шапка профиля</div>
       <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadBannerModal()">🖼 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeBanner()">🗑 Удалить</button></div>
       <div class="stitle mt-3">Рамка аватара</div>
-      <div class="frame-buttons" style="display:flex;gap:8px;flex-wrap:wrap">
-        <div class="frame-preview avatar-frame-default" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('default')"></div>
-        <div class="frame-preview avatar-frame-gradient" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('gradient')"></div>
-        <div class="frame-preview avatar-frame-neon" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('neon')"></div>
-        <div class="frame-preview avatar-frame-fire" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('fire')"></div>
-        <div class="frame-preview avatar-frame-ice" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('ice')"></div>
-        <div class="frame-preview avatar-frame-gold" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('gold')"></div>
-        <div class="frame-preview avatar-frame-rainbow" style="width:40px;height:40px;border-radius:50%;background:var(--s3s);cursor:pointer" onclick="setAvatarFrame('rainbow')"></div>
+      <div class="frame-buttons">
+        <div class="frame-preview avatar-frame-default" onclick="setAvatarFrame('default')"></div>
+        <div class="frame-preview avatar-frame-gradient" onclick="setAvatarFrame('gradient')"></div>
+        <div class="frame-preview avatar-frame-neon" onclick="setAvatarFrame('neon')"></div>
+        <div class="frame-preview avatar-frame-fire" onclick="setAvatarFrame('fire')"></div>
+        <div class="frame-preview avatar-frame-ice" onclick="setAvatarFrame('ice')"></div>
+        <div class="frame-preview avatar-frame-gold" onclick="setAvatarFrame('gold')"></div>
+        <div class="frame-preview avatar-frame-rainbow" onclick="setAvatarFrame('rainbow')"></div>
       </div>
       <div class="stitle mt-3">Настройки приватности</div>
       <div class="flex justify-between"><span>Кто может писать на стене:</span><select id="privacy-wall"><option>all</option><option>friends</option><option>none</option></select></div>
@@ -256,14 +312,6 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 <script>
 // ==================== КОНФИГ ====================
 const HELP_TG = 'https://t.me/prikolovwork';
-const EMOJIS = {
-  smileys: ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','☠️','👽','👾','🤖','🎃','😺','😸','😹','😻','😼','😽','🙀','😿','😾'],
-  gestures: ['👋','🤚','🖐','✋','🖖','👌','🤌','🤏','✌️','🤞','🤟','🤘','🤙','👈','👉','👆','🖕','👇','☝️','👍','👎','👊','✊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦵','🦿','🦶','👂','🦻','👃','🧠','🦷','🦴','👀','👁','👅','👄'],
-  food: ['🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶','🫑','🌽','🥕','🫒','🧄','🧅','🥔','🍠','🥐','🥯','🍞','🥖','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🥩','🍗','🍖','🦴','🌭','🍔','🍟','🍕','🫓','🥪','🥙','🧆','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','🦪','🍤','🍙','🍚','🍘','🍥','🥠','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🍼','☕','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊'],
-  activities: ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','⛸','🥌','🎿','⛷','🏂','🪂','🏋️','🤼','🤸','🤺','🤾','🏌️','🏇','🧘','🏄','🏊','🤽','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖','🏵','🎗','🎫','🎟','🎪','🤹','🎭','🎨','🎬','🎤','🎧','🎼','🎹','🥁','🎷','🎺','🎸','🪕','🎻','🎲','♟','🎯','🎳','🎮','🎰'],
-  objects: ['⌚','📱','📲','💻','⌨️','🖥','🖨','🖱','🖲','🕹','🗜','💽','💾','💿','📀','📼','📷','📸','📹','🎥','📽','🎞','📞','☎️','📟','📠','📺','📻','🎙','🎚','🎛','🧭','⏱','⏲','⏰','🕰','⌛','⏳','📡','🔋','🔌','💡','🔦','🕯','🪔','🧯','🛢','💸','💵','💴','💶','💷','💰','💳','💎','⚖️','🧰','🔧','🔨','⚒','🛠','⛏','🔩','⚙','🧱','⛓','🧲','🔫','💣','🧨','🪓','🔪','🗡','⚔','🛡','🚬','⚰','🪦','🏺','🔮','📿','🧿','💈','⚗','🔭','🔬','🕳','💊','💉','🩸','🩹','🩺','🧬','🦠','🧫','🧪','🌡','🧹','🧺','🧻','🚽','🚰','🚿','🛁','🛀','🧼','🪒','🧴','🪣','🧽','🧴','🪠','🧹','🧺','🧻','🧼','🪒','🔑','🗝','🚪','🪑','🚽','🚰','🚿','🛁','🛀','🪞','🪟','🛏','🛋','🧸','🖼','🎨','🧵','🪡','🧶','🪢','🎈','🎉','🎊','🎎','🎏','🎐','🎀','🎁','🎃','🪅','🪆','🎄','🕎','✡','🔯','🕉','☸','☮','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','⛎','🔀','🔁','🔂','▶','⏩','⏭','⏯','◀','⏪','⏮','🔼','⏫','🔽','⏬','⏸','⏹','⏺','⏏','🎦','🔅','🔆','📶','📳','📴','♻','🏧','🚮','🚰','♿','🚹','🚺','🚻','🚼','🚾','🛂','🛃','🛄','🛅','⚠','🚸','⛔','🚫','🚳','🚭','🚯','🚱','🚷','📵','🔞','☢','☣','⬆','↗','➡','↘','⬇','↙','⬅','↖','↕','↔','↩','↪','⤴','⤵','🔃','🔄','🔙','🔚','🔛','🔜','🔝','🛐','⚛','🕉','✡','🔯','🕎','☸','☮','🏳','🏴','🏁','🚩','🏳️‍🌈','🏳️‍⚧️','🏴‍☠️'],
-  symbols: ['❤','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣','💕','💞','💓','💗','💖','💘','💝','💟','☮','✝','☪','🕉','☸','✡','🔯','🕎','☯','☦','🛐','⛎','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','🆔','⚛','🉑','☢','☣','📴','📳','🈶','🈚','🈸','🈺','🈷','✴','🆚','💮','🉐','㊙','㊗','🈴','🈵','🈹','🈲','🅰','🅱','🆎','🆑','🅾','🆘','❌','⭕','🛑','⛔','📛','🚫','💯','💢','♨','🚷','🚯','🚳','🚱','🔞','📵','🚭','❗','❕','❓','❔','‼','⁉','🔅','🔆','〽','⚠','🚸','🔱','⚜','🔰','♻','✅','🈯','💹','❇','✳','❎','🌐','💠','Ⓜ','🌀','💤','🏧','🚾','♿','🅿','🈳','🈂','🛂','🛃','🛄','🛅','🚹','🚺','🚼','🚻','🚮','🎦','📶','🈁','🔣','ℹ','🔤','🔡','🔠','🆖','🆗','🆙','🆒','🆕','🆓','0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟','🔢','#️⃣','*️⃣','⏏','▶','⏸','⏯','⏹','⏺','⏭','⏮','⏩','⏪','⏫','⏬','◀','🔼','🔽','➡','⬅','⬆','⬇','↗','↘','↙','↖','↕','↔','🔄','↪','↩','⤴','⤵','🔀','🔁','🔂','🎵','🎶','➕','➖','➗','✖','♾','💲','💱','™','©','®','👁‍🗨','🔚','🔙','🔛','🔝','🔜','☑','🔘','⚪','⚫','🔴','🔵','🟠','🟡','🟢','🟣','🟤','🔻','🔺','🔸','🔹','🔶','🔷','🔳','🔲','▪','▫','◾','◽','◼','◻','⬛','⬜','🟥','🟧','🟨','🟩','🟦','🟪','🟫','🔈','🔇','🔉','🔊','🔔','🔕','📣','📢','💬','💭','🗯','♠','♣','♥','♦','🃏','🎴','🀄','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚','🕛','🕜','🕝','🕞','🕟','🕠','🕡','🕢','🕣','🕤','🕥','🕦','🕧']
-};
 
 // ==================== СОСТОЯНИЕ ====================
 let S = { 
@@ -301,16 +349,19 @@ function persist() {
   localStorage.setItem('4r_registrations', JSON.stringify(registrations)); 
   localStorage.setItem('4r_session', JSON.stringify(sess)); 
 }
-function loadData() { let d = localStorage.getItem('4r_data'); if (d) try { let p = JSON.parse(d); Object.assign(S, p); if (!S.reactions) S.reactions = {}; if (!S.notifications) S.notifications = []; } catch(e) {} }
+function loadData() { let d = localStorage.getItem('4r_data'); if (d) try { let p = JSON.parse(d); Object.assign(S, p); if (!S.reactions) S.reactions = {}; if (!S.notifications) S.notifications = {}; } catch(e) {} }
 loadData();
 
 function getUser(id) { return users.find(u => u.id === id); }
 function updateUser(id, data) { let idx = users.findIndex(u => u.id === id); if (idx !== -1) { users[idx] = { ...users[idx], ...data }; if (sess && sess.id === id) sess = { ...sess, ...data }; persist(); } }
-function isAdmin() { return sess && sess.isAdmin; }
+function isAdmin() { return sess && sess.isAdmin === true; }
 function canModerate(targetUid) { return isAdmin() || (sess && sess.id === targetUid); }
 
+// ==================== ЭМОДЗИ ====================
+const EMOJIS_LIST = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','☠️','👽','👾','🤖','🎃','❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','👍','👎','👊','✊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦵','🦶','👂','👃','🧠','🦷','🦴','👀','👁️','👅','👄'];
+
 // ==================== РЕДАКТОР ТЕКСТА ====================
-function formatText(textareaId, tag, openTag, closeTag) {
+function formatText(textareaId, openTag, closeTag) {
   let textarea = document.getElementById(textareaId);
   if (!textarea) return;
   let start = textarea.selectionStart;
@@ -361,22 +412,12 @@ function showEmojiPicker(textareaId, btn) {
   if (existing) existing.remove();
   let picker = document.createElement('div');
   picker.className = 'emoji-picker';
-  let categories = [
-    { name: '😊', emojis: EMOJIS.smileys.slice(0, 50) },
-    { name: '👋', emojis: EMOJIS.gestures.slice(0, 30) },
-    { name: '🍕', emojis: EMOJIS.food.slice(0, 30) },
-    { name: '⚽', emojis: EMOJIS.activities.slice(0, 30) },
-    { name: '💻', emojis: EMOJIS.objects.slice(0, 40) },
-    { name: '❤️', emojis: EMOJIS.symbols.slice(0, 40) }
-  ];
-  categories.forEach(cat => {
-    cat.emojis.forEach(emoji => {
-      let btn = document.createElement('button');
-      btn.textContent = emoji;
-      btn.className = 'emoji-btn';
-      btn.onclick = () => { insertEmoji(textareaId, emoji); picker.remove(); };
-      picker.appendChild(btn);
-    });
+  EMOJIS_LIST.slice(0, 80).forEach(emoji => {
+    let btnEmoji = document.createElement('button');
+    btnEmoji.textContent = emoji;
+    btnEmoji.className = 'emoji-btn';
+    btnEmoji.onclick = () => { insertEmoji(textareaId, emoji); picker.remove(); };
+    picker.appendChild(btnEmoji);
   });
   let rect = btn.getBoundingClientRect();
   picker.style.position = 'absolute';
@@ -392,6 +433,19 @@ function showEmojiPicker(textareaId, btn) {
       document.removeEventListener('click', closePicker);
     }
   });
+}
+function formatMessageContent(content) {
+  if (!content) return '';
+  let text = esc(content);
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
+  text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+  text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
+  if (content.startsWith('data:image')) {
+    text = `<img src="${content}" style="max-width:200px;max-height:200px;border-radius:8px">`;
+  }
+  return text;
 }
 
 // ==================== РЕГИСТРАЦИЯ ====================
@@ -548,11 +602,11 @@ function renderChatView(conv) {
       <div class="chat-input-toolbar">
         <button class="editor-btn" onclick="showEmojiPicker('chat-in', this)">😀</button>
         <button class="editor-btn" onclick="sendImage()">🖼️</button>
-        <button class="editor-btn" onclick="formatText('chat-in', 'bold', '**', '**')"><b>B</b></button>
-        <button class="editor-btn" onclick="formatText('chat-in', 'italic', '*', '*')"><i>I</i></button>
-        <button class="editor-btn" onclick="formatText('chat-in', 'strike', '~~', '~~')"><s>S</s></button>
-        <button class="editor-btn" onclick="formatText('chat-in', 'code', '`', '`')"><code>{ }</code></button>
-        <button class="editor-btn" onclick="formatText('chat-in', 'quote', '> ', '')">"</button>
+        <button class="editor-btn" onclick="formatText('chat-in', '**', '**')"><b>B</b></button>
+        <button class="editor-btn" onclick="formatText('chat-in', '*', '*')"><i>I</i></button>
+        <button class="editor-btn" onclick="formatText('chat-in', '~~', '~~')"><s>S</s></button>
+        <button class="editor-btn" onclick="formatText('chat-in', '`', '`')"><code>{ }</code></button>
+        <button class="editor-btn" onclick="formatText('chat-in', '> ', '')">"</button>
       </div>
       <div class="text-editor">
         <textarea id="chat-in" class="editor-textarea" placeholder="Сообщение..." onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendMsg()}" oninput="updatePreview('chat-in')"></textarea>
@@ -561,19 +615,6 @@ function renderChatView(conv) {
       <div class="flex justify-between"><button class="btn btn-g btn-sm" onclick="toggleEditorMode('chat-in')">📄 Предпросмотр</button><button class="btn btn-p btn-sm" onclick="sendMsg()">→ Отправить</button></div>
     </div>`;
   setTimeout(() => { let el = document.getElementById('chat-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
-}
-function formatMessageContent(content) {
-  if (!content) return '';
-  let text = esc(content);
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
-  text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-  text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
-  if (content.startsWith('data:image')) {
-    text = `<img src="${content}" style="max-width:200px;max-height:200px;border-radius:8px">`;
-  }
-  return text;
 }
 function openConv(id) { _activeConv = id; renderMsgPanel(); }
 function sendMsg() {
@@ -880,7 +921,7 @@ function renderProfile(uid) {
   let badgeNames = { early: '🌱 Ранний', verified: '✓ Верифицирован', admin: '👑 Админ', popular: '⭐ Популярный', pro: '🎧 Профессионал', gold: '🏆 Золотой' };
   let posts = S.wallPosts[uid] || [];
   let el = document.getElementById('p-profile');
-  el.innerHTML = `<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ${user.bannerBase64 ? `url(${user.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))'}"></div><div class="profile-avatar-wrapper">${getAvatarHTML(user, 100)}</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">${esc(user.username)}</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">${(user.badges || []).map(b => `<span class="pill">${badgeNames[b] || b}</span>`).join('')}</div><div style="color:var(--t3);margin:12px 0">${esc(user.bio || 'Нет описания')}</div><div class="stats" style="display:flex;justify-content:center;gap:24px;margin:16px 0"><div><div style="font-weight:700">${posts.length}</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">${user.followers?.length || 0}</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">${user.friends?.length || 0}</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>${sess && sess.id !== user.id ? `<div class="actions"><button class="btn btn-p" onclick="startDM('${user.id}', 'Привет!')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend('${user.id}')" style="margin-left:12px">${(user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья'}</button><button class="btn btn-d" onclick="toggleFollow('${user.id}')" style="margin-left:12px">${(user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться'}</button></div>` : ''}</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">${canWrite && sess ? `<div class="text-editor"><div class="editor-toolbar"><button class="editor-btn" onclick="showEmojiPicker('wall-post-content', this)">😀</button><button class="editor-btn" onclick="formatText('wall-post-content', 'bold', '**', '**')"><b>B</b></button><button class="editor-btn" onclick="formatText('wall-post-content', 'italic', '*', '*')"><i>I</i></button><button class="editor-btn" onclick="formatText('wall-post-content', 'strike', '~~', '~~')"><s>S</s></button><button class="editor-btn" onclick="formatText('wall-post-content', 'code', '`', '`')"><code>{ }</code></button><button class="editor-btn" onclick="formatText('wall-post-content', 'quote', '> ', '')">"</button><button class="editor-btn" onclick="toggleEditorMode('wall-post-content')">📄</button></div><textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" oninput="updatePreview('wall-post-content')"></textarea><div id="preview-wall-post-content" class="editor-preview" style="display:none"></div></div><div class="pf"><button class="btn btn-p" onclick="createWallPost('${uid}', document.getElementById('wall-post-content').value)">Опубликовать</button></div>` : ''}<div id="wall-posts">${posts.map(p => renderWallPost(p, uid)).join('') || '<div class="empty">Нет записей на стене</div>'}</div></div></div></div>`;
+  el.innerHTML = `<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ${user.bannerBase64 ? `url(${user.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))'}"></div><div class="profile-avatar-wrapper">${getAvatarHTML(user, 100)}</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">${esc(user.username)}</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">${(user.badges || []).map(b => `<span class="pill">${badgeNames[b] || b}</span>`).join('')}</div><div style="color:var(--t3);margin:12px 0">${esc(user.bio || 'Нет описания')}</div><div class="stats" style="display:flex;justify-content:center;gap:24px;margin:16px 0"><div><div style="font-weight:700">${posts.length}</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">${user.followers?.length || 0}</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">${user.friends?.length || 0}</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>${sess && sess.id !== user.id ? `<div class="actions"><button class="btn btn-p" onclick="startDM('${user.id}', 'Привет!')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend('${user.id}')" style="margin-left:12px">${(user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья'}</button><button class="btn btn-d" onclick="toggleFollow('${user.id}')" style="margin-left:12px">${(user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться'}</button></div>` : ''}</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">${canWrite && sess ? `<div class="text-editor"><div class="editor-toolbar"><button class="editor-btn" onclick="showEmojiPicker('wall-post-content', this)">😀</button><button class="editor-btn" onclick="formatText('wall-post-content', '**', '**')"><b>B</b></button><button class="editor-btn" onclick="formatText('wall-post-content', '*', '*')"><i>I</i></button><button class="editor-btn" onclick="formatText('wall-post-content', '~~', '~~')"><s>S</s></button><button class="editor-btn" onclick="formatText('wall-post-content', '`', '`')"><code>{ }</code></button><button class="editor-btn" onclick="formatText('wall-post-content', '> ', '')">"</button><button class="editor-btn" onclick="toggleEditorMode('wall-post-content')">📄</button></div><textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" oninput="updatePreview('wall-post-content')"></textarea><div id="preview-wall-post-content" class="editor-preview" style="display:none"></div></div><div class="pf"><button class="btn btn-p" onclick="createWallPost('${uid}', document.getElementById('wall-post-content').value)">Опубликовать</button></div>` : ''}<div id="wall-posts">${posts.map(p => renderWallPost(p, uid)).join('') || '<div class="empty">Нет записей на стене</div>'}</div></div></div></div>`;
   showPage('p-profile');
 }
 function renderWallPost(post, targetUid) {
@@ -892,7 +933,6 @@ function renderWallPost(post, targetUid) {
   if (!S.postViews[post.id]) S.postViews[post.id] = 0;
   setTimeout(() => { if (document.getElementById(`post-${post.id}`)) { S.postViews[post.id]++; persist(); } }, 1000);
   let authorAvatar = author ? getAvatarHTML(author, 32) : `<div class="avatar avatar-sm">${post.author?.[0]?.toUpperCase() || '?'}</div>`;
-  let authorBanner = author?.bannerBase64 ? `url(${author.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))';
   return `<div class="wall-post" id="post-${post.id}"><div class="wall-post-header"><div onclick="nav('#/profile/${post.uid}')" style="cursor:pointer">${authorAvatar}</div><div><div class="wall-post-author" onclick="nav('#/profile/${post.uid}')">${esc(post.author)}</div><div class="wall-post-time">${relTime(post.createdAt)} · 👁️ ${S.postViews[post.id] || 0}</div></div>${isOwner ? `<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost('${post.id}', '${targetUid}')">🗑</button></div>` : ''}</div><div class="wall-post-content">${formatMessageContent(post.content)}</div>${post.repost ? `<div class="repost-origin">🔁 Репост от ${esc(post.repost.originalAuthor)}: ${formatMessageContent(post.repost.originalContent?.slice(0, 100))}</div>` : ''}<div class="reactions"><div class="reaction-buttons">${['❤️', '👍', '😂', '😮', '😢'].map(e => `<button class="reaction-btn ${reactions[e]?.includes(sess?.id) ? 'active' : ''}" onclick="addReaction('${post.id}', '${e}', '${targetUid}')">${e}<span class="reaction-count">${reactions[e]?.length || 0}</span></button>`).join('')}</div>${reactionCount > 0 ? `<div class="reaction-list">${Object.entries(reactions).map(([e, uids]) => uids.length ? `${e} ${uids.slice(0, 3).map(uid => getUser(uid)?.username).join(', ')}${uids.length > 3 ? ` +${uids.length-3}` : ''}` : '').filter(Boolean).join(' · ')}</div>` : ''}</div><div class="post-actions"><button class="post-action" onclick="toggleComments('${post.id}')">💬 ${comments.length}</button><button class="post-action" onclick="openRepostModal('${post.id}', '${esc(post.author)}', '${esc(post.content).replace(/'/g, "\\'")}')">🔁 Репост</button></div><div class="comments-section" id="comments-${post.id}" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-${post.id}" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment('${post.id}', '${targetUid}', document.getElementById('comment-input-${post.id}').value)">→</button></div>${comments.map(c => `<div class="comment"><div class="comment-avatar" onclick="nav('#/profile/${c.uid}')">${c.author?.[0]?.toUpperCase() || '?'}</div><div class="comment-content"><div class="comment-author" onclick="nav('#/profile/${c.uid}')">${esc(c.author)}</div><div class="comment-text">${formatMessageContent(c.content)}</div><div class="comment-time">${relTime(c.createdAt)}</div></div>${canModerate(c.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteComment('${post.id}', '${c.id}')">🗑</button>` : ''}</div>`).join('')}</div></div>`;
 }
 function toggleComments(postId) { let el = document.getElementById(`comments-${postId}`); if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
@@ -1020,13 +1060,11 @@ function renderAdmin() {
     showPage('p-admin');
     return;
   }
-  
   if (!isAdmin()) {
     document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администраторов.</div></div>`;
     showPage('p-admin');
     return;
   }
-  
   let totalReplies = Object.values(S.replies).flat().length;
   let el = document.getElementById('p-admin');
   el.innerHTML = `<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">${users.length}</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">${S.threads.length}</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">${totalReplies}</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">${S.beats.length}</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list"></div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">${S.beats.map(b => `<option value="${b.id}">${esc(b.title)} (${getUser(b.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">${S.drumkits.map(d => `<option value="${d.id}">${esc(d.title)} (${getUser(d.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">${S.services.map(s => `<option value="${s.id}">${esc(s.title)} (${getUser(s.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>`;
