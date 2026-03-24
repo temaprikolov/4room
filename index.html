@@ -1086,6 +1086,7 @@ let _selectedGroupUsers = [];
 // ==================== УТИЛИТЫ ====================
 function toast(msg, isErr) {
   let box = document.getElementById('toasts');
+  if (!box) return;
   let el = document.createElement('div');
   el.className = 'toast' + (isErr ? ' toast-err' : ' toast-ok');
   el.textContent = msg;
@@ -1147,7 +1148,7 @@ function formatText(textareaId, openTag, closeTag) {
 }
 function updatePreview(textareaId) {
   let textarea = document.getElementById(textareaId);
-  let preview = document.getElementById(`preview-${textareaId}`);
+  let preview = document.getElementById('preview-' + textareaId);
   if (!preview) return;
   let text = textarea.value;
   text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -1158,7 +1159,7 @@ function updatePreview(textareaId) {
   preview.innerHTML = text;
 }
 function toggleEditorMode(textareaId) {
-  let preview = document.getElementById(`preview-${textareaId}`);
+  let preview = document.getElementById('preview-' + textareaId);
   let textarea = document.getElementById(textareaId);
   if (preview.style.display === 'none') {
     preview.style.display = 'block';
@@ -1187,7 +1188,7 @@ function showEmojiPicker(textareaId, btn) {
     let btnEmoji = document.createElement('button');
     btnEmoji.textContent = emoji;
     btnEmoji.className = 'emoji-btn';
-    btnEmoji.onclick = (e) => { 
+    btnEmoji.onclick = function(e) { 
       e.stopPropagation();
       insertEmoji(textareaId, emoji); 
       picker.remove(); 
@@ -1202,8 +1203,8 @@ function showEmojiPicker(textareaId, btn) {
   let parent = btn.parentElement;
   parent.style.position = 'relative';
   parent.appendChild(picker);
-  setTimeout(() => picker.classList.add('open'), 10);
-  setTimeout(() => {
+  setTimeout(function() { picker.classList.add('open'); }, 10);
+  setTimeout(function() {
     document.addEventListener('click', function closePicker(e) {
       if (!picker.contains(e.target) && e.target !== btn) {
         picker.remove();
@@ -1221,7 +1222,7 @@ function formatMessageContent(content) {
   text = text.replace(/`(.*?)`/g, '<code>$1</code>');
   text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
   if (content && content.startsWith('data:image')) {
-    text = `<img src="${content}" style="max-width:200px;max-height:200px;border-radius:8px">`;
+    text = '<img src="' + content + '" style="max-width:200px;max-height:200px;border-radius:8px">';
   }
   return text;
 }
@@ -1235,19 +1236,19 @@ function getDeviceId() {
 function canRegisterToday() {
   let deviceId = getDeviceId();
   let today = new Date().toDateString();
-  return !registrations.find(r => r.deviceId === deviceId && r.date === today);
+  return !registrations.find(function(r) { return r.deviceId === deviceId && r.date === today; });
 }
 function addRegistrationRecord() {
   let deviceId = getDeviceId();
   let today = new Date().toDateString();
-  registrations = registrations.filter(r => !(r.deviceId === deviceId && r.date === today));
-  registrations.push({ deviceId, date: today, timestamp: Date.now() });
+  registrations = registrations.filter(function(r) { return !(r.deviceId === deviceId && r.date === today); });
+  registrations.push({ deviceId: deviceId, date: today, timestamp: Date.now() });
   persist();
 }
 function register(username, password) {
   if (!username || username.length < 3) return { ok: false, err: 'Имя не менее 3 символов' };
   if (!password || password.length < 4) return { ok: false, err: 'Пароль не менее 4 символов' };
-  if (users.find(u => u.username === username)) return { ok: false, err: 'Имя занято' };
+  if (users.find(function(u) { return u.username === username; })) return { ok: false, err: 'Имя занято' };
   if (!canRegisterToday()) return { ok: false, err: 'С одного устройства можно создать только один аккаунт в день' };
   let isFirst = users.length === 0;
   let newUser = {
@@ -1266,12 +1267,12 @@ function register(username, password) {
   return { ok: true, user: newUser };
 }
 function login(username, password) {
-  let user = users.find(u => u.username === username && u.password === password);
+  let user = users.find(function(u) { return u.username === username && u.password === password; });
   if (!user) return { ok: false, err: 'Неверное имя или пароль' };
   if (user.banned) return { ok: false, err: 'Аккаунт заблокирован' };
   sess = { id: user.id, username: user.username, isAdmin: user.isAdmin, avatarBase64: user.avatarBase64 };
   persist();
-  return { ok: true, user };
+  return { ok: true, user: user };
 }
 function logout() { sess = null; persist(); buildHeader(); render(); }
 
@@ -1279,72 +1280,73 @@ function logout() { sess = null; persist(); buildHeader(); render(); }
 function buildHeader() {
   let nav = document.getElementById('hnav');
   if (nav) {
-    nav.innerHTML = `
-      <button class="hl" onclick="nav('#/board/tech')">⚙ Тех-раздел</button>
-      <button class="hl" onclick="nav('#/board/art')">◈ Арт</button>
-      <button class="hl" onclick="nav('#/board/music')">♪ Музыка</button>
-      <button class="hl" onclick="nav('#/board/shitposting')">✦ Шитпостинг</button>
-      <button class="hl" onclick="nav('#/beats')">♪ Биты</button>
-      <button class="hl" onclick="nav('#/drumkits')">🥁 Драмкиты</button>
-      <button class="hl" onclick="nav('#/services')">🛠 Услуги</button>`;
+    nav.innerHTML = 
+      '<button class="hl" onclick="nav(\'#/board/tech\')">⚙ Тех-раздел</button>' +
+      '<button class="hl" onclick="nav(\'#/board/art\')">◈ Арт</button>' +
+      '<button class="hl" onclick="nav(\'#/board/music\')">♪ Музыка</button>' +
+      '<button class="hl" onclick="nav(\'#/board/shitposting\')">✦ Шитпостинг</button>' +
+      '<button class="hl" onclick="nav(\'#/beats\')">♪ Биты</button>' +
+      '<button class="hl" onclick="nav(\'#/drumkits\')">🥁 Драмкиты</button>' +
+      '<button class="hl" onclick="nav(\'#/services\')">🛠 Услуги</button>';
   }
   let hr = document.getElementById('hr');
   if (hr) {
     if (sess) {
       let user = getUser(sess.id);
-      hr.innerHTML = `
-        <button class="ico-btn" onclick="openSearch()">🔍</button>
-        <button class="ico-btn" onclick="toggleTheme()">${_theme === 'light' ? '🌙' : '☀'}</button>
-        <button class="ico-btn" onclick="openMsgPanel()">✉</button>
-        <button class="ico-btn" onclick="toggleNotif()">🔔</button>
-        <button class="btn btn-help btn-sm" onclick="window.open('${HELP_TG}', '_blank')">❓ Помощь</button>
-        <div style="position:relative">
-          <button class="ico-btn" onclick="toggleUmenu()" style="padding:0;width:auto;">${getAvatarHTML(user, 36)}</button>
-          <div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;">
-            <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">${esc(sess.username)}</div>
-            <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/profile');closeUmenu()">👤 Мой профиль</div>
-            <div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>
-            <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/bmarks');closeUmenu()">🔖 Закладки</div>
-            ${isAdmin() ? `<div style="padding:10px 16px;cursor:pointer" onclick="nav('#/admin');closeUmenu()">⚙ Админ-панель</div>` : ''}
-            <div style="height:1px;background:var(--border);margin:4px 0"></div>
-            <div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>
-          </div>
-        </div>`;
+      hr.innerHTML = 
+        '<button class="ico-btn" onclick="openSearch()">🔍</button>' +
+        '<button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button>' +
+        '<button class="ico-btn" onclick="openMsgPanel()">✉</button>' +
+        '<button class="ico-btn" onclick="toggleNotif()">🔔</button>' +
+        '<button class="btn btn-help btn-sm" onclick="window.open(\'' + HELP_TG + '\', \'_blank\')">❓ Помощь</button>' +
+        '<div style="position:relative">' +
+          '<button class="ico-btn" onclick="toggleUmenu()" style="padding:0;width:auto;">' + getAvatarHTML(user, 36) + '</button>' +
+          '<div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;">' +
+            '<div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">' + esc(sess.username) + '</div>' +
+            '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/profile\');closeUmenu()">👤 Мой профиль</div>' +
+            '<div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>' +
+            '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/bmarks\');closeUmenu()">🔖 Закладки</div>' +
+            (isAdmin() ? '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/admin\');closeUmenu()">⚙ Админ-панель</div>' : '') +
+            '<div style="height:1px;background:var(--border);margin:4px 0"></div>' +
+            '<div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>' +
+          '</div>' +
+        '</div>';
     } else {
-      hr.innerHTML = `<button class="ico-btn" onclick="openSearch()">🔍</button><button class="ico-btn" onclick="toggleTheme()">${_theme === 'light' ? '🌙' : '☀'}</button><button class="btn btn-help btn-sm" onclick="window.open('${HELP_TG}', '_blank')">❓ Помощь</button><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button>`;
+      hr.innerHTML = '<button class="ico-btn" onclick="openSearch()">🔍</button><button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button><button class="btn btn-help btn-sm" onclick="window.open(\'' + HELP_TG + '\', \'_blank\')">❓ Помощь</button><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button>';
     }
   }
 }
 function getAvatarHTML(user, size) {
-  if (!user) return `<div class="avatar" style="width:${size}px;height:${size}px;"></div>`;
-  let frameClass = `avatar-frame-${user?.avatarFrame || 'default'}`;
-  let bgStyle = user?.avatarBase64 ? `url(${user.avatarBase64}) center/cover` : `#4f7ed4`;
-  return `<div class="avatar ${frameClass}" style="width:${size}px;height:${size}px;background:${bgStyle};display:flex;align-items:center;justify-content:center;font-weight:600;">${!user?.avatarBase64 ? (user?.username?.[0]?.toUpperCase() || '?') : ''}</div>`;
+  if (!user) return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;"></div>';
+  let frameClass = 'avatar-frame-' + (user.avatarFrame || 'default');
+  let bgStyle = user.avatarBase64 ? 'url(' + user.avatarBase64 + ') center/cover' : '#4f7ed4';
+  let letter = !user.avatarBase64 ? (user.username ? user.username[0].toUpperCase() : '?') : '';
+  return '<div class="avatar ' + frameClass + '" style="width:' + size + 'px;height:' + size + 'px;background:' + bgStyle + ';display:flex;align-items:center;justify-content:center;font-weight:600;">' + letter + '</div>';
 }
 function toggleUmenu() { let m = document.getElementById('umenu'); if (m) m.style.display = m.style.display === 'none' ? 'block' : 'none'; }
-function closeUmenu() { document.getElementById('umenu')?.style.setProperty('display', 'none'); }
+function closeUmenu() { var m = document.getElementById('umenu'); if (m) m.style.display = 'none'; }
 function toggleTheme() { _theme = _theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('4r_theme', _theme); document.body.classList.toggle('light', _theme === 'light'); buildHeader(); }
-function openSearch() { document.getElementById('search-ov').style.display = 'flex'; setTimeout(() => document.getElementById('s-inp')?.focus(), 100); }
+function openSearch() { document.getElementById('search-ov').style.display = 'flex'; setTimeout(function() { var inp = document.getElementById('s-inp'); if (inp) inp.focus(); }, 100); }
 function closeSearch() { document.getElementById('search-ov').style.display = 'none'; }
 function toggleNotif() { 
   let p = document.getElementById('notif-panel'); 
   if (p.style.display === 'flex') { p.style.display = 'none'; return; }
-  let notifs = S.notifications[sess?.id] || [];
-  p.innerHTML = `<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="pb">${notifs.length ? notifs.slice(0, 20).map(n => `<div style="padding:8px;border-bottom:1px solid var(--border)">${getNotificationText(n)}</div>`).join('') : '<div class="empty">Нет уведомлений</div>'}</div>`;
+  let notifs = S.notifications[sess ? sess.id : null] || [];
+  p.innerHTML = '<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="pb">' + (notifs.length ? notifs.slice(0, 20).map(function(n) { return '<div style="padding:8px;border-bottom:1px solid var(--border)">' + getNotificationText(n) + '</div>'; }).join('') : '<div class="empty">Нет уведомлений</div>') + '</div>';
   p.style.display = 'flex';
 }
 function getNotificationText(n) {
   let fromUser = getUser(n.fromUserId);
-  if (n.type === 'reaction') return `${fromUser?.username || 'Кто-то'} отреагировал на ваш пост`;
-  if (n.type === 'comment') return `${fromUser?.username || 'Кто-то'} прокомментировал ваш пост`;
-  if (n.type === 'repost') return `${fromUser?.username || 'Кто-то'} сделал репост вашего поста`;
-  if (n.type === 'message') return `Новое сообщение от ${fromUser?.username || 'Кого-то'}`;
-  return `Новое уведомление`;
+  if (n.type === 'reaction') return (fromUser ? fromUser.username : 'Кто-то') + ' отреагировал на ваш пост';
+  if (n.type === 'comment') return (fromUser ? fromUser.username : 'Кто-то') + ' прокомментировал ваш пост';
+  if (n.type === 'repost') return (fromUser ? fromUser.username : 'Кто-то') + ' сделал репост вашего поста';
+  if (n.type === 'message') return 'Новое сообщение от ' + (fromUser ? fromUser.username : 'Кого-то');
+  return 'Новое уведомление';
 }
 function addNotification(userId, type, fromUserId, postId) {
   if (!userId) return;
   if (!S.notifications[userId]) S.notifications[userId] = [];
-  S.notifications[userId].unshift({ id: mkId(), type, fromUserId, postId, createdAt: Date.now(), read: false });
+  S.notifications[userId].unshift({ id: mkId(), type: type, fromUserId: fromUserId, postId: postId, createdAt: Date.now(), read: false });
   if (S.notifications[userId].length > 100) S.notifications[userId] = S.notifications[userId].slice(0, 100);
   persist();
 }
@@ -1362,10 +1364,10 @@ function closeMsgPanel() {
 }
 function renderMsgPanel() {
   if (!sess) { document.getElementById('mpi').innerHTML = '<div class="ph">Сообщения<div><button onclick="closeMsgPanel()">✕</button></div></div><div class="empty">Войдите чтобы видеть сообщения</div>'; return; }
-  let convs = S.convs.filter(c => c.participants?.includes(sess?.id));
-  let html = `<div class="ph">Сообщения<div class="flex"><input id="conv-search" type="text" placeholder="Поиск..." style="width:120px;padding:4px 8px;" oninput="filterConvs()"><button class="btn btn-xs btn-p" onclick="openGroupModal()" style="margin-left:5px">+ Группа</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div><div id="conv-list" class="conv-list">${convs.map(c => `<div class="conv-item" onclick="openConv('${c.id}')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">${c.type === 'group' ? '👥' : '💬'}</div><div><div class="conv-name">${esc(c.name || (c.type === 'group' ? 'Группа' : getUser(c.participants?.find(p => p !== sess?.id))?.username || 'Диалог'))}</div></div></div>`).join('') || '<div class="empty">Нет диалогов</div>'}</div>`;
+  let convs = S.convs.filter(function(c) { return c.participants && c.participants.includes(sess.id); });
+  let html = '<div class="ph">Сообщения<div class="flex"><input id="conv-search" type="text" placeholder="Поиск..." style="width:120px;padding:4px 8px;" oninput="filterConvs()"><button class="btn btn-xs btn-p" onclick="openGroupModal()" style="margin-left:5px">+ Группа</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div><div id="conv-list" class="conv-list">' + convs.map(function(c) { return '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">' + (c.type === 'group' ? '👥' : '💬') + '</div><div><div class="conv-name">' + esc(c.name || (c.type === 'group' ? 'Группа' : (getUser(c.participants.find(function(p) { return p !== sess.id; })) ? getUser(c.participants.find(function(p) { return p !== sess.id; })).username : 'Диалог'))) + '</div></div></div>'; }).join('') || '<div class="empty">Нет диалогов</div>' + '</div>';
   if (_activeConv) { 
-    let conv = convs.find(c => c.id === _activeConv);
+    let conv = convs.find(function(c) { return c.id === _activeConv; });
     if (conv) renderChatView(conv);
     else { _activeConv = null; renderMsgPanel(); }
     return; 
@@ -1374,46 +1376,50 @@ function renderMsgPanel() {
 }
 function filterConvs() {
   if (!sess) return;
-  let query = document.getElementById('conv-search')?.value.toLowerCase();
-  let convs = S.convs.filter(c => c.participants?.includes(sess?.id));
-  let filtered = convs.filter(c => {
-    let name = c.name || (c.type === 'group' ? 'Группа' : getUser(c.participants?.find(p => p !== sess?.id))?.username || 'Диалог');
+  let query = document.getElementById('conv-search') ? document.getElementById('conv-search').value.toLowerCase() : '';
+  let convs = S.convs.filter(function(c) { return c.participants && c.participants.includes(sess.id); });
+  let filtered = convs.filter(function(c) {
+    let name = c.name || (c.type === 'group' ? 'Группа' : (getUser(c.participants.find(function(p) { return p !== sess.id; })) ? getUser(c.participants.find(function(p) { return p !== sess.id; })).username : 'Диалог'));
     return name.toLowerCase().includes(query || '');
   });
-  document.getElementById('conv-list').innerHTML = filtered.map(c => `<div class="conv-item" onclick="openConv('${c.id}')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">${c.type === 'group' ? '👥' : '💬'}</div><div><div class="conv-name">${esc(c.name || (c.type === 'group' ? 'Группа' : getUser(c.participants?.find(p => p !== sess?.id))?.username || 'Диалог'))}</div></div></div>`).join('') || '<div class="empty">Ничего не найдено</div>';
+  let listDiv = document.getElementById('conv-list');
+  if (listDiv) {
+    listDiv.innerHTML = filtered.map(function(c) { return '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">' + (c.type === 'group' ? '👥' : '💬') + '</div><div><div class="conv-name">' + esc(c.name || (c.type === 'group' ? 'Группа' : (getUser(c.participants.find(function(p) { return p !== sess.id; })) ? getUser(c.participants.find(function(p) { return p !== sess.id; })).username : 'Диалог'))) + '</div></div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
+  }
 }
 function renderChatView(conv) {
   if (!conv) { _activeConv = null; renderMsgPanel(); return; }
-  let otherId = conv.participants?.find(p => p !== sess?.id);
+  let otherId = conv.participants ? conv.participants.find(function(p) { return p !== sess.id; }) : null;
   let otherUser = getUser(otherId);
-  let msgs = (conv.messages || []).map(m => `<div class="${m.fromUid === sess?.id ? 'bubble mine' : 'bubble theirs'}">${formatMessageContent(m.content)}<div style="font-size:10px;color:var(--t4);margin-top:2px">${relTime(m.createdAt)}</div></div>`).join('');
-  document.getElementById('mpi').innerHTML = `
-    <div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>${esc(conv.name || (otherUser?.username || 'Диалог'))}<div><button class="btn btn-xs btn-d" onclick="inviteToGroup('${conv.id}')" ${conv.type !== 'group' ? 'style="display:none"' : ''}>➕</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div>
-    <div class="chat-msgs" id="chat-msgs">${msgs || '<div class="empty">Нет сообщений</div>'}</div>
-    <div class="chat-input-area">
-      <div class="chat-input-toolbar">
-        <button class="editor-btn" onclick="showEmojiPicker('chat-in', this)">😀</button>
-        <button class="editor-btn" onclick="sendImage()">🖼️</button>
-        <button class="editor-btn" onclick="formatText('chat-in', '**', '**')"><b>B</b></button>
-        <button class="editor-btn" onclick="formatText('chat-in', '*', '*')"><i>I</i></button>
-        <button class="editor-btn" onclick="formatText('chat-in', '~~', '~~')"><s>S</s></button>
-        <button class="editor-btn" onclick="formatText('chat-in', '`', '`')"><code>{ }</code></button>
-        <button class="editor-btn" onclick="formatText('chat-in', '> ', '')">"</button>
-      </div>
-      <div class="text-editor">
-        <textarea id="chat-in" class="editor-textarea" placeholder="Сообщение..." onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendMsg()}" oninput="updatePreview('chat-in')"></textarea>
-        <div id="preview-chat-in" class="editor-preview" style="display:none"></div>
-      </div>
-      <div class="flex justify-between"><button class="btn btn-g btn-sm" onclick="toggleEditorMode('chat-in')">📄 Предпросмотр</button><button class="btn btn-p btn-sm" onclick="sendMsg()">→ Отправить</button></div>
-    </div>`;
-  setTimeout(() => { let el = document.getElementById('chat-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
+  let msgs = (conv.messages || []).map(function(m) { return '<div class="' + (m.fromUid === sess.id ? 'bubble mine' : 'bubble theirs') + '">' + formatMessageContent(m.content) + '<div style="font-size:10px;color:var(--t4);margin-top:2px">' + relTime(m.createdAt) + '</div></div>'; }).join('');
+  document.getElementById('mpi').innerHTML = 
+    '<div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>' + esc(conv.name || (otherUser ? otherUser.username : 'Диалог')) + '<div><button class="btn btn-xs btn-d" onclick="inviteToGroup(\'' + conv.id + '\')" ' + (conv.type !== 'group' ? 'style="display:none"' : '') + '>➕</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div>' +
+    '<div class="chat-msgs" id="chat-msgs">' + (msgs || '<div class="empty">Нет сообщений</div>') + '</div>' +
+    '<div class="chat-input-area">' +
+      '<div class="chat-input-toolbar">' +
+        '<button class="editor-btn" onclick="showEmojiPicker(\'chat-in\', this)">😀</button>' +
+        '<button class="editor-btn" onclick="sendImage()">🖼️</button>' +
+        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'**\', \'**\')"><b>B</b></button>' +
+        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'*\', \'*\')"><i>I</i></button>' +
+        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'~~\', \'~~\')"><s>S</s></button>' +
+        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'`\', \'`\')"><code>{ }</code></button>' +
+        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'> \', \'\')">"</button>' +
+      '</div>' +
+      '<div class="text-editor">' +
+        '<textarea id="chat-in" class="editor-textarea" placeholder="Сообщение..." onkeydown="if(event.key===\'Enter\' && !event.shiftKey){event.preventDefault();sendMsg()}" oninput="updatePreview(\'chat-in\')"></textarea>' +
+        '<div id="preview-chat-in" class="editor-preview" style="display:none"></div>' +
+      '</div>' +
+      '<div class="flex justify-between"><button class="btn btn-g btn-sm" onclick="toggleEditorMode(\'chat-in\')">📄 Предпросмотр</button><button class="btn btn-p btn-sm" onclick="sendMsg()">→ Отправить</button></div>' +
+    '</div>';
+  setTimeout(function() { let el = document.getElementById('chat-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
 }
 function openConv(id) { _activeConv = id; renderMsgPanel(); }
 function sendMsg() {
   if (!sess) { toast('Войдите чтобы отправлять сообщения', true); return; }
-  let conv = S.convs.find(c => c.id === _activeConv);
+  let conv = S.convs.find(function(c) { return c.id === _activeConv; });
   if (!conv) return;
-  let text = document.getElementById('chat-in')?.value.trim();
+  let textarea = document.getElementById('chat-in');
+  let text = textarea ? textarea.value.trim() : '';
   if (!text) return;
   conv.messages = conv.messages || [];
   conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: text, createdAt: Date.now(), readBy: [sess.id] });
@@ -1421,7 +1427,7 @@ function sendMsg() {
     if (p !== sess.id) addNotification(p, 'message', sess.id, null);
   }
   persist();
-  document.getElementById('chat-in').value = '';
+  if (textarea) textarea.value = '';
   renderMsgPanel();
 }
 function sendImage() {
@@ -1429,12 +1435,12 @@ function sendImage() {
   let input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
-  input.onchange = (e) => {
+  input.onchange = function(e) {
     let file = e.target.files[0];
     if (!file) return;
     let reader = new FileReader();
-    reader.onload = (ev) => {
-      let conv = S.convs.find(c => c.id === _activeConv);
+    reader.onload = function(ev) {
+      let conv = S.convs.find(function(c) { return c.id === _activeConv; });
       if (conv) {
         conv.messages = conv.messages || [];
         conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: ev.target.result, createdAt: Date.now(), readBy: [sess.id] });
@@ -1453,7 +1459,7 @@ function startDM(userId, initialMessage) {
   if (!sess) { toast('Войдите чтобы отправить сообщение', true); return; }
   let targetUser = getUser(userId);
   if (!targetUser) return;
-  let existing = S.convs.find(c => c.type === 'dm' && c.participants?.includes(sess.id) && c.participants?.includes(userId));
+  let existing = S.convs.find(function(c) { return c.type === 'dm' && c.participants && c.participants.includes(sess.id) && c.participants.includes(userId); });
   if (existing) {
     if (initialMessage) {
       existing.messages = existing.messages || [];
@@ -1468,7 +1474,7 @@ function startDM(userId, initialMessage) {
     _activeConv = newConv.id;
   }
   openMsgPanel();
-  toast(`Чат с ${targetUser.username} открыт`);
+  toast('Чат с ' + targetUser.username + ' открыт');
 }
 function openGroupModal() { 
   if (!sess) { toast('Войдите чтобы создать групповой чат', true); return; }
@@ -1478,21 +1484,29 @@ function openGroupModal() {
 }
 function closeGroupModal() { document.getElementById('group-chat-modal').classList.remove('open'); }
 function searchUserForGroup() {
-  let q = document.getElementById('group-user-search')?.value.toLowerCase();
-  let results = users.filter(u => u.username.toLowerCase().includes(q) && !_selectedGroupUsers.includes(u.id) && u.id !== sess?.id).slice(0, 10);
-  document.getElementById('group-user-results').innerHTML = results.map(u => `<div class="conv-item" onclick="addToGroup('${u.id}', '${esc(u.username)}')"><div class="avatar avatar-sm">${u.username[0]}</div><div>${esc(u.username)}</div></div>`).join('') || '<div class="empty">Ничего не найдено</div>';
+  let q = document.getElementById('group-user-search') ? document.getElementById('group-user-search').value.toLowerCase() : '';
+  let results = users.filter(function(u) { return u.username.toLowerCase().includes(q) && !_selectedGroupUsers.includes(u.id) && u.id !== sess.id; }).slice(0, 10);
+  let resDiv = document.getElementById('group-user-results');
+  if (resDiv) {
+    resDiv.innerHTML = results.map(function(u) { return '<div class="conv-item" onclick="addToGroup(\'' + u.id + '\', \'' + esc(u.username) + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
+  }
 }
 function addToGroup(uid, name) { if (!_selectedGroupUsers.includes(uid)) { _selectedGroupUsers.push(uid); updateSelectedUsersDisplay(); searchUserForGroup(); } }
 function updateSelectedUsersDisplay() {
-  let selected = _selectedGroupUsers.filter(id => id !== sess?.id).map(id => getUser(id)).filter(u => u);
-  document.getElementById('selected-users').innerHTML = selected.map(u => `<span class="pill">${esc(u.username)} <button onclick="removeFromGroup('${u.id}')" style="background:none;border:none;color:var(--red);cursor:pointer;">✕</button></span>`).join('');
+  let selected = _selectedGroupUsers.filter(function(id) { return id !== sess.id; }).map(function(id) { return getUser(id); }).filter(function(u) { return u; });
+  let selDiv = document.getElementById('selected-users');
+  if (selDiv) {
+    selDiv.innerHTML = selected.map(function(u) { return '<span class="pill">' + esc(u.username) + ' <button onclick="removeFromGroup(\'' + u.id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;">✕</button></span>'; }).join('');
+  }
 }
-function removeFromGroup(uid) { _selectedGroupUsers = _selectedGroupUsers.filter(id => id !== uid); updateSelectedUsersDisplay(); }
+function removeFromGroup(uid) { _selectedGroupUsers = _selectedGroupUsers.filter(function(id) { return id !== uid; }); updateSelectedUsersDisplay(); }
 function createGroupChat() {
   if (!sess) return;
   if (_selectedGroupUsers.length < 2) { toast('Нужно минимум 2 участника', true); return; }
-  let name = document.getElementById('group-name')?.value.trim() || `Группа ${_selectedGroupUsers.length}`;
-  let newConv = { id: 'c' + mkId(), type: 'group', name, participants: _selectedGroupUsers, messages: [], createdAt: Date.now() };
+  let nameInput = document.getElementById('group-name');
+  let name = nameInput ? nameInput.value.trim() : '';
+  name = name || 'Группа ' + _selectedGroupUsers.length;
+  let newConv = { id: 'c' + mkId(), type: 'group', name: name, participants: _selectedGroupUsers, messages: [], createdAt: Date.now() };
   S.convs.push(newConv);
   persist();
   closeGroupModal();
@@ -1501,14 +1515,14 @@ function createGroupChat() {
   toast('Групповой чат создан!');
 }
 function inviteToGroup(convId) {
-  let conv = S.convs.find(c => c.id === convId);
+  let conv = S.convs.find(function(c) { return c.id === convId; });
   if (!conv || conv.type !== 'group') return;
   let username = prompt('Введите username пользователя для приглашения:');
-  let user = users.find(u => u.username === username);
+  let user = users.find(function(u) { return u.username === username; });
   if (user && !conv.participants.includes(user.id)) {
     conv.participants.push(user.id);
     persist();
-    toast(`${user.username} добавлен в чат`);
+    toast(user.username + ' добавлен в чат');
     renderMsgPanel();
   } else { toast('Пользователь не найден или уже в чате', true); }
 }
@@ -1516,36 +1530,36 @@ function inviteToGroup(convId) {
 // ==================== АВТОРИЗАЦИЯ ====================
 function openAuth() { 
   document.getElementById('auth-ov').style.display = 'flex'; 
-  document.getElementById('auth-box').innerHTML = `<div class="ph">Вход<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="login-username" type="text" placeholder="Имя пользователя"><input id="login-password" type="password" placeholder="Пароль"><div id="login-error" class="error-text"></div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doLogin()">Войти</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Нет аккаунта?</p><button class="btn btn-d" onclick="openReg()">Регистрация</button></div>`; 
+  document.getElementById('auth-box').innerHTML = '<div class="ph">Вход<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="login-username" type="text" placeholder="Имя пользователя"><input id="login-password" type="password" placeholder="Пароль"><div id="login-error" class="error-text"></div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doLogin()">Войти</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Нет аккаунта?</p><button class="btn btn-d" onclick="openReg()">Регистрация</button></div>'; 
 }
 function openReg() {
   let canReg = canRegisterToday();
   document.getElementById('auth-ov').style.display = 'flex'; 
-  document.getElementById('auth-box').innerHTML = `<div class="ph">Регистрация<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="reg-username" type="text" placeholder="Имя пользователя (мин 3 символа)"><input id="reg-password" type="password" placeholder="Пароль (мин 4 символа)"><input id="reg-password2" type="password" placeholder="Повторите пароль"><div id="reg-error" class="error-text">${!canReg ? '⚠️ С этого устройства уже создан аккаунт сегодня. Попробуйте завтра.' : ''}</div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doRegister()" ${!canReg ? 'disabled' : ''}>Зарегистрироваться</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Уже есть аккаунт?</p><button class="btn btn-d" onclick="openAuth()">Войти</button></div>`; 
+  document.getElementById('auth-box').innerHTML = '<div class="ph">Регистрация<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="reg-username" type="text" placeholder="Имя пользователя (мин 3 символа)"><input id="reg-password" type="password" placeholder="Пароль (мин 4 символа)"><input id="reg-password2" type="password" placeholder="Повторите пароль"><div id="reg-error" class="error-text">' + (!canReg ? '⚠️ С этого устройства уже создан аккаунт сегодня. Попробуйте завтра.' : '') + '</div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doRegister()"' + (!canReg ? ' disabled' : '') + '>Зарегистрироваться</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Уже есть аккаунт?</p><button class="btn btn-d" onclick="openAuth()">Войти</button></div>'; 
 }
 function doLogin() {
-  let username = document.getElementById('login-username')?.value.trim();
-  let password = document.getElementById('login-password')?.value;
+  let username = document.getElementById('login-username') ? document.getElementById('login-username').value.trim() : '';
+  let password = document.getElementById('login-password') ? document.getElementById('login-password').value : '';
   let res = login(username, password);
-  if (!res.ok) { document.getElementById('login-error').textContent = res.err; return; }
+  if (!res.ok) { let errDiv = document.getElementById('login-error'); if (errDiv) errDiv.textContent = res.err; return; }
   closeAuth();
   buildHeader();
   render();
-  toast(`Добро пожаловать, ${username}!`);
+  toast('Добро пожаловать, ' + username + '!');
 }
 function doRegister() {
-  let username = document.getElementById('reg-username')?.value.trim();
-  let password = document.getElementById('reg-password')?.value;
-  let password2 = document.getElementById('reg-password2')?.value;
-  if (password !== password2) { document.getElementById('reg-error').textContent = 'Пароли не совпадают'; return; }
+  let username = document.getElementById('reg-username') ? document.getElementById('reg-username').value.trim() : '';
+  let password = document.getElementById('reg-password') ? document.getElementById('reg-password').value : '';
+  let password2 = document.getElementById('reg-password2') ? document.getElementById('reg-password2').value : '';
+  if (password !== password2) { let errDiv = document.getElementById('reg-error'); if (errDiv) errDiv.textContent = 'Пароли не совпадают'; return; }
   let res = register(username, password);
-  if (!res.ok) { document.getElementById('reg-error').textContent = res.err; return; }
+  if (!res.ok) { let errDiv = document.getElementById('reg-error'); if (errDiv) errDiv.textContent = res.err; return; }
   closeAuth();
   sess = { id: res.user.id, username: res.user.username, isAdmin: res.user.isAdmin, avatarBase64: res.user.avatarBase64 };
   persist();
   buildHeader();
   render();
-  toast(`Аккаунт создан! Добро пожаловать, ${username}!`);
+  toast('Аккаунт создан! Добро пожаловать, ' + username + '!');
 }
 function closeAuth() { document.getElementById('auth-ov').style.display = 'none'; }
 function nav(hash) { 
@@ -1553,7 +1567,7 @@ function nav(hash) {
   location.hash = hash; 
   render(); 
   let mbBtns = document.querySelectorAll('.mb-btn');
-  mbBtns.forEach(btn => btn.classList.remove('on'));
+  mbBtns.forEach(function(btn) { btn.classList.remove('on'); });
 }
 
 // ==================== РЕНДЕР ====================
@@ -1565,7 +1579,7 @@ function render() {
   else if (hash === '/drumkits') renderDrumkits();
   else if (hash === '/services') renderServices();
   else if (hash === '/music') renderMusic();
-  else if (hash === '/profile') renderProfile(sess?.id);
+  else if (hash === '/profile') renderProfile(sess ? sess.id : null);
   else if (hash === '/bmarks') renderBookmarks();
   else if (hash === '/admin' && isAdmin()) renderAdmin();
   else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
@@ -1574,7 +1588,7 @@ function render() {
   else renderHome();
 }
 function showPage(id) { 
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('on')); 
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('on'); }); 
   let page = document.getElementById(id);
   if (page) page.classList.add('on'); 
 }
@@ -1582,27 +1596,27 @@ function showPage(id) {
 // ==================== HOME ====================
 function renderHome() {
   let el = document.getElementById('p-home');
-  let threads = (S.threads || []).slice().sort((a,b) => b.lastActivity - a.lastActivity).slice(0, 20);
-  el.innerHTML = `<div class="w"><div class="feed">${threads.map(th => `<div class="post" onclick="nav('#/thread/${th.id}')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">${th.op?.author?.[0]?.toUpperCase() || '?'}</div><div><div class="post-author">${esc(th.op?.author || 'Аноним')}</div><div class="post-time">${relTime(th.lastActivity)}</div></div></div><div style="font-weight:600">${esc(th.title)}</div><div class="post-content" style="font-size:13px;color:var(--t2)">${esc(th.op?.content?.slice(0, 100) || '')}</div><div style="margin-top:8px"><span class="pill">💬 ${th.replyCount || 0} ответов</span></div></div>`).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>'}</div></div>`;
+  let threads = (S.threads || []).slice().sort(function(a,b) { return b.lastActivity - a.lastActivity; }).slice(0, 20);
+  el.innerHTML = '<div class="w"><div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div class="post-content" style="font-size:13px;color:var(--t2)">' + esc(th.op ? th.op.content.slice(0, 100) : '') + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>' + '</div></div>';
   showPage('p-home');
 }
 
 // ==================== BOARD ====================
 function renderBoard(id) {
-  let threads = (S.threads || []).filter(t => t.boardId === id);
+  let threads = (S.threads || []).filter(function(t) { return t.boardId === id; });
   let boardNames = { tech: 'Тех-раздел', art: 'Арт', music: 'Музыка', shitposting: 'Шитпостинг' };
   let el = document.getElementById('p-board');
-  el.innerHTML = `<div class="w"><h1 style="margin-bottom:20px">${boardNames[id] || id}</h1>${sess ? `<button class="btn btn-p mb-4" onclick="showNewThreadForm('${id}')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread('${id}')">Создать</button></div></div></div>` : ''}<div class="feed">${threads.map(th => `<div class="post" onclick="nav('#/thread/${th.id}')"><div class="post-header"><div class="avatar avatar-sm">${th.op?.author?.[0]?.toUpperCase() || '?'}</div><div><div class="post-author">${esc(th.op?.author || 'Аноним')}</div><div class="post-time">${relTime(th.lastActivity)}</div></div></div><div style="font-weight:600">${esc(th.title)}</div><div style="margin-top:8px"><span class="pill">💬 ${th.replyCount || 0} ответов</span></div></div>`).join('') || '<div class="empty">В этом разделе пока нет тем</div>'}</div></div>`;
+  el.innerHTML = '<div class="w"><h1 style="margin-bottom:20px">' + (boardNames[id] || id) + '</h1>' + (sess ? '<button class="btn btn-p mb-4" onclick="showNewThreadForm(\'' + id + '\')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread(\'' + id + '\')">Создать</button></div></div></div>' : '') + '<div class="feed">' + threads.map(function(th) { return '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>'; }).join('') || '<div class="empty">В этом разделе пока нет тем</div>' + '</div></div>';
   showPage('p-board');
 }
 function showNewThreadForm() { document.getElementById('new-thread-form').style.display = 'block'; }
 function hideNewThreadForm() { document.getElementById('new-thread-form').style.display = 'none'; }
 function createThread(boardId) {
   if (!sess) { toast('Войдите чтобы создать тему', true); return; }
-  let title = document.getElementById('nt-title')?.value.trim();
-  let content = document.getElementById('nt-content')?.value.trim();
+  let title = document.getElementById('nt-title') ? document.getElementById('nt-title').value.trim() : '';
+  let content = document.getElementById('nt-content') ? document.getElementById('nt-content').value.trim() : '';
   if (!title || !content) { toast('Заполните все поля', true); return; }
-  let thread = { id: 't' + mkId(), boardId, title, op: { uid: sess.id, author: sess.username, content, createdAt: Date.now() }, replyCount: 0, lastActivity: Date.now() };
+  let thread = { id: 't' + mkId(), boardId: boardId, title: title, op: { uid: sess.id, author: sess.username, content: content, createdAt: Date.now() }, replyCount: 0, lastActivity: Date.now() };
   S.threads.unshift(thread);
   persist();
   hideNewThreadForm();
@@ -1610,21 +1624,21 @@ function createThread(boardId) {
   nav('#/thread/' + thread.id);
 }
 function renderThread(id) {
-  let thread = S.threads.find(t => t.id === id);
-  if (!thread) { document.getElementById('p-thread').innerHTML = `<div class="wn"><div class="empty">Тема не найдена</div></div>`; showPage('p-thread'); return; }
+  let thread = S.threads.find(function(t) { return t.id === id; });
+  if (!thread) { document.getElementById('p-thread').innerHTML = '<div class="wn"><div class="empty">Тема не найдена</div></div>'; showPage('p-thread'); return; }
   let replies = S.replies[id] || [];
   let el = document.getElementById('p-thread');
-  el.innerHTML = `<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">${esc(thread.title)}</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">${thread.op.author?.[0]?.toUpperCase() || '?'}</div><div><div style="font-weight:500">${esc(thread.op.author)}</div><div style="font-size:12px;color:var(--t3)">${relTime(thread.op.createdAt)}</div></div></div><div style="white-space:pre-wrap;line-height:1.6">${esc(thread.op.content)}</div></div></div><div class="stitle">Ответы (${replies.length})</div>${replies.map(r => `<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">${r.author?.[0]?.toUpperCase() || '?'}</div><div><div style="font-weight:500">${esc(r.author)}</div><div style="font-size:11px;color:var(--t3)">${relTime(r.createdAt)}</div></div></div><div style="white-space:pre-wrap">${esc(r.content)}</div>${canModerate(r.uid) ? `<div class="flex justify-between mt-2"><button class="btn btn-xs btn-r" onclick="deleteReply('${id}', '${r.id}')">🗑 Удалить</button></div>` : ''}</div></div>`).join('')}${sess ? `<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply('${id}')">Отправить</button></div></div></div>` : `<div class="empty">Войдите чтобы ответить</div>`}</div>`;
+  el.innerHTML = '<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">' + esc(thread.title) + '</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">' + (thread.op.author ? thread.op.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(thread.op.author) + '</div><div style="font-size:12px;color:var(--t3)">' + relTime(thread.op.createdAt) + '</div></div></div><div style="white-space:pre-wrap;line-height:1.6">' + esc(thread.op.content) + '</div></div></div><div class="stitle">Ответы (' + replies.length + ')</div>' + replies.map(function(r) { return '<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">' + (r.author ? r.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(r.author) + '</div><div style="font-size:11px;color:var(--t3)">' + relTime(r.createdAt) + '</div></div></div><div style="white-space:pre-wrap">' + esc(r.content) + '</div>' + (canModerate(r.uid) ? '<div class="flex justify-between mt-2"><button class="btn btn-xs btn-r" onclick="deleteReply(\'' + id + '\', \'' + r.id + '\')">🗑 Удалить</button></div>' : '') + '</div></div>'; }).join('') + (sess ? '<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply(\'' + id + '\')">Отправить</button></div></div></div>' : '<div class="empty">Войдите чтобы ответить</div>') + '</div>';
   showPage('p-thread');
 }
 function addReply(threadId) {
   if (!sess) { toast('Войдите чтобы ответить', true); return; }
-  let content = document.getElementById('reply-text')?.value.trim();
+  let content = document.getElementById('reply-text') ? document.getElementById('reply-text').value.trim() : '';
   if (!content) { toast('Введите текст ответа', true); return; }
-  let reply = { id: 'r' + mkId(), uid: sess.id, author: sess.username, content, createdAt: Date.now() };
+  let reply = { id: 'r' + mkId(), uid: sess.id, author: sess.username, content: content, createdAt: Date.now() };
   if (!S.replies[threadId]) S.replies[threadId] = [];
   S.replies[threadId].push(reply);
-  let thread = S.threads.find(t => t.id === threadId);
+  let thread = S.threads.find(function(t) { return t.id === threadId; });
   if (thread) { thread.replyCount = (thread.replyCount || 0) + 1; thread.lastActivity = Date.now(); }
   persist();
   toast('Ответ добавлен!');
@@ -1632,10 +1646,10 @@ function addReply(threadId) {
 }
 function deleteReply(threadId, replyId) {
   let replies = S.replies[threadId] || [];
-  let reply = replies.find(r => r.id === replyId);
+  let reply = replies.find(function(r) { return r.id === replyId; });
   if (reply && canModerate(reply.uid)) {
-    S.replies[threadId] = replies.filter(r => r.id !== replyId);
-    let thread = S.threads.find(t => t.id === threadId);
+    S.replies[threadId] = replies.filter(function(r) { return r.id !== replyId; });
+    let thread = S.threads.find(function(t) { return t.id === threadId; });
     if (thread) thread.replyCount = Math.max(0, (thread.replyCount || 0) - 1);
     persist();
     toast('Ответ удалён');
@@ -1646,11 +1660,11 @@ function deleteReply(threadId, replyId) {
 // ==================== БИТЫ ====================
 function renderBeats() {
   let beats = S.beats || [];
-  if (_bg !== 'all') beats = beats.filter(b => (b.customGenre || b.genre) === _bg);
-  beats.sort((a,b) => _bs === 'newest' ? b.createdAt - a.createdAt : _bs === 'price_asc' ? a.price - b.price : _bs === 'price_desc' ? b.price - a.price : (b.plays||0) - (a.plays||0));
-  let genres = ['all', ...new Set(beats.map(b => b.customGenre || b.genre).filter(Boolean))];
+  if (_bg !== 'all') beats = beats.filter(function(b) { return (b.customGenre || b.genre) === _bg; });
+  beats.sort(function(a,b) { return _bs === 'newest' ? b.createdAt - a.createdAt : _bs === 'price_asc' ? a.price - b.price : _bs === 'price_desc' ? b.price - a.price : (b.plays||0) - (a.plays||0); });
+  let genres = ['all'].concat([...new Set(beats.map(function(b) { return b.customGenre || b.genre; }).filter(Boolean))]);
   let el = document.getElementById('p-beats');
-  el.innerHTML = `<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🎵 Маркетплейс битов</h1>${sess ? `<button class="btn btn-p" onclick="toggleBeatForm()">+ Продать бит</button>` : ''}</div><div id="beat-form" style="display:none" class="panel mb-4"><div class="ph">Новый бит<button class="btn btn-g btn-sm" onclick="toggleBeatForm()">✕</button></div><div class="pb"><input id="bt-title" placeholder="Название бита"><div class="g2"><input id="bt-price" type="number" placeholder="Цена (₽)"><input id="bt-bpm" type="number" placeholder="BPM"></div><select id="bt-genre"><option>Rap</option><option>Trap</option><option>Hip-Hop</option><option>Другое</option></select><input id="bt-custom-genre" placeholder="Свой жанр" style="display:none"><input id="bt-contact" placeholder="Telegram для связи"><textarea id="bt-desc" rows="3" placeholder="Описание бита..."></textarea><div class="file-label" onclick="document.getElementById('bt-audio').click()">🎵 Загрузить аудио (MP3/WAV)<input type="file" id="bt-audio" accept="audio/*" style="display:none"></div><div class="pf"><button class="btn btn-g" onclick="toggleBeatForm()">Отмена</button><button class="btn btn-p" onclick="submitBeat()">Опубликовать</button></div></div></div><div class="toolbar"><div class="gtabs">${genres.map(g => `<button class="gtab ${_bg === g ? 'on' : ''}" onclick="setBeatGenre('${g}')">${g === 'all' ? 'Все' : g}</button>`).join('')}</div><div class="stabs"><button class="stab ${_bs === 'newest' ? 'on' : ''}" onclick="setBeatSort('newest')">Новые</button><button class="stab ${_bs === 'price_asc' ? 'on' : ''}" onclick="setBeatSort('price_asc')">Дешевле</button><button class="stab ${_bs === 'price_desc' ? 'on' : ''}" onclick="setBeatSort('price_desc')">Дороже</button><button class="stab ${_bs === 'popular' ? 'on' : ''}" onclick="setBeatSort('popular')">Популярные</button></div></div><div class="beat-grid">${beats.map(b => `<div class="beat-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">${esc(b.title)}</div><div style="font-size:13px;color:var(--t3)">${b.bpm || '?'} BPM · ${b.genre || b.customGenre || '?'}</div><div class="price">${b.price > 0 ? b.price + ' ₽' : 'Бесплатно'}</div><div style="font-size:12px;color:var(--t2);margin:8px 0">${esc(b.desc?.slice(0, 80) || '')}</div>${b.audioUrl ? `<div class="audio-player"><button onclick="event.stopPropagation();playBeatAudio('${b.audioUrl}', '${esc(b.title)}')">▶</button><span>Прослушать</span></div>` : ''}<div class="flex justify-between mt-2"><button class="btn btn-p btn-sm" onclick="buyBeat('${b.id}')">💸 Купить</button>${canModerate(b.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteBeat('${b.id}')">🗑</button>` : ''}</div></div></div>`).join('') || '<div class="empty">Битов пока нет</div>'}</div></div>`;
+  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🎵 Маркетплейс битов</h1>' + (sess ? '<button class="btn btn-p" onclick="toggleBeatForm()">+ Продать бит</button>' : '') + '</div><div id="beat-form" style="display:none" class="panel mb-4"><div class="ph">Новый бит<button class="btn btn-g btn-sm" onclick="toggleBeatForm()">✕</button></div><div class="pb"><input id="bt-title" placeholder="Название бита"><div class="g2"><input id="bt-price" type="number" placeholder="Цена (₽)"><input id="bt-bpm" type="number" placeholder="BPM"></div><select id="bt-genre"><option>Rap</option><option>Trap</option><option>Hip-Hop</option><option>Другое</option></select><input id="bt-custom-genre" placeholder="Свой жанр" style="display:none"><input id="bt-contact" placeholder="Telegram для связи"><textarea id="bt-desc" rows="3" placeholder="Описание бита..."></textarea><div class="file-label" onclick="document.getElementById(\'bt-audio\').click()">🎵 Загрузить аудио (MP3/WAV)<input type="file" id="bt-audio" accept="audio/*" style="display:none"></div><div class="pf"><button class="btn btn-g" onclick="toggleBeatForm()">Отмена</button><button class="btn btn-p" onclick="submitBeat()">Опубликовать</button></div></div></div><div class="toolbar"><div class="gtabs">' + genres.map(function(g) { return '<button class="gtab ' + (_bg === g ? 'on' : '') + '" onclick="setBeatGenre(\'' + g + '\')">' + (g === 'all' ? 'Все' : g) + '</button>'; }).join('') + '</div><div class="stabs"><button class="stab ' + (_bs === 'newest' ? 'on' : '') + '" onclick="setBeatSort(\'newest\')">Новые</button><button class="stab ' + (_bs === 'price_asc' ? 'on' : '') + '" onclick="setBeatSort(\'price_asc\')">Дешевле</button><button class="stab ' + (_bs === 'price_desc' ? 'on' : '') + '" onclick="setBeatSort(\'price_desc\')">Дороже</button><button class="stab ' + (_bs === 'popular' ? 'on' : '') + '" onclick="setBeatSort(\'popular\')">Популярные</button></div></div><div class="beat-grid">' + beats.map(function(b) { return '<div class="beat-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(b.title) + '</div><div style="font-size:13px;color:var(--t3)">' + (b.bpm || '?') + ' BPM · ' + (b.genre || b.customGenre || '?') + '</div><div class="price">' + (b.price > 0 ? b.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((b.desc || '').slice(0, 80)) + '</div>' + (b.audioUrl ? '<div class="audio-player"><button onclick="event.stopPropagation();playBeatAudio(\'' + b.audioUrl + '\', \'' + esc(b.title) + '\')">▶</button><span>Прослушать</span></div>' : '') + '<div class="flex justify-between mt-2"><button class="btn btn-p btn-sm" onclick="buyBeat(\'' + b.id + '\')">💸 Купить</button>' + (canModerate(b.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteBeat(\'' + b.id + '\')">🗑</button>' : '') + '</div></div></div>'; }).join('') || '<div class="empty">Битов пока нет</div>' + '</div></div>';
   showPage('p-beats');
 }
 function toggleBeatForm() { let f = document.getElementById('beat-form'); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
@@ -1666,28 +1680,28 @@ function playBeatAudio(url, title) {
 }
 function submitBeat() { 
   if (!sess) { toast('Войдите чтобы продавать биты', true); return; }
-  let title = document.getElementById('bt-title')?.value.trim(); 
+  let title = document.getElementById('bt-title') ? document.getElementById('bt-title').value.trim() : ''; 
   if (!title) { toast('Введите название', true); return; } 
-  let audioFile = document.getElementById('bt-audio')?.files[0];
-  let beat = { id: 'b' + mkId(), uid: sess.id, title, price: parseFloat(document.getElementById('bt-price')?.value) || 0, bpm: parseInt(document.getElementById('bt-bpm')?.value) || 0, genre: document.getElementById('bt-genre')?.value, desc: document.getElementById('bt-desc')?.value, contact: document.getElementById('bt-contact')?.value, audioUrl: null, createdAt: Date.now() };
+  let audioFile = document.getElementById('bt-audio') ? document.getElementById('bt-audio').files[0] : null;
+  let beat = { id: 'b' + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById('bt-price') ? document.getElementById('bt-price').value : 0) || 0, bpm: parseInt(document.getElementById('bt-bpm') ? document.getElementById('bt-bpm').value : 0) || 0, genre: document.getElementById('bt-genre') ? document.getElementById('bt-genre').value : '', desc: document.getElementById('bt-desc') ? document.getElementById('bt-desc').value : '', contact: document.getElementById('bt-contact') ? document.getElementById('bt-contact').value : '', audioUrl: null, createdAt: Date.now() };
   if (audioFile) {
     let reader = new FileReader();
-    reader.onload = (e) => { beat.audioUrl = e.target.result; S.beats.push(beat); persist(); toast('Бит опубликован!'); toggleBeatForm(); renderBeats(); };
+    reader.onload = function(e) { beat.audioUrl = e.target.result; S.beats.push(beat); persist(); toast('Бит опубликован!'); toggleBeatForm(); renderBeats(); };
     reader.readAsDataURL(audioFile);
   } else {
     S.beats.push(beat); persist(); toast('Бит опубликован!'); toggleBeatForm(); renderBeats();
   }
 }
 function buyBeat(id) { 
-  let beat = S.beats.find(b => b.id === id); 
+  let beat = S.beats.find(function(b) { return b.id === id; }); 
   if (!beat) return; 
-  if (sess) startDM(beat.uid, `Интересуюсь битом: ${beat.title}`); 
-  else toast(`Свяжитесь с продавцом: ${beat.contact || 'Telegram не указан'}`, true); 
+  if (sess) startDM(beat.uid, 'Интересуюсь битом: ' + beat.title); 
+  else toast('Свяжитесь с продавцом: ' + (beat.contact || 'Telegram не указан'), true); 
 }
 function deleteBeat(id) { 
-  let beat = S.beats.find(b => b.id === id);
+  let beat = S.beats.find(function(b) { return b.id === id; });
   if (beat && canModerate(beat.uid)) { 
-    S.beats = S.beats.filter(b => b.id !== id); 
+    S.beats = S.beats.filter(function(b) { return b.id !== id; }); 
     persist(); 
     toast('Бит удалён'); 
     renderBeats(); 
@@ -1698,40 +1712,40 @@ function deleteBeat(id) {
 function renderDrumkits() { 
   let kits = S.drumkits || []; 
   let el = document.getElementById('p-drumkits'); 
-  el.innerHTML = `<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🥁 Драмкиты</h1>${sess ? `<button class="btn btn-p" onclick="toggleDrumkitForm()">+ Продать драмкит</button>` : ''}</div><div id="drumkit-form" style="display:none" class="panel mb-4"><div class="ph">Новый драмкит<button class="btn btn-g btn-sm" onclick="toggleDrumkitForm()">✕</button></div><div class="pb"><input id="dk-title" placeholder="Название"><input id="dk-price" type="number" placeholder="Цена (₽)"><textarea id="dk-desc" rows="3" placeholder="Описание"></textarea><input id="dk-contact" placeholder="Telegram"><div class="file-label" onclick="document.getElementById('dk-zip').click()">📦 Загрузить ZIP<input type="file" id="dk-zip" accept=".zip,.rar" style="display:none"></div><div class="pf"><button class="btn btn-g" onclick="toggleDrumkitForm()">Отмена</button><button class="btn btn-p" onclick="submitDrumkit()">Опубликовать</button></div></div></div><div class="drumkit-grid">${kits.map(k => `<div class="drumkit-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">${esc(k.title)}</div><div class="price">${k.price > 0 ? k.price + ' ₽' : 'Бесплатно'}</div><div style="font-size:12px;color:var(--t2);margin:8px 0">${esc(k.desc?.slice(0, 80) || '')}</div><div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="buyDrumkit('${k.id}')">📥 Купить</button>${canModerate(k.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteDrumkit('${k.id}')">🗑</button>` : ''}</div></div></div>`).join('') || '<div class="empty">Драмкитов пока нет</div>'}</div></div>`; 
+  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🥁 Драмкиты</h1>' + (sess ? '<button class="btn btn-p" onclick="toggleDrumkitForm()">+ Продать драмкит</button>' : '') + '</div><div id="drumkit-form" style="display:none" class="panel mb-4"><div class="ph">Новый драмкит<button class="btn btn-g btn-sm" onclick="toggleDrumkitForm()">✕</button></div><div class="pb"><input id="dk-title" placeholder="Название"><input id="dk-price" type="number" placeholder="Цена (₽)"><textarea id="dk-desc" rows="3" placeholder="Описание"></textarea><input id="dk-contact" placeholder="Telegram"><div class="file-label" onclick="document.getElementById(\'dk-zip\').click()">📦 Загрузить ZIP<input type="file" id="dk-zip" accept=".zip,.rar" style="display:none"></div><div class="pf"><button class="btn btn-g" onclick="toggleDrumkitForm()">Отмена</button><button class="btn btn-p" onclick="submitDrumkit()">Опубликовать</button></div></div></div><div class="drumkit-grid">' + kits.map(function(k) { return '<div class="drumkit-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(k.title) + '</div><div class="price">' + (k.price > 0 ? k.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((k.desc || '').slice(0, 80)) + '</div><div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="buyDrumkit(\'' + k.id + '\')">📥 Купить</button>' + (canModerate(k.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteDrumkit(\'' + k.id + '\')">🗑</button>' : '') + '</div></div></div>'; }).join('') || '<div class="empty">Драмкитов пока нет</div>' + '</div></div>'; 
   showPage('p-drumkits'); 
 }
 function toggleDrumkitForm() { let f = document.getElementById('drumkit-form'); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
 function submitDrumkit() { 
   if (!sess) { toast('Войдите чтобы продавать драмкиты', true); return; }
-  let title = document.getElementById('dk-title')?.value.trim(); 
+  let title = document.getElementById('dk-title') ? document.getElementById('dk-title').value.trim() : ''; 
   if (!title) { toast('Введите название', true); return; } 
-  let kit = { id: 'dk' + mkId(), uid: sess.id, title, price: parseFloat(document.getElementById('dk-price')?.value) || 0, desc: document.getElementById('dk-desc')?.value, contact: document.getElementById('dk-contact')?.value, zipFile: null, createdAt: Date.now() }; 
+  let kit = { id: 'dk' + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById('dk-price') ? document.getElementById('dk-price').value : 0) || 0, desc: document.getElementById('dk-desc') ? document.getElementById('dk-desc').value : '', contact: document.getElementById('dk-contact') ? document.getElementById('dk-contact').value : '', zipFile: null, createdAt: Date.now() }; 
   let zipInput = document.getElementById('dk-zip'); 
-  if (zipInput?.files[0]) { 
+  if (zipInput && zipInput.files[0]) { 
     let reader = new FileReader(); 
-    reader.onload = (e) => { kit.zipFile = e.target.result; S.drumkits.push(kit); persist(); toast('Драмкит опубликован!'); toggleDrumkitForm(); renderDrumkits(); }; 
+    reader.onload = function(e) { kit.zipFile = e.target.result; S.drumkits.push(kit); persist(); toast('Драмкит опубликован!'); toggleDrumkitForm(); renderDrumkits(); }; 
     reader.readAsDataURL(zipInput.files[0]); 
   } else { 
     S.drumkits.push(kit); persist(); toast('Драмкит опубликован!'); toggleDrumkitForm(); renderDrumkits(); 
   } 
 }
 function buyDrumkit(id) { 
-  let kit = S.drumkits.find(k => k.id === id); 
+  let kit = S.drumkits.find(function(k) { return k.id === id; }); 
   if (!kit) return; 
   if (kit.zipFile) { 
     let a = document.createElement('a'); 
     a.href = kit.zipFile; 
-    a.download = `${kit.title}.zip`; 
+    a.download = kit.title + '.zip'; 
     a.click(); 
     toast('Скачивание началось!'); 
-  } else if (sess) startDM(kit.uid, `Интересуюсь драмкитом: ${kit.title}`); 
-  else toast(`Свяжитесь: ${kit.contact || 'Telegram не указан'}`, true); 
+  } else if (sess) startDM(kit.uid, 'Интересуюсь драмкитом: ' + kit.title); 
+  else toast('Свяжитесь: ' + (kit.contact || 'Telegram не указан'), true); 
 }
 function deleteDrumkit(id) { 
-  let kit = S.drumkits.find(d => d.id === id);
+  let kit = S.drumkits.find(function(d) { return d.id === id; });
   if (kit && canModerate(kit.uid)) { 
-    S.drumkits = S.drumkits.filter(d => d.id !== id); 
+    S.drumkits = S.drumkits.filter(function(d) { return d.id !== id; }); 
     persist(); 
     toast('Драмкит удалён'); 
     renderDrumkits(); 
@@ -1742,24 +1756,24 @@ function deleteDrumkit(id) {
 function renderServices() { 
   let services = S.services || []; 
   let el = document.getElementById('p-services'); 
-  el.innerHTML = `<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🛠 Услуги</h1>${sess ? `<button class="btn btn-p" onclick="toggleServiceForm()">+ Предложить услугу</button>` : ''}</div><div id="service-form" style="display:none" class="panel mb-4"><div class="ph">Новая услуга<button class="btn btn-g btn-sm" onclick="toggleServiceForm()">✕</button></div><div class="pb"><input id="sv-title" placeholder="Название"><input id="sv-price" type="number" placeholder="Цена (₽)"><select id="sv-type"><option>Сведение</option><option>Мастеринг</option><option>Бит</option><option>Аранжировка</option><option>Другое</option></select><textarea id="sv-desc" rows="4" placeholder="Описание"></textarea><div class="g2"><div><label>До</label><input type="file" id="sv-before" accept="audio/*"></div><div><label>После</label><input type="file" id="sv-after" accept="audio/*"></div></div><input id="sv-contact" placeholder="Telegram"><div class="pf"><button class="btn btn-g" onclick="toggleServiceForm()">Отмена</button><button class="btn btn-p" onclick="submitService()">Опубликовать</button></div></div></div><div class="service-grid">${services.map(s => `<div class="service-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">${esc(s.title)}</div><div class="price">${s.price > 0 ? s.price + ' ₽' : 'Договорная'}</div><div style="font-size:12px;color:var(--t2);margin:8px 0">${esc(s.desc?.slice(0, 100) || '')}</div><div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="buyService('${s.id}')">📩 Заказать</button>${canModerate(s.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteService('${s.id}')">🗑</button>` : ''}</div></div></div>`).join('') || '<div class="empty">Услуг пока нет</div>'}</div></div>`; 
+  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>🛠 Услуги</h1>' + (sess ? '<button class="btn btn-p" onclick="toggleServiceForm()">+ Предложить услугу</button>' : '') + '</div><div id="service-form" style="display:none" class="panel mb-4"><div class="ph">Новая услуга<button class="btn btn-g btn-sm" onclick="toggleServiceForm()">✕</button></div><div class="pb"><input id="sv-title" placeholder="Название"><input id="sv-price" type="number" placeholder="Цена (₽)"><select id="sv-type"><option>Сведение</option><option>Мастеринг</option><option>Бит</option><option>Аранжировка</option><option>Другое</option></select><textarea id="sv-desc" rows="4" placeholder="Описание"></textarea><div class="g2"><div><label>До</label><input type="file" id="sv-before" accept="audio/*"></div><div><label>После</label><input type="file" id="sv-after" accept="audio/*"></div></div><input id="sv-contact" placeholder="Telegram"><div class="pf"><button class="btn btn-g" onclick="toggleServiceForm()">Отмена</button><button class="btn btn-p" onclick="submitService()">Опубликовать</button></div></div></div><div class="service-grid">' + services.map(function(s) { return '<div class="service-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(s.title) + '</div><div class="price">' + (s.price > 0 ? s.price + ' ₽' : 'Договорная') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((s.desc || '').slice(0, 100)) + '</div><div class="flex justify-between"><button class="btn btn-p btn-sm" onclick="buyService(\'' + s.id + '\')">📩 Заказать</button>' + (canModerate(s.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteService(\'' + s.id + '\')">🗑</button>' : '') + '</div></div></div>'; }).join('') || '<div class="empty">Услуг пока нет</div>' + '</div></div>'; 
   showPage('p-services'); 
 }
 function toggleServiceForm() { let f = document.getElementById('service-form'); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
 function submitService() { 
   if (!sess) { toast('Войдите чтобы предлагать услуги', true); return; }
-  let title = document.getElementById('sv-title')?.value.trim(); 
+  let title = document.getElementById('sv-title') ? document.getElementById('sv-title').value.trim() : ''; 
   if (!title) { toast('Введите название', true); return; } 
-  let sv = { id: 'sv' + mkId(), uid: sess.id, title, price: parseFloat(document.getElementById('sv-price')?.value) || 0, type: document.getElementById('sv-type')?.value, desc: document.getElementById('sv-desc')?.value, contact: document.getElementById('sv-contact')?.value, beforeAudio: null, afterAudio: null, createdAt: Date.now() }; 
-  let beforeFile = document.getElementById('sv-before')?.files[0]; 
-  let afterFile = document.getElementById('sv-after')?.files[0]; 
-  let processFiles = () => { 
+  let sv = { id: 'sv' + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById('sv-price') ? document.getElementById('sv-price').value : 0) || 0, type: document.getElementById('sv-type') ? document.getElementById('sv-type').value : '', desc: document.getElementById('sv-desc') ? document.getElementById('sv-desc').value : '', contact: document.getElementById('sv-contact') ? document.getElementById('sv-contact').value : '', beforeAudio: null, afterAudio: null, createdAt: Date.now() }; 
+  let beforeFile = document.getElementById('sv-before') ? document.getElementById('sv-before').files[0] : null; 
+  let afterFile = document.getElementById('sv-after') ? document.getElementById('sv-after').files[0] : null; 
+  let processFiles = function() { 
     if (beforeFile) { 
       let r = new FileReader(); 
-      r.onload = (e) => { sv.beforeAudio = e.target.result; 
+      r.onload = function(e) { sv.beforeAudio = e.target.result; 
         if (afterFile) { 
           let r2 = new FileReader(); 
-          r2.onload = (e2) => { sv.afterAudio = e2.target.result; S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); }; 
+          r2.onload = function(e2) { sv.afterAudio = e2.target.result; S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); }; 
           r2.readAsDataURL(afterFile); 
         } else { S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); } 
       }; 
@@ -1767,7 +1781,7 @@ function submitService() {
     } else { 
       if (afterFile) { 
         let r = new FileReader(); 
-        r.onload = (e) => { sv.afterAudio = e.target.result; S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); }; 
+        r.onload = function(e) { sv.afterAudio = e.target.result; S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); }; 
         r.readAsDataURL(afterFile); 
       } else { S.services.push(sv); persist(); toast('Услуга опубликована!'); toggleServiceForm(); renderServices(); } 
     } 
@@ -1775,15 +1789,15 @@ function submitService() {
   processFiles(); 
 }
 function buyService(id) { 
-  let sv = S.services.find(s => s.id === id); 
+  let sv = S.services.find(function(s) { return s.id === id; }); 
   if (!sv) return; 
-  if (sess) startDM(sv.uid, `Интересуюсь услугой: ${sv.title}`); 
-  else toast(`Свяжитесь: ${sv.contact || 'Telegram не указан'}`, true); 
+  if (sess) startDM(sv.uid, 'Интересуюсь услугой: ' + sv.title); 
+  else toast('Свяжитесь: ' + (sv.contact || 'Telegram не указан'), true); 
 }
 function deleteService(id) { 
-  let sv = S.services.find(s => s.id === id);
+  let sv = S.services.find(function(s) { return s.id === id; });
   if (sv && canModerate(sv.uid)) { 
-    S.services = S.services.filter(s => s.id !== id); 
+    S.services = S.services.filter(function(s) { return s.id !== id; }); 
     persist(); 
     toast('Услуга удалена'); 
     renderServices(); 
@@ -1794,7 +1808,7 @@ function deleteService(id) {
 function renderProfile(uid) {
   if (!uid) { 
     if (!sess) { 
-      document.getElementById('p-profile').innerHTML = `<div class="wn"><div class="empty">Войдите чтобы просмотреть профиль<button class="btn btn-p mt-3" onclick="openAuth()">Войти</button></div></div>`; 
+      document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="empty">Войдите чтобы просмотреть профиль<button class="btn btn-p mt-3" onclick="openAuth()">Войти</button></div></div>'; 
       showPage('p-profile'); 
       return; 
     } 
@@ -1802,46 +1816,46 @@ function renderProfile(uid) {
   }
   let user = getUser(uid);
   if (!user) { 
-    document.getElementById('p-profile').innerHTML = `<div class="wn"><div class="empty">Пользователь не найден</div></div>`; 
+    document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="empty">Пользователь не найден</div></div>'; 
     showPage('p-profile'); 
     return; 
   }
-  if (user.privacy?.profileLocked && uid !== sess?.id && !user.friends?.includes(sess?.id)) {
-    document.getElementById('p-profile').innerHTML = `<div class="wn"><div class="card" style="text-align:center"><div style="padding:40px"><div class="empty-ico">🔒</div><div>Профиль закрыт</div><div style="font-size:12px;color:var(--t3);margin-top:8px">Только друзья могут видеть этот профиль</div></div></div></div>`;
+  if (user.privacy && user.privacy.profileLocked && uid !== sess.id && !(user.friends && user.friends.includes(sess.id))) {
+    document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="card" style="text-align:center"><div style="padding:40px"><div class="empty-ico">🔒</div><div>Профиль закрыт</div><div style="font-size:12px;color:var(--t3);margin-top:8px">Только друзья могут видеть этот профиль</div></div></div></div>';
     showPage('p-profile'); 
     return;
   }
   let isOwn = sess && sess.id === user.id;
-  let canWrite = isOwn || (user.privacy?.wall === 'all') || (user.privacy?.wall === 'friends' && user.friends?.includes(sess?.id));
+  let canWrite = isOwn || (user.privacy && user.privacy.wall === 'all') || (user.privacy && user.privacy.wall === 'friends' && user.friends && user.friends.includes(sess.id));
   let badgeNames = { early: '🌱 Ранний', verified: '✓ Верифицирован', admin: '👑 Админ', popular: '⭐ Популярный', pro: '🎧 Профессионал', gold: '🏆 Золотой' };
   let posts = S.wallPosts[uid] || [];
   let el = document.getElementById('p-profile');
-  el.innerHTML = `<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ${user.bannerBase64 ? `url(${user.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))'}"></div><div class="profile-avatar-wrapper">${getAvatarHTML(user, 100)}</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">${esc(user.username)}</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">${(user.badges || []).map(b => `<span class="pill">${badgeNames[b] || b}</span>`).join('')}</div><div style="color:var(--t3);margin:12px 0">${esc(user.bio || 'Нет описания')}</div><div class="stats"><div><div style="font-weight:700">${posts.length}</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">${user.followers?.length || 0}</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">${user.friends?.length || 0}</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>${sess && sess.id !== user.id ? `<div class="actions"><button class="btn btn-p" onclick="startDM('${user.id}', 'Привет!')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend('${user.id}')" style="margin-left:12px">${(user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья'}</button><button class="btn btn-d" onclick="toggleFollow('${user.id}')" style="margin-left:12px">${(user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться'}</button></div>` : ''}</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">${canWrite && sess ? `<div class="text-editor"><div class="editor-toolbar"><button class="editor-btn" onclick="showEmojiPicker('wall-post-content', this)">😀</button><button class="editor-btn" onclick="formatText('wall-post-content', '**', '**')"><b>B</b></button><button class="editor-btn" onclick="formatText('wall-post-content', '*', '*')"><i>I</i></button><button class="editor-btn" onclick="formatText('wall-post-content', '~~', '~~')"><s>S</s></button><button class="editor-btn" onclick="formatText('wall-post-content', '`', '`')"><code>{ }</code></button><button class="editor-btn" onclick="formatText('wall-post-content', '> ', '')">"</button><button class="editor-btn" onclick="toggleEditorMode('wall-post-content')">📄</button></div><textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" oninput="updatePreview('wall-post-content')"></textarea><div id="preview-wall-post-content" class="editor-preview" style="display:none"></div></div><div class="pf"><button class="btn btn-p" onclick="createWallPost('${uid}', document.getElementById('wall-post-content').value)">Опубликовать</button></div>` : ''}<div id="wall-posts">${posts.map(p => renderWallPost(p, uid)).join('') || '<div class="empty">Нет записей на стене</div>'}</div></div></div></div>`;
+  el.innerHTML = '<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ' + (user.bannerBase64 ? 'url(' + user.bannerBase64 + ')' : 'linear-gradient(135deg, var(--blue), var(--purple))') + '"></div><div class="profile-avatar-wrapper">' + getAvatarHTML(user, 100) + '</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">' + esc(user.username) + '</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">' + (user.badges || []).map(function(b) { return '<span class="pill">' + (badgeNames[b] || b) + '</span>'; }).join('') + '</div><div style="color:var(--t3);margin:12px 0">' + esc(user.bio || 'Нет описания') + '</div><div class="stats"><div><div style="font-weight:700">' + posts.length + '</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">' + (user.followers ? user.followers.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">' + (user.friends ? user.friends.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>' + (sess && sess.id !== user.id ? '<div class="actions"><button class="btn btn-p" onclick="startDM(\'' + user.id + '\', \'Привет!\')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend(\'' + user.id + '\')" style="margin-left:12px">' + ((user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья') + '</button><button class="btn btn-d" onclick="toggleFollow(\'' + user.id + '\')" style="margin-left:12px">' + ((user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться') + '</button></div>' : '') + '</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">' + (canWrite && sess ? '<div class="text-editor"><div class="editor-toolbar"><button class="editor-btn" onclick="showEmojiPicker(\'wall-post-content\', this)">😀</button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'**\', \'**\')"><b>B</b></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'*\', \'*\')"><i>I</i></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'~~\', \'~~\')"><s>S</s></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'`\', \'`\')"><code>{ }</code></button><button class="editor-btn" onclick="formatText(\'wall-post-content\', \'> \', \'\')">"</button><button class="editor-btn" onclick="toggleEditorMode(\'wall-post-content\')">📄</button></div><textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" oninput="updatePreview(\'wall-post-content\')"></textarea><div id="preview-wall-post-content" class="editor-preview" style="display:none"></div></div><div class="pf"><button class="btn btn-p" onclick="createWallPost(\'' + uid + '\', document.getElementById(\'wall-post-content\').value)">Опубликовать</button></div>' : '') + '<div id="wall-posts">' + (posts.map(function(p) { return renderWallPost(p, uid); }).join('') || '<div class="empty">Нет записей на стене</div>') + '</div></div></div></div>';
   showPage('p-profile');
 }
 function renderWallPost(post, targetUid) {
   let author = getUser(post.uid);
   let reactions = S.reactions[post.id] || {};
-  let reactionCount = Object.values(reactions).reduce((a,b) => a + b.length, 0);
+  let reactionCount = Object.values(reactions).reduce(function(a,b) { return a + b.length; }, 0);
   let comments = S.comments[post.id] || [];
   let isOwner = sess && (sess.id === post.uid || sess.id === targetUid);
   if (!S.postViews[post.id]) S.postViews[post.id] = 0;
-  setTimeout(() => { if (document.getElementById(`post-${post.id}`)) { S.postViews[post.id]++; persist(); } }, 1000);
-  let authorAvatar = author ? getAvatarHTML(author, 32) : `<div class="avatar avatar-sm">${post.author?.[0]?.toUpperCase() || '?'}</div>`;
-  return `<div class="wall-post" id="post-${post.id}"><div class="wall-post-header"><div onclick="nav('#/profile/${post.uid}')" style="cursor:pointer">${authorAvatar}</div><div><div class="wall-post-author" onclick="nav('#/profile/${post.uid}')">${esc(post.author)}</div><div class="wall-post-time">${relTime(post.createdAt)} · 👁️ ${S.postViews[post.id] || 0}</div></div>${isOwner ? `<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost('${post.id}', '${targetUid}')">🗑</button></div>` : ''}</div><div class="wall-post-content">${formatMessageContent(post.content)}</div>${post.repost ? `<div class="repost-origin">🔁 Репост от ${esc(post.repost.originalAuthor)}: ${formatMessageContent(post.repost.originalContent?.slice(0, 100))}</div>` : ''}<div class="reactions"><div class="reaction-buttons">${['❤️', '👍', '😂', '😮', '😢'].map(e => `<button class="reaction-btn ${reactions[e]?.includes(sess?.id) ? 'active' : ''}" onclick="addReaction('${post.id}', '${e}', '${targetUid}')">${e}<span class="reaction-count">${reactions[e]?.length || 0}</span></button>`).join('')}</div>${reactionCount > 0 ? `<div class="reaction-list" style="font-size:11px;color:var(--t3);margin-top:4px">${Object.entries(reactions).map(([e, uids]) => uids.length ? `${e} ${uids.slice(0, 3).map(uid => getUser(uid)?.username).join(', ')}${uids.length > 3 ? ` +${uids.length-3}` : ''}` : '').filter(Boolean).join(' · ')}</div>` : ''}</div><div class="post-actions"><button class="post-action" onclick="toggleComments('${post.id}')">💬 ${comments.length}</button><button class="post-action" onclick="openRepostModal('${post.id}', '${esc(post.author)}', '${esc(post.content).replace(/'/g, "\\'")}')">🔁 Репост</button></div><div class="comments-section" id="comments-${post.id}" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-${post.id}" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment('${post.id}', '${targetUid}', document.getElementById('comment-input-${post.id}').value)">→</button></div>${comments.map(c => `<div class="comment"><div class="comment-avatar" onclick="nav('#/profile/${c.uid}')">${c.author?.[0]?.toUpperCase() || '?'}</div><div class="comment-content"><div class="comment-author" onclick="nav('#/profile/${c.uid}')">${esc(c.author)}</div><div class="comment-text">${formatMessageContent(c.content)}</div><div class="comment-time">${relTime(c.createdAt)}</div></div>${canModerate(c.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteComment('${post.id}', '${c.id}')">🗑</button>` : ''}</div>`).join('')}</div></div>`;
+  setTimeout(function() { if (document.getElementById('post-' + post.id)) { S.postViews[post.id]++; persist(); } }, 1000);
+  let authorAvatar = author ? getAvatarHTML(author, 32) : '<div class="avatar avatar-sm">' + (post.author ? post.author[0].toUpperCase() : '?') + '</div>';
+  return '<div class="wall-post" id="post-' + post.id + '"><div class="wall-post-header"><div onclick="nav(\'#/profile/' + post.uid + '\')" style="cursor:pointer">' + authorAvatar + '</div><div><div class="wall-post-author" onclick="nav(\'#/profile/' + post.uid + '\')">' + esc(post.author) + '</div><div class="wall-post-time">' + relTime(post.createdAt) + ' · 👁️ ' + (S.postViews[post.id] || 0) + '</div></div>' + (isOwner ? '<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost(\'' + post.id + '\', \'' + targetUid + '\')">🗑</button></div>' : '') + '</div><div class="wall-post-content">' + formatMessageContent(post.content) + '</div>' + (post.repost ? '<div class="repost-origin">🔁 Репост от ' + esc(post.repost.originalAuthor) + ': ' + formatMessageContent((post.repost.originalContent || '').slice(0, 100)) + '</div>' : '') + '<div class="reactions"><div class="reaction-buttons">' + ['❤️', '👍', '😂', '😮', '😢'].map(function(e) { return '<button class="reaction-btn ' + (reactions[e] && reactions[e].includes(sess ? sess.id : null) ? 'active' : '') + '" onclick="addReaction(\'' + post.id + '\', \'' + e + '\', \'' + targetUid + '\')">' + e + '<span class="reaction-count">' + (reactions[e] ? reactions[e].length : 0) + '</span></button>'; }).join('') + '</div>' + (reactionCount > 0 ? '<div class="reaction-list" style="font-size:11px;color:var(--t3);margin-top:4px">' + Object.entries(reactions).map(function(entry) { var e = entry[0]; var uids = entry[1]; return uids.length ? e + ' ' + uids.slice(0, 3).map(function(uid) { var u = getUser(uid); return u ? u.username : '?'; }).join(', ') + (uids.length > 3 ? ' +' + (uids.length-3) : '') : ''; }).filter(Boolean).join(' · ') + '</div>' : '') + '</div><div class="post-actions"><button class="post-action" onclick="toggleComments(\'' + post.id + '\')">💬 ' + comments.length + '</button><button class="post-action" onclick="openRepostModal(\'' + post.id + '\', \'' + esc(post.author) + '\', \'' + esc(post.content).replace(/'/g, "\\'") + '\')">🔁 Репост</button></div><div class="comments-section" id="comments-' + post.id + '" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-' + post.id + '" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment(\'' + post.id + '\', \'' + targetUid + '\', document.getElementById(\'comment-input-' + post.id + '\').value)">→</button></div>' + comments.map(function(c) { return '<div class="comment"><div class="comment-avatar" onclick="nav(\'#/profile/' + c.uid + '\')">' + (c.author ? c.author[0].toUpperCase() : '?') + '</div><div class="comment-content"><div class="comment-author" onclick="nav(\'#/profile/' + c.uid + '\')">' + esc(c.author) + '</div><div class="comment-text">' + formatMessageContent(c.content) + '</div><div class="comment-time">' + relTime(c.createdAt) + '</div></div>' + (canModerate(c.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteComment(\'' + post.id + '\', \'' + c.id + '\')">🗑</button>' : '') + '</div>'; }).join('') + '</div></div>';
 }
-function toggleComments(postId) { let el = document.getElementById(`comments-${postId}`); if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
+function toggleComments(postId) { let el = document.getElementById('comments-' + postId); if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
 function addReaction(postId, emoji, targetUid) {
   if (!sess) return toast('Войдите чтобы реагировать', true);
   if (!S.reactions[postId]) S.reactions[postId] = {};
   if (!S.reactions[postId][emoji]) S.reactions[postId][emoji] = [];
   if (S.reactions[postId][emoji].includes(sess.id)) {
-    S.reactions[postId][emoji] = S.reactions[postId][emoji].filter(id => id !== sess.id);
+    S.reactions[postId][emoji] = S.reactions[postId][emoji].filter(function(id) { return id !== sess.id; });
   } else {
     S.reactions[postId][emoji].push(sess.id);
     let post = null;
     for (let uid in S.wallPosts) {
-      post = S.wallPosts[uid]?.find(p => p.id === postId);
+      post = S.wallPosts[uid] ? S.wallPosts[uid].find(function(p) { return p.id === postId; }) : null;
       if (post) break;
     }
     if (post && post.uid !== sess.id) addNotification(post.uid, 'reaction', sess.id, postId);
@@ -1853,13 +1867,13 @@ function addComment(postId, targetUid, content) {
   if (!sess) return toast('Войдите чтобы комментировать', true);
   if (!content) return;
   let targetUser = getUser(targetUid);
-  if (targetUser.privacy?.comment === 'friends' && !targetUser.friends?.includes(sess.id) && targetUid !== sess.id) return toast('Только друзья могут комментировать', true);
-  if (targetUser.privacy?.comment === 'none' && targetUid !== sess.id) return toast('Комментирование отключено', true);
+  if (targetUser.privacy && targetUser.privacy.comment === 'friends' && !(targetUser.friends && targetUser.friends.includes(sess.id)) && targetUid !== sess.id) return toast('Только друзья могут комментировать', true);
+  if (targetUser.privacy && targetUser.privacy.comment === 'none' && targetUid !== sess.id) return toast('Комментирование отключено', true);
   if (!S.comments[postId]) S.comments[postId] = [];
-  S.comments[postId].push({ id: 'c' + mkId(), uid: sess.id, author: sess.username, content, createdAt: Date.now() });
+  S.comments[postId].push({ id: 'c' + mkId(), uid: sess.id, author: sess.username, content: content, createdAt: Date.now() });
   let post = null;
   for (let uid in S.wallPosts) {
-    post = S.wallPosts[uid]?.find(p => p.id === postId);
+    post = S.wallPosts[uid] ? S.wallPosts[uid].find(function(p) { return p.id === postId; }) : null;
     if (post) break;
   }
   if (post && post.uid !== sess.id) addNotification(post.uid, 'comment', sess.id, postId);
@@ -1868,37 +1882,38 @@ function addComment(postId, targetUid, content) {
 }
 function deleteComment(postId, commentId) { 
   if (S.comments[postId]) { 
-    S.comments[postId] = S.comments[postId].filter(c => c.id !== commentId); 
+    S.comments[postId] = S.comments[postId].filter(function(c) { return c.id !== commentId; }); 
     persist(); 
     render(); 
     toast('Комментарий удалён'); 
   } 
 }
-function createWallPost(targetUid, content, repostData = null) {
+function createWallPost(targetUid, content, repostData) {
   if (!sess) return toast('Войдите чтобы оставить запись', true);
   if (!content && !repostData) return toast('Введите текст записи', true);
   let targetUser = getUser(targetUid);
   if (!targetUser) return;
-  if (targetUser.privacy?.wall === 'friends' && !targetUser.friends?.includes(sess.id) && targetUid !== sess.id) return toast('Только друзья могут писать на этой стене', true);
-  if (targetUser.privacy?.wall === 'none' && targetUid !== sess.id) return toast('Этот пользователь закрыл стену', true);
-  if (targetUser.privacy?.profileLocked && targetUid !== sess.id && !targetUser.friends?.includes(sess.id)) return toast('Профиль закрыт', true);
+  if (targetUser.privacy && targetUser.privacy.wall === 'friends' && !(targetUser.friends && targetUser.friends.includes(sess.id)) && targetUid !== sess.id) return toast('Только друзья могут писать на этой стене', true);
+  if (targetUser.privacy && targetUser.privacy.wall === 'none' && targetUid !== sess.id) return toast('Этот пользователь закрыл стену', true);
+  if (targetUser.privacy && targetUser.privacy.profileLocked && targetUid !== sess.id && !(targetUser.friends && targetUser.friends.includes(sess.id))) return toast('Профиль закрыт', true);
   let post = {
     id: 'wp' + mkId(), uid: sess.id, author: sess.username, authorAvatar: sess.avatarBase64,
-    targetUid, content: content || '', repost: repostData, createdAt: Date.now(), views: 0
+    targetUid: targetUid, content: content || '', repost: repostData, createdAt: Date.now(), views: 0
   };
   if (!S.wallPosts[targetUid]) S.wallPosts[targetUid] = [];
   S.wallPosts[targetUid].unshift(post);
   if (repostData && targetUid !== repostData.originalAuthorId && repostData.originalAuthorId) addNotification(repostData.originalAuthorId, 'repost', sess.id, null);
   persist();
   toast('Пост опубликован!');
-  if (document.getElementById('wall-post-content')) document.getElementById('wall-post-content').value = '';
+  let wpContent = document.getElementById('wall-post-content');
+  if (wpContent) wpContent.value = '';
   renderProfile(targetUid);
 }
 function deleteWallPost(postId, targetUid) {
   let posts = S.wallPosts[targetUid] || [];
-  let post = posts.find(p => p.id === postId);
+  let post = posts.find(function(p) { return p.id === postId; });
   if (post && (canModerate(post.uid) || canModerate(targetUid))) {
-    S.wallPosts[targetUid] = posts.filter(p => p.id !== postId);
+    S.wallPosts[targetUid] = posts.filter(function(p) { return p.id !== postId; });
     persist();
     toast('Пост удалён');
     renderProfile(targetUid);
@@ -1909,10 +1924,10 @@ function toggleFriend(uid) {
   if (!me) return; 
   let friends = me.friends || []; 
   if (friends.includes(uid)) { 
-    updateUser(sess.id, { friends: friends.filter(f => f !== uid) }); 
+    updateUser(sess.id, { friends: friends.filter(function(f) { return f !== uid; }) }); 
     toast('Удалён из друзей'); 
   } else { 
-    updateUser(sess.id, { friends: [...friends, uid] }); 
+    updateUser(sess.id, { friends: friends.concat([uid]) }); 
     toast('Друг добавлен'); 
   } 
   renderProfile(uid); 
@@ -1923,10 +1938,10 @@ function toggleFollow(uid) {
   let targetUser = getUser(uid);
   let followers = targetUser.followers || []; 
   if (followers.includes(sess.id)) { 
-    updateUser(uid, { followers: followers.filter(f => f !== sess.id) }); 
+    updateUser(uid, { followers: followers.filter(function(f) { return f !== sess.id; }) }); 
     toast('Отписка'); 
   } else { 
-    updateUser(uid, { followers: [...followers, sess.id] }); 
+    updateUser(uid, { followers: followers.concat([sess.id]) }); 
     toast('Подписка оформлена'); 
   } 
   renderProfile(uid); 
@@ -1937,9 +1952,9 @@ function openEditModal() {
   if (!sess) { toast('Войдите чтобы редактировать профиль', true); return; }
   let user = getUser(sess.id);
   document.getElementById('edit-bio').value = user.bio || '';
-  document.getElementById('privacy-wall').value = user.privacy?.wall || 'all';
-  document.getElementById('privacy-comment').value = user.privacy?.comment || 'all';
-  document.getElementById('privacy-locked').checked = user.privacy?.profileLocked || false;
+  document.getElementById('privacy-wall').value = user.privacy ? user.privacy.wall : 'all';
+  document.getElementById('privacy-comment').value = user.privacy ? user.privacy.comment : 'all';
+  document.getElementById('privacy-locked').checked = user.privacy ? user.privacy.profileLocked : false;
   document.getElementById('edit-profile-modal').classList.add('open');
 }
 function closeEditModal() { document.getElementById('edit-profile-modal').classList.remove('open'); }
@@ -1947,11 +1962,11 @@ function uploadAvatarModal() {
   let input = document.createElement('input'); 
   input.type = 'file'; 
   input.accept = 'image/*'; 
-  input.onchange = (e) => { 
+  input.onchange = function(e) { 
     let file = e.target.files[0]; 
     if (!file) return;
     let reader = new FileReader(); 
-    reader.onload = (ev) => { 
+    reader.onload = function(ev) { 
       updateUser(sess.id, { avatarBase64: ev.target.result }); 
       closeEditModal(); 
       renderProfile(sess.id); 
@@ -1965,11 +1980,11 @@ function uploadBannerModal() {
   let input = document.createElement('input'); 
   input.type = 'file'; 
   input.accept = 'image/*'; 
-  input.onchange = (e) => { 
+  input.onchange = function(e) { 
     let file = e.target.files[0];
     if (!file) return;
     let reader = new FileReader(); 
-    reader.onload = (ev) => { 
+    reader.onload = function(ev) { 
       updateUser(sess.id, { bannerBase64: ev.target.result }); 
       closeEditModal(); 
       renderProfile(sess.id); 
@@ -1981,7 +1996,7 @@ function uploadBannerModal() {
 }
 function removeAvatar() { updateUser(sess.id, { avatarBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Аватар удалён'); }
 function removeBanner() { updateUser(sess.id, { bannerBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Шапка удалена'); }
-function setAvatarFrame(frame) { updateUser(sess.id, { avatarFrame: frame }); closeEditModal(); renderProfile(sess.id); toast(`Рамка ${frame} установлена`); }
+function setAvatarFrame(frame) { updateUser(sess.id, { avatarFrame: frame }); closeEditModal(); renderProfile(sess.id); toast('Рамка ' + frame + ' установлена'); }
 function saveProfileEdit() {
   updateUser(sess.id, { 
     bio: document.getElementById('edit-bio').value,
@@ -2010,13 +2025,16 @@ function repostToMyWall() {
   toast('Репост на стену');
 }
 function searchUserForRepost() {
-  let q = document.getElementById('repost-user-search')?.value.toLowerCase();
-  let results = users.filter(u => u.username.toLowerCase().includes(q) && u.id !== sess?.id).slice(0, 10);
-  document.getElementById('repost-user-results').innerHTML = results.map(u => `<div class="conv-item" onclick="repostToDM('${u.id}')"><div class="avatar avatar-sm">${u.username[0]}</div><div>${esc(u.username)}</div></div>`).join('') || '<div class="empty">Ничего не найдено</div>';
+  let q = document.getElementById('repost-user-search') ? document.getElementById('repost-user-search').value.toLowerCase() : '';
+  let results = users.filter(function(u) { return u.username.toLowerCase().includes(q) && u.id !== sess.id; }).slice(0, 10);
+  let resDiv = document.getElementById('repost-user-results');
+  if (resDiv) {
+    resDiv.innerHTML = results.map(function(u) { return '<div class="conv-item" onclick="repostToDM(\'' + u.id + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>'; }).join('') || '<div class="empty">Ничего не найдено</div>';
+  }
 }
 function repostToDM(userId) {
   if (!_repostPostId) return;
-  startDM(userId, `🔁 Репост от ${_repostAuthor}:\n\n${_repostContent}`);
+  startDM(userId, '🔁 Репост от ' + _repostAuthor + ':\n\n' + _repostContent);
   closeRepostModal();
   toast('Репост отправлен в ЛС');
 }
@@ -2024,35 +2042,36 @@ function repostToDM(userId) {
 // ==================== МУЗЫКА ====================
 function renderMusic() { 
   let el = document.getElementById('p-music'); 
-  el.innerHTML = `<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav('#/beats')">Перейти в биты</button></div></div>`; 
+  el.innerHTML = '<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav(\'#/beats\')">Перейти в биты</button></div></div>'; 
   showPage('p-music'); 
 }
 function renderBookmarks() { 
   let el = document.getElementById('p-bmarks'); 
-  el.innerHTML = `<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>`; 
+  el.innerHTML = '<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>'; 
   showPage('p-bmarks'); 
 }
 
 // ==================== АДМИН ====================
 function renderAdmin() {
   if (!sess) {
-    document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">Войдите в аккаунт</div></div>`;
+    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">Войдите в аккаунт</div></div>';
     showPage('p-admin');
     return;
   }
   if (!isAdmin()) {
-    document.getElementById('p-admin').innerHTML = `<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администраторов.</div></div>`;
+    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администраторов.</div></div>';
     showPage('p-admin');
     return;
   }
   let totalReplies = Object.values(S.replies).flat().length;
   let el = document.getElementById('p-admin');
-  el.innerHTML = `<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">${users.length}</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">${S.threads.length}</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">${totalReplies}</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">${S.beats.length}</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list"></div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">${S.beats.map(b => `<option value="${b.id}">${esc(b.title)} (${getUser(b.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">${S.drumkits.map(d => `<option value="${d.id}">${esc(d.title)} (${getUser(d.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">${S.services.map(s => `<option value="${s.id}">${esc(s.title)} (${getUser(s.uid)?.username})</option>`).join('')}</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>`;
+  el.innerHTML = '<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">' + users.length + '</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">' + S.threads.length + '</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">' + totalReplies + '</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">' + S.beats.length + '</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list"></div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">' + S.beats.map(function(b) { return '<option value="' + b.id + '">' + esc(b.title) + ' (' + (getUser(b.uid) ? getUser(b.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">' + S.drumkits.map(function(d) { return '<option value="' + d.id + '">' + esc(d.title) + ' (' + (getUser(d.uid) ? getUser(d.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">' + S.services.map(function(s) { return '<option value="' + s.id + '">' + esc(s.title) + ' (' + (getUser(s.uid) ? getUser(s.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>';
   let listHtml = '';
-  users.forEach(u => {
-    listHtml += `<div class="flex justify-between" style="padding:12px;border-bottom:1px solid var(--border)"><div><b>${esc(u.username)}</b> ${u.isAdmin ? '👑' : ''} ${u.verified ? '✓' : ''}<div style="font-size:11px">Бейджи: ${(u.badges || []).join(', ')}</div></div><div class="flex gap-2"><select id="badge-${u.id}"><option value="">+ бейдж</option><option value="popular">⭐ Популярный</option><option value="pro">🎧 Профессионал</option><option value="gold">🏆 Золотой</option><option value="verified">✓ Верифицированный</option></select><button class="btn btn-xs btn-d" onclick="addBadge('${u.id}')">➕</button><button class="btn btn-xs ${u.isAdmin ? 'btn-p' : 'btn-d'}" onclick="toggleAdmin('${u.id}')">${u.isAdmin ? '↓ Админ' : '↑ Админ'}</button><button class="btn btn-xs btn-r" onclick="banUser('${u.id}')">${u.banned ? 'Разбан' : 'Бан'}</button><button class="btn btn-xs btn-r" onclick="deleteUserAdmin('${u.id}')">🗑</button></div></div>`;
+  users.forEach(function(u) {
+    listHtml += '<div class="flex justify-between" style="padding:12px;border-bottom:1px solid var(--border)"><div><b>' + esc(u.username) + '</b> ' + (u.isAdmin ? '👑' : '') + ' ' + (u.verified ? '✓' : '') + '<div style="font-size:11px">Бейджи: ' + (u.badges || []).join(', ') + '</div></div><div class="flex gap-2"><select id="badge-' + u.id + '"><option value="">+ бейдж</option><option value="popular">⭐ Популярный</option><option value="pro">🎧 Профессионал</option><option value="gold">🏆 Золотой</option><option value="verified">✓ Верифицированный</option></select><button class="btn btn-xs btn-d" onclick="addBadge(\'' + u.id + '\')">➕</button><button class="btn btn-xs ' + (u.isAdmin ? 'btn-p' : 'btn-d') + '" onclick="toggleAdmin(\'' + u.id + '\')">' + (u.isAdmin ? '↓ Админ' : '↑ Админ') + '</button><button class="btn btn-xs btn-r" onclick="banUser(\'' + u.id + '\')">' + (u.banned ? 'Разбан' : 'Бан') + '</button><button class="btn btn-xs btn-r" onclick="deleteUserAdmin(\'' + u.id + '\')">🗑</button></div></div>';
   });
-  document.getElementById('admin-users-list').innerHTML = listHtml;
+  let listDiv = document.getElementById('admin-users-list');
+  if (listDiv) listDiv.innerHTML = listHtml;
   showPage('p-admin');
 }
 function toggleAdmin(uid) { 
@@ -2065,14 +2084,15 @@ function toggleAdmin(uid) {
   } 
 }
 function addBadge(uid) { 
-  let badge = document.getElementById(`badge-${uid}`).value; 
+  let badgeSelect = document.getElementById('badge-' + uid);
+  let badge = badgeSelect ? badgeSelect.value : '';
   if (badge) { 
     let u = getUser(uid); 
     if (u && !u.badges.includes(badge)) { 
       u.badges.push(badge); 
       persist(); 
       renderAdmin(); 
-      toast(`Бейдж ${badge} добавлен`); 
+      toast('Бейдж ' + badge + ' добавлен'); 
     } 
   } 
 }
@@ -2086,34 +2106,37 @@ function banUser(uid) {
   } 
 }
 function deleteUserAdmin(uid) { 
-  if (uid === sess?.id) return toast('Нельзя удалить себя', true); 
-  users = users.filter(u => u.id !== uid); 
+  if (uid === sess.id) return toast('Нельзя удалить себя', true); 
+  users = users.filter(function(u) { return u.id !== uid; }); 
   persist(); 
   renderAdmin(); 
   toast('Пользователь удалён'); 
 }
 function adminDeleteBeat() { 
-  let id = document.getElementById('admin-beat-select')?.value; 
+  let select = document.getElementById('admin-beat-select');
+  let id = select ? select.value : null;
   if (id) { 
-    S.beats = S.beats.filter(b => b.id !== id); 
+    S.beats = S.beats.filter(function(b) { return b.id !== id; }); 
     persist(); 
     renderAdmin(); 
     toast('Бит удалён'); 
   } 
 }
 function adminDeleteDrumkit() { 
-  let id = document.getElementById('admin-dk-select')?.value; 
+  let select = document.getElementById('admin-dk-select');
+  let id = select ? select.value : null;
   if (id) { 
-    S.drumkits = S.drumkits.filter(d => d.id !== id); 
+    S.drumkits = S.drumkits.filter(function(d) { return d.id !== id; }); 
     persist(); 
     renderAdmin(); 
     toast('Драмкит удалён'); 
   } 
 }
 function adminDeleteService() { 
-  let id = document.getElementById('admin-sv-select')?.value; 
+  let select = document.getElementById('admin-sv-select');
+  let id = select ? select.value : null;
   if (id) { 
-    S.services = S.services.filter(s => s.id !== id); 
+    S.services = S.services.filter(function(s) { return s.id !== id; }); 
     persist(); 
     renderAdmin(); 
     toast('Услуга удалена'); 
@@ -2121,11 +2144,11 @@ function adminDeleteService() {
 }
 
 // ==================== ПЛЕЕР ====================
-let player = { audio: null, init() { this.audio = new Audio(); this.audio.volume = 0.8; }, play(url, title, artist) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio?.paused ? '▶' : '⏸'; }, hide() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
+let player = { audio: null, init: function() { this.audio = new Audio(); this.audio.volume = 0.8; }, play: function(url, title, artist) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle: function() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI: function() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio && this.audio.paused ? '▶' : '⏸'; }, hide: function() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
 player.init(); 
-player.audio.onplay = () => player.updateUI(); 
-player.audio.onpause = () => player.updateUI(); 
-player.audio.ontimeupdate = () => { 
+player.audio.onplay = function() { player.updateUI(); }; 
+player.audio.onpause = function() { player.updateUI(); }; 
+player.audio.ontimeupdate = function() { 
   let pct = (player.audio.currentTime / player.audio.duration) * 100 || 0; 
   let bar = document.getElementById('p-bar-f');
   if (bar) bar.style.width = pct + '%'; 
@@ -2134,40 +2157,47 @@ player.audio.ontimeupdate = () => {
 };
 
 // ==================== ПОИСК ====================
-document.getElementById('s-inp')?.addEventListener('input', (e) => { 
-  let q = e.target.value.toLowerCase(); 
-  let results = []; 
-  results.push(...(S.threads || []).filter(t => t.title.toLowerCase().includes(q)).slice(0, 3).map(t => `<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav('#/thread/${t.id}');closeSearch()">📄 ${esc(t.title)}</div>`)); 
-  results.push(...users.filter(u => u.username.toLowerCase().includes(q)).slice(0, 3).map(u => `<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav('#/profile/${u.id}');closeSearch()">👤 ${esc(u.username)}</div>`)); 
-  let resDiv = document.getElementById('s-res');
-  if (resDiv) resDiv.innerHTML = results.length ? results.join('') : '<div class="empty">Ничего не найдено</div>'; 
-});
+var searchInput = document.getElementById('s-inp');
+if (searchInput) {
+  searchInput.addEventListener('input', function(e) { 
+    let q = e.target.value.toLowerCase(); 
+    let results = []; 
+    results.push.apply(results, (S.threads || []).filter(function(t) { return t.title.toLowerCase().includes(q); }).slice(0, 3).map(function(t) { return '<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav(\'#/thread/' + t.id + '\');closeSearch()">📄 ' + esc(t.title) + '</div>'; })); 
+    results.push.apply(results, users.filter(function(u) { return u.username.toLowerCase().includes(q); }).slice(0, 3).map(function(u) { return '<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav(\'#/profile/' + u.id + '\');closeSearch()">👤 ' + esc(u.username) + '</div>'; })); 
+    let resDiv = document.getElementById('s-res');
+    if (resDiv) resDiv.innerHTML = results.length ? results.join('') : '<div class="empty">Ничего не найдено</div>'; 
+  });
+}
 
 // ==================== МОБИЛЬНАЯ НАВИГАЦИЯ ====================
-document.querySelectorAll('.mb-btn').forEach((btn, idx) => {
-  btn.addEventListener('click', () => {
-    const navMap = ['home', 'search', 'beats', 'drumkits', 'services'];
-    const pathMap = { home: '/', search: 'search', beats: '/beats', drumkits: '/drumkits', services: '/services' };
-    const action = btn.dataset.nav || navMap[idx];
+var mbBtns = document.querySelectorAll('.mb-btn');
+mbBtns.forEach(function(btn, idx) {
+  btn.addEventListener('click', function() {
+    var navMap = ['home', 'search', 'beats', 'drumkits', 'services'];
+    var pathMap = { home: '/', search: 'search', beats: '/beats', drumkits: '/drumkits', services: '/services' };
+    var action = btn.getAttribute('data-nav') || navMap[idx];
     if (action === 'search') openSearch();
     else nav('#' + pathMap[action]);
   });
 });
 
 // ==================== ЗАПУСК ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
   document.body.classList.toggle('light', _theme === 'light');
-  document.getElementById('logo').onclick = () => nav('#/');
-  document.getElementById('msg-bd').onclick = closeMsgPanel;
-  document.getElementById('search-ov').onclick = (e) => { if (e.target === e.currentTarget) closeSearch(); };
-  let pClose = document.getElementById('p-close');
-  if (pClose) pClose.addEventListener('click', () => player.hide());
-  let pPbtn = document.getElementById('p-pbtn');
-  if (pPbtn) pPbtn.addEventListener('click', () => player.toggle());
-  let pBar = document.getElementById('p-bar');
-  if (pBar) pBar.addEventListener('click', (e) => { if (player.audio) { let rect = e.target.getBoundingClientRect(); player.audio.currentTime = ((e.clientX - rect.left) / rect.width) * player.audio.duration; } });
-  let pVol = document.querySelector('.p-vol');
-  if (pVol) pVol.addEventListener('input', (e) => { if (player.audio) player.audio.volume = parseFloat(e.target.value); });
+  var logo = document.getElementById('logo');
+  if (logo) logo.onclick = function() { nav('#/'); };
+  var msgBd = document.getElementById('msg-bd');
+  if (msgBd) msgBd.onclick = closeMsgPanel;
+  var searchOv = document.getElementById('search-ov');
+  if (searchOv) searchOv.onclick = function(e) { if (e.target === e.currentTarget) closeSearch(); };
+  var pClose = document.getElementById('p-close');
+  if (pClose) pClose.addEventListener('click', function() { player.hide(); });
+  var pPbtn = document.getElementById('p-pbtn');
+  if (pPbtn) pPbtn.addEventListener('click', function() { player.toggle(); });
+  var pBar = document.getElementById('p-bar');
+  if (pBar) pBar.addEventListener('click', function(e) { if (player.audio) { var rect = e.target.getBoundingClientRect(); player.audio.currentTime = ((e.clientX - rect.left) / rect.width) * player.audio.duration; } });
+  var pVol = document.querySelector('.p-vol');
+  if (pVol) pVol.addEventListener('input', function(e) { if (player.audio) player.audio.volume = parseFloat(e.target.value); });
   render();
 });
 </script>
