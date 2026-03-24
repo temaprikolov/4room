@@ -22,7 +22,6 @@ body.light { --bg: #f2f4f8; --s1: #ffffff; --s2: #eaecf2; --s3s: #d5d8e4; --s4: 
 .w, .wn { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
 .wn { max-width: 780px; }
 .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   padding: 8px 18px; border-radius: var(--r); font-size: 14px; font-weight: 500;
@@ -31,7 +30,7 @@ body.light { --bg: #f2f4f8; --s1: #ffffff; --s2: #eaecf2; --s3s: #d5d8e4; --s4: 
 .btn-p { background: linear-gradient(135deg, var(--blue), var(--blue3)); color: #fff; }
 .btn-p:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,126,212,.4); }
 .btn-d { background: var(--s3s); border-color: var(--border2); color: var(--t1); }
-.btn-g { background: transparent; color: var(--t3); }
+.btn-g { background: transparent; color: var(--t3); border-color: var(--border); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 .btn-xs { padding: 3px 10px; font-size: 11px; }
 .btn-r { background: rgba(224,82,82,0.15); border-color: var(--red); color: var(--red); }
@@ -51,10 +50,6 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .empty-ico { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
 .pill { display: inline-flex; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(79,126,212,.15); color: var(--blue); }
 .stitle { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; }
-.toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.stabs, .gtabs { display: flex; gap: 4px; background: var(--s2); border: 1px solid var(--border); border-radius: var(--r); padding: 4px; }
-.stab, .gtab { padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; color: var(--t3); cursor: pointer; background: none; border: none; }
-.stab.on, .gtab.on { background: var(--blue); color: #fff; }
 .toast {
   position: fixed; bottom: 80px; right: 16px; z-index: 700;
   background: var(--s3s); border: 1px solid var(--border2); border-radius: var(--r2);
@@ -65,20 +60,21 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .toast-err { border-color: var(--red); color: #faa; }
 .toast-ok { border-color: var(--green); color: #a8f0c0; }
 #toasts { position: fixed; bottom: 80px; right: 16px; z-index: 700; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; overflow: hidden; background-size: cover; background-position: center; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; overflow: hidden; flex-shrink: 0; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .avatar-sm { width: 32px; height: 32px; font-size: 13px; }
 .avatar-lg { width: 100px; height: 100px; font-size: 28px; }
 /* Рамки аватара */
-.avatar-frame-default { border-radius: 50%; }
-.avatar-frame-gradient { border-radius: 50%; box-shadow: 0 0 0 3px transparent, 0 0 0 5px #4f7ed4, 0 0 0 8px #9b6dda; }
-.avatar-frame-neon { border-radius: 50%; box-shadow: 0 0 0 3px #fff, 0 0 15px 5px #4f7ed4; }
-.avatar-frame-fire { border-radius: 50%; box-shadow: 0 0 0 3px #f0a045, 0 0 15px 8px #e05252; }
-.avatar-frame-ice { border-radius: 50%; box-shadow: 0 0 0 3px #3dbccc, 0 0 15px 8px #4f7ed4; }
-.avatar-frame-gold { border-radius: 50%; box-shadow: 0 0 0 3px #ffd700, 0 0 15px 8px #ffb347; }
-.avatar-frame-rainbow { border-radius: 50%; box-shadow: 0 0 0 3px red, 0 0 0 6px orange, 0 0 0 9px yellow, 0 0 0 12px green, 0 0 0 15px blue, 0 0 0 18px indigo, 0 0 0 21px violet; }
+.avatar-frame-default { box-shadow: none; }
+.avatar-frame-gradient { box-shadow: 0 0 0 3px var(--blue), 0 0 0 6px var(--purple); }
+.avatar-frame-neon { box-shadow: 0 0 0 3px #fff, 0 0 15px 5px var(--blue); }
+.avatar-frame-fire { box-shadow: 0 0 0 3px #f0a045, 0 0 15px 8px #e05252; }
+.avatar-frame-ice { box-shadow: 0 0 0 3px #3dbccc, 0 0 15px 8px #4f7ed4; }
+.avatar-frame-gold { box-shadow: 0 0 0 3px #ffd700, 0 0 15px 8px #ffb347; }
+.avatar-frame-rainbow { box-shadow: 0 0 0 3px red, 0 0 0 6px orange, 0 0 0 9px yellow, 0 0 0 12px green, 0 0 0 15px blue, 0 0 0 18px indigo, 0 0 0 21px violet; }
 /* Шапка профиля */
-.profile-header-bg { width: 100%; height: 180px; background-size: cover; background-position: center; background-color: var(--s3s); border-radius: var(--r2) var(--r2) 0 0; position: relative; }
+.profile-header-bg { width: 100%; height: 160px; background-size: cover; background-position: center; background-color: var(--s3s); border-radius: var(--r2) var(--r2) 0 0; position: relative; }
+.profile-avatar-wrapper { position: relative; margin-top: -50px; margin-bottom: 12px; display: flex; justify-content: center; }
 /* Посты */
 .post, .wall-post { padding: 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; }
 .post:hover, .wall-post:hover { background: var(--s3s); }
@@ -90,44 +86,16 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .post-actions { display: flex; gap: 16px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); }
 .post-action { background: none; border: none; color: var(--t3); cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; }
 .post-action:hover { color: var(--blue); }
-/* Реакции */
+.repost-origin { background: var(--s3s); border-radius: var(--r); padding: 8px 12px; margin-top: 8px; font-size: 12px; border-left: 3px solid var(--blue); }
 .reactions { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
-.reaction-btn { background: var(--s3s); border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+.reaction-btn { background: var(--s3s); border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px; font-size: 14px; cursor: pointer; }
 .reaction-btn.active { background: rgba(79,126,212,.3); border-color: var(--blue); }
-.reaction-count { font-size: 12px; margin-left: 4px; color: var(--t3); }
-.reaction-list { font-size: 11px; color: var(--t3); margin-top: 4px; }
-/* Комментарии */
 .comments-section { margin-top: 12px; padding-left: 48px; }
 .comment { padding: 8px 0; border-top: 1px solid var(--border); display: flex; gap: 10px; }
-.comment-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--s3s); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.comment-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--s3s); display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
 .comment-content { flex: 1; }
 .comment-author { font-weight: 600; font-size: 12px; cursor: pointer; }
 .comment-text { font-size: 12px; margin-top: 2px; }
-.comment-time { font-size: 10px; color: var(--t4); margin-top: 2px; }
-/* Репост */
-.repost-origin { background: var(--s3s); border-radius: var(--r); padding: 8px 12px; margin-top: 8px; font-size: 12px; border-left: 3px solid var(--blue); }
-/* Карточки */
-.price { font-size: 18px; font-weight: 700; color: var(--green); margin: 8px 0; }
-.file-label { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--s3s); border: 1px dashed var(--border2); border-radius: var(--r); cursor: pointer; font-size: 12px; }
-.flex { display: flex; align-items: center; gap: 8px; }
-.mt-2 { margin-top: 8px; }
-.mt-3 { margin-top: 12px; }
-.mb-4 { margin-bottom: 16px; }
-.gap-2 { gap: 8px; }
-.justify-between { justify-content: space-between; }
-/* Истории */
-.stories-bar { display: flex; gap: 16px; overflow-x: auto; padding: 8px 0 16px; margin-bottom: 8px; }
-.story-item { text-align: center; cursor: pointer; flex-shrink: 0; }
-.story-ring { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--amber), var(--pink)); padding: 2px; }
-.story-ring-inner { width: 100%; height: 100%; border-radius: 50%; background: var(--s2); display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; }
-.story-ring-inner img { width: 100%; height: 100%; object-fit: cover; }
-.story-name { font-size: 11px; margin-top: 6px; color: var(--t3); }
-.story-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; flex-direction: column; }
-.story-modal.open { display: flex; }
-.story-content { max-width: 90vw; max-height: 80vh; text-align: center; }
-.story-content img { max-width: 100%; max-height: 70vh; border-radius: 16px; }
-.story-progress { position: fixed; top: 20px; left: 10%; right: 10%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 3px; }
-.story-progress-fill { height: 100%; background: white; width: 0%; transition: width 0.05s linear; }
 /* Сообщения */
 .conv-list { overflow-y: auto; flex: 1; }
 .conv-item { display: flex; align-items: center; gap: 10px; padding: 11px 14px; cursor: pointer; border-bottom: 1px solid rgba(44,46,72,.5); }
@@ -155,7 +123,34 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 .mbn { display: flex; }
 .mb-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px 10px; font-size: 10px; color: var(--t3); cursor: pointer; background: none; border: none; }
 .mb-btn.on { color: var(--blue); }
-@media (max-width: 760px) { #hnav { display: none; } #mob-bnav { display: block; } body { padding-bottom: 70px; } .g2, .g3 { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { #hnav { display: none; } #mob-bnav { display: block; } body { padding-bottom: 70px; } .g2 { grid-template-columns: 1fr; } }
+.flex { display: flex; align-items: center; gap: 8px; }
+.justify-between { justify-content: space-between; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mb-4 { margin-bottom: 16px; }
+.gap-2 { gap: 8px; }
+.w-100 { width: 100%; }
+/* Модалки */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 1000; display: none; align-items: center; justify-content: center; }
+.modal.open { display: flex; }
+.modal-content { background: var(--s2); border-radius: var(--r3); max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+.modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-weight: 600; }
+.modal-body { padding: 16px; }
+.frame-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.frame-preview { width: 50px; height: 50px; border-radius: 50%; background: var(--s3s); cursor: pointer; transition: transform 0.2s; }
+.frame-preview:hover { transform: scale(1.1); }
+.frame-preview-default { box-shadow: none; }
+.frame-preview-gradient { box-shadow: 0 0 0 2px var(--blue), 0 0 0 4px var(--purple); }
+.frame-preview-neon { box-shadow: 0 0 0 2px #fff, 0 0 10px 3px var(--blue); }
+.frame-preview-fire { box-shadow: 0 0 0 2px #f0a045, 0 0 10px 5px #e05252; }
+.frame-preview-ice { box-shadow: 0 0 0 2px #3dbccc, 0 0 10px 5px #4f7ed4; }
+.frame-preview-gold { box-shadow: 0 0 0 2px #ffd700, 0 0 10px 5px #ffb347; }
+.frame-preview-rainbow { box-shadow: 0 0 0 2px red, 0 0 0 4px orange, 0 0 0 6px yellow, 0 0 0 8px green, 0 0 0 10px blue; }
+/* Репост меню */
+.repost-menu { position: absolute; background: var(--s2); border: 1px solid var(--border); border-radius: var(--r2); padding: 8px 0; min-width: 180px; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+.repost-menu-item { padding: 10px 16px; cursor: pointer; transition: background 0.2s; }
+.repost-menu-item:hover { background: var(--s3s); }
 </style>
 </head>
 <body>
@@ -181,7 +176,6 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
   <div id="p-profile" class="page"></div>
   <div id="p-admin" class="page"></div>
   <div id="p-bmarks" class="page"></div>
-  <div id="p-settings" class="page"></div>
 </main>
 
 <footer style="border-top:1px solid var(--border);padding:20px;text-align:center;font-size:12px;color:var(--t4)">4room — социальная платформа для музыкантов и продюсеров</footer>
@@ -199,6 +193,62 @@ input:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px r
 <div id="player" style="position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(18,19,27,.98);backdrop-filter:blur(16px);border-top:1px solid var(--border);z-index:300;display:none;align-items:center;padding:0 20px;gap:12px;"><div id="p-cov" style="width:44px;height:44px;border-radius:8px;background:var(--s3s);display:flex;align-items:center;justify-content:center;">♪</div><div style="flex:1"><div id="p-ttl" style="font-weight:500">—</div><div id="p-art" style="font-size:11px;color:var(--t3)"></div></div><button id="p-pbtn" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--t1);width:40px;">▶</button><div style="flex:1;max-width:300px;height:4px;background:var(--s4);border-radius:4px;cursor:pointer;" id="p-bar"><div id="p-bar-f" style="height:100%;background:var(--blue);width:0%;border-radius:4px;"></div></div><span id="p-time" style="font-size:12px;min-width:45px;">0:00</span><input type="range" class="p-vol" min="0" max="1" step="0.05" value="0.8" style="width:80px;"><button id="p-close" style="background:none;border:none;color:var(--t4);cursor:pointer;font-size:18px;">✕</button></div>
 <nav id="mob-bnav"><div class="mbn"><button class="mb-btn" id="mbn0">🏠<span>Главная</span></button><button class="mb-btn" id="mbn1">🔍<span>Поиск</span></button><button class="mb-btn" id="mbn2">♪<span>Биты</span></button><button class="mb-btn" id="mbn3">🥁<span>Драмкиты</span></button><button class="mb-btn" id="mbn4">🛠<span>Услуги</span></button></div></nav>
 
+<div id="edit-profile-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>✎ Редактировать профиль</span><button onclick="closeEditModal()" style="background:none;border:none;color:var(--t3);font-size:20px;">✕</button></div>
+    <div class="modal-body">
+      <div class="stitle">Основное</div>
+      <input id="edit-bio" type="text" placeholder="О себе" style="width:100%">
+      <div class="stitle mt-3">Аватар</div>
+      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadAvatarModal()">📷 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeAvatar()">🗑 Удалить</button></div>
+      <div class="stitle mt-3">Шапка профиля</div>
+      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadBannerModal()">🖼 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeBanner()">🗑 Удалить</button></div>
+      <div class="stitle mt-3">Рамка аватара</div>
+      <div class="frame-buttons">
+        <div class="frame-preview frame-preview-default" onclick="setAvatarFrame('default')"></div>
+        <div class="frame-preview frame-preview-gradient" onclick="setAvatarFrame('gradient')"></div>
+        <div class="frame-preview frame-preview-neon" onclick="setAvatarFrame('neon')"></div>
+        <div class="frame-preview frame-preview-fire" onclick="setAvatarFrame('fire')"></div>
+        <div class="frame-preview frame-preview-ice" onclick="setAvatarFrame('ice')"></div>
+        <div class="frame-preview frame-preview-gold" onclick="setAvatarFrame('gold')"></div>
+        <div class="frame-preview frame-preview-rainbow" onclick="setAvatarFrame('rainbow')"></div>
+      </div>
+      <div class="stitle mt-3">Настройки приватности</div>
+      <div class="flex justify-between"><span>Кто может писать на стене:</span><select id="privacy-wall"><option>all</option><option>friends</option><option>none</option></select></div>
+      <div class="flex justify-between mt-2"><span>Кто может комментировать:</span><select id="privacy-comment"><option>all</option><option>friends</option><option>none</option></select></div>
+      <div class="flex justify-between mt-2"><span>Закрытый профиль:</span><input type="checkbox" id="privacy-locked"></div>
+      <div class="pf mt-3"><button class="btn btn-p" onclick="saveProfileEdit()">Сохранить</button><button class="btn btn-g" onclick="closeEditModal()">Отмена</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="repost-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>🔁 Репост</span><button onclick="closeRepostModal()" style="background:none;border:none;color:var(--t3);font-size:20px;">✕</button></div>
+    <div class="modal-body">
+      <div class="stitle">Куда репостнуть?</div>
+      <button class="btn btn-p w-100 mt-2" onclick="repostToMyWall()">📌 На свою стену</button>
+      <div class="stitle mt-3">В личные сообщения</div>
+      <input id="repost-user-search" type="text" placeholder="Поиск пользователя..." oninput="searchUserForRepost()">
+      <div id="repost-user-results" style="max-height:200px;overflow-y:auto;margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="group-chat-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header"><span>👥 Создать групповой чат</span><button onclick="closeGroupModal()" style="background:none;border:none;color:var(--t3);font-size:20px;">✕</button></div>
+    <div class="modal-body">
+      <input id="group-name" type="text" placeholder="Название группы">
+      <div class="stitle mt-2">Участники</div>
+      <input id="group-user-search" type="text" placeholder="Поиск..." oninput="searchUserForGroup()">
+      <div id="group-user-results" style="max-height:200px;overflow-y:auto;"></div>
+      <div id="selected-users" class="mt-2" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+      <div class="pf mt-3"><button class="btn btn-p" onclick="createGroupChat()">Создать</button></div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ==================== КОНФИГ ====================
 const HELP_TG = 'https://t.me/prikolovwork';
@@ -207,7 +257,7 @@ const HELP_TG = 'https://t.me/prikolovwork';
 let S = { 
   threads: [], replies: {}, beats: [], drumkits: [], services: [], 
   wallPosts: {}, convs: [], stories: {}, reports: [], polls: {}, 
-  reactions: {}, postViews: {}, comments: {}, reposts: [],
+  reactions: {}, postViews: {}, comments: {}, notifications: [],
   counter: 1000 
 };
 let users = JSON.parse(localStorage.getItem('4r_users') || '[]');
@@ -217,6 +267,8 @@ let _theme = localStorage.getItem('4r_theme') || 'dark';
 let _homeTab = 'all';
 let _bg = 'all', _bs = 'newest';
 let _activeConv = null;
+let _currentRepostData = null;
+let _selectedGroupUsers = [];
 
 // ==================== УТИЛИТЫ ====================
 function toast(msg, isErr) {
@@ -237,13 +289,18 @@ function persist() {
   localStorage.setItem('4r_registrations', JSON.stringify(registrations)); 
   localStorage.setItem('4r_session', JSON.stringify(sess)); 
 }
-function loadData() { let d = localStorage.getItem('4r_data'); if (d) try { let p = JSON.parse(d); Object.assign(S, p); if (!S.reactions) S.reactions = {}; if (!S.polls) S.polls = {}; if (!S.postViews) S.postViews = {}; if (!S.comments) S.comments = {}; if (!S.reposts) S.reposts = []; } catch(e) {} }
+function loadData() { let d = localStorage.getItem('4r_data'); if (d) try { let p = JSON.parse(d); Object.assign(S, p); if (!S.reactions) S.reactions = {}; if (!S.notifications) S.notifications = []; } catch(e) {} }
 loadData();
 
 function getUser(id) { return users.find(u => u.id === id); }
 function updateUser(id, data) { let idx = users.findIndex(u => u.id === id); if (idx !== -1) { users[idx] = { ...users[idx], ...data }; if (sess && sess.id === id) sess = { ...sess, ...data }; persist(); } }
 function isAdmin() { return sess && sess.isAdmin; }
 function canModerate(targetUid) { return isAdmin() || (sess && sess.id === targetUid); }
+function addNotification(userId, type, fromUserId, postId) {
+  if (!S.notifications[userId]) S.notifications[userId] = [];
+  S.notifications[userId].unshift({ id: mkId(), type, fromUserId, postId, createdAt: Date.now(), read: false });
+  persist();
+}
 
 // ==================== РЕГИСТРАЦИЯ ====================
 function getDeviceId() {
@@ -263,7 +320,6 @@ function addRegistrationRecord() {
   registrations.push({ deviceId, date: today, timestamp: Date.now() });
   persist();
 }
-
 function register(username, password) {
   if (!username || username.length < 3) return { ok: false, err: 'Имя не менее 3 символов' };
   if (!password || password.length < 4) return { ok: false, err: 'Пароль не менее 4 символов' };
@@ -322,7 +378,7 @@ function buildHeader() {
           <div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;">
             <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">${esc(sess.username)}</div>
             <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/profile');closeUmenu()">👤 Мой профиль</div>
-            <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/settings');closeUmenu()">⚙ Настройки</div>
+            <div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>
             <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/bmarks');closeUmenu()">🔖 Закладки</div>
             ${sess.isAdmin ? `<div style="padding:10px 16px;cursor:pointer" onclick="nav('#/admin');closeUmenu()">⚙ Админ-панель</div>` : ''}
             <div style="height:1px;background:var(--border);margin:4px 0"></div>
@@ -336,29 +392,61 @@ function buildHeader() {
 }
 function getAvatarHTML(user, size) {
   let frameClass = `avatar-frame-${user?.avatarFrame || 'default'}`;
-  return `<div class="avatar ${frameClass}" style="width:${size}px;height:${size}px;background:${user?.avatarBase64 ? `url(${user.avatarBase64}) center/cover` : '#4f7ed4'};display:flex;align-items:center;justify-content:center;font-weight:600;">${!user?.avatarBase64 ? (user?.username?.[0]?.toUpperCase() || '?') : ''}</div>`;
+  let bgStyle = user?.avatarBase64 ? `url(${user.avatarBase64}) center/cover` : '#4f7ed4';
+  return `<div class="avatar ${frameClass}" style="width:${size}px;height:${size}px;background:${bgStyle};display:flex;align-items:center;justify-content:center;font-weight:600;">${!user?.avatarBase64 ? (user?.username?.[0]?.toUpperCase() || '?') : ''}</div>`;
 }
 function toggleUmenu() { let m = document.getElementById('umenu'); if (m) m.style.display = m.style.display === 'none' ? 'block' : 'none'; }
 function closeUmenu() { document.getElementById('umenu')?.style.setProperty('display', 'none'); }
 function toggleTheme() { _theme = _theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('4r_theme', _theme); document.body.classList.toggle('light', _theme === 'light'); buildHeader(); }
 function openSearch() { document.getElementById('search-ov').style.display = 'flex'; setTimeout(() => document.getElementById('s-inp')?.focus(), 100); }
 function closeSearch() { document.getElementById('search-ov').style.display = 'none'; }
-function toggleNotif() { let p = document.getElementById('notif-panel'); p.style.display = p.style.display === 'none' ? 'flex' : 'none'; }
+
+// ==================== УВЕДОМЛЕНИЯ ====================
+function toggleNotif() { 
+  let p = document.getElementById('notif-panel'); 
+  if (p.style.display === 'flex') { p.style.display = 'none'; return; }
+  let notifs = S.notifications[sess?.id] || [];
+  p.innerHTML = `<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="pb">${notifs.length ? notifs.map(n => `<div class="post-action" style="padding:8px;border-bottom:1px solid var(--border)">${getNotificationText(n)}</div>`).join('') : '<div class="empty">Нет уведомлений</div>'}</div>`;
+  p.style.display = 'flex';
+}
+function getNotificationText(n) {
+  let fromUser = getUser(n.fromUserId);
+  if (n.type === 'reaction') return `${fromUser?.username} отреагировал на ваш пост`;
+  if (n.type === 'comment') return `${fromUser?.username} прокомментировал ваш пост`;
+  if (n.type === 'repost') return `${fromUser?.username} сделал репост вашего поста`;
+  if (n.type === 'message') return `Новое сообщение от ${fromUser?.username}`;
+  return `Новое уведомление`;
+}
 
 // ==================== СООБЩЕНИЯ ====================
-function openMsgPanel() { document.getElementById('msg-panel').style.transform = 'translateX(0)'; document.getElementById('msg-bd').style.display = 'block'; renderMsgPanel(); }
-function closeMsgPanel() { document.getElementById('msg-panel').style.transform = 'translateX(100%)'; document.getElementById('msg-bd').style.display = 'none'; _activeConv = null; }
+function openMsgPanel() { 
+  document.getElementById('msg-panel').style.transform = 'translateX(0)'; 
+  document.getElementById('msg-bd').style.display = 'block'; 
+  renderMsgPanel(); 
+}
+function closeMsgPanel() { 
+  document.getElementById('msg-panel').style.transform = 'translateX(100%)'; 
+  document.getElementById('msg-bd').style.display = 'none'; 
+  _activeConv = null;
+}
 function renderMsgPanel() {
   let convs = S.convs.filter(c => c.participants?.includes(sess?.id));
+  let html = `<div class="ph">Сообщения<div class="flex"><input id="conv-search" type="text" placeholder="Поиск..." style="width:120px;padding:4px 8px;" oninput="filterConvs()"><button class="btn btn-xs btn-p" onclick="openGroupModal()" style="margin-left:5px">+ Группа</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;">✕</button></div></div><div id="conv-list" class="conv-list">${convs.map(c => `<div class="conv-item" onclick="openConv('${c.id}')"><div class="avatar avatar-sm">${c.type === 'group' ? '👥' : '💬'}</div><div><div class="conv-name">${c.name || getUser(c.participants?.find(p => p !== sess?.id))?.username || 'Диалог'}</div></div></div>`).join('') || '<div class="empty">Нет диалогов</div>'}</div>`;
   if (_activeConv) { renderChatView(convs.find(c => c.id === _activeConv)); return; }
-  document.getElementById('mpi').innerHTML = `<div class="ph">Сообщения<button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;">✕</button></div><div class="conv-list">${convs.map(c => `<div class="conv-item" onclick="openConv('${c.id}')"><div class="avatar avatar-sm">${c.type === 'dm' ? '💬' : '👥'}</div><div><div class="conv-name">${c.name || getUser(c.participants?.find(p => p !== sess?.id))?.username || 'Диалог'}</div></div></div>`).join('') || '<div class="empty">Нет диалогов</div>'}</div>`;
+  document.getElementById('mpi').innerHTML = html;
+}
+function filterConvs() {
+  let query = document.getElementById('conv-search')?.value.toLowerCase();
+  let convs = S.convs.filter(c => c.participants?.includes(sess?.id));
+  let filtered = convs.filter(c => (c.name || getUser(c.participants?.find(p => p !== sess?.id))?.username || '').toLowerCase().includes(query || ''));
+  document.getElementById('conv-list').innerHTML = filtered.map(c => `<div class="conv-item" onclick="openConv('${c.id}')"><div class="avatar avatar-sm">${c.type === 'group' ? '👥' : '💬'}</div><div><div class="conv-name">${c.name || getUser(c.participants?.find(p => p !== sess?.id))?.username || 'Диалог'}</div></div></div>`).join('') || '<div class="empty">Ничего не найдено</div>';
 }
 function renderChatView(conv) {
   if (!conv) { _activeConv = null; renderMsgPanel(); return; }
   let otherId = conv.participants?.find(p => p !== sess?.id);
   let otherUser = getUser(otherId);
   let msgs = (conv.messages || []).map(m => `<div class="${m.fromUid === sess?.id ? 'bubble mine' : 'bubble theirs'}">${esc(m.content)}<div style="font-size:10px;color:var(--t4);margin-top:2px">${relTime(m.createdAt)}</div></div>`).join('');
-  document.getElementById('mpi').innerHTML = `<div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>${otherUser?.username || 'Диалог'}<button onclick="closeMsgPanel()" style="background:none;border:none;cursor:pointer;font-size:18px;">✕</button></div><div class="chat-msgs" id="chat-msgs">${msgs || '<div class="empty">Нет сообщений</div>'}</div><div class="chat-input-area"><input id="chat-in" type="text" placeholder="Сообщение..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-p btn-sm" onclick="sendMsg()">→</button></div>`;
+  document.getElementById('mpi').innerHTML = `<div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>${conv.name || otherUser?.username || 'Диалог'}<div><button class="btn btn-xs btn-d" onclick="inviteToGroup('${conv.id}')" ${conv.type !== 'group' ? 'style="display:none"' : ''}>➕</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;">✕</button></div></div><div class="chat-msgs" id="chat-msgs">${msgs || '<div class="empty">Нет сообщений</div>'}</div><div class="chat-input-area"><input id="chat-in" type="text" placeholder="Сообщение..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-p btn-sm" onclick="sendMsg()">→</button></div>`;
   setTimeout(() => { let el = document.getElementById('chat-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
 }
 function openConv(id) { _activeConv = id; renderMsgPanel(); }
@@ -369,6 +457,9 @@ function sendMsg() {
   if (!text) return;
   conv.messages = conv.messages || [];
   conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: text, createdAt: Date.now(), readBy: [sess.id] });
+  for (let p of conv.participants) {
+    if (p !== sess.id) addNotification(p, 'message', sess.id, null);
+  }
   persist();
   renderMsgPanel();
 }
@@ -391,6 +482,42 @@ function startDM(userId, initialMessage) {
   }
   openMsgPanel();
   toast(`Чат с ${targetUser.username} открыт`);
+}
+function openGroupModal() { document.getElementById('group-chat-modal').classList.add('open'); _selectedGroupUsers = [sess.id]; updateSelectedUsersDisplay(); }
+function closeGroupModal() { document.getElementById('group-chat-modal').classList.remove('open'); }
+function searchUserForGroup() {
+  let q = document.getElementById('group-user-search')?.value.toLowerCase();
+  let results = users.filter(u => u.username.toLowerCase().includes(q) && !_selectedGroupUsers.includes(u.id) && u.id !== sess.id).slice(0, 10);
+  document.getElementById('group-user-results').innerHTML = results.map(u => `<div class="conv-item" onclick="addToGroup('${u.id}', '${esc(u.username)}')"><div class="avatar avatar-sm">${u.username[0]}</div><div>${esc(u.username)}</div></div>`).join('') || '<div class="empty">Ничего не найдено</div>';
+}
+function addToGroup(uid, name) { if (!_selectedGroupUsers.includes(uid)) { _selectedGroupUsers.push(uid); updateSelectedUsersDisplay(); } }
+function updateSelectedUsersDisplay() {
+  let selected = _selectedGroupUsers.filter(id => id !== sess.id).map(id => getUser(id));
+  document.getElementById('selected-users').innerHTML = selected.map(u => `<span class="pill">${esc(u.username)} <button onclick="removeFromGroup('${u.id}')" style="background:none;border:none;color:var(--red);cursor:pointer;">✕</button></span>`).join('');
+}
+function removeFromGroup(uid) { _selectedGroupUsers = _selectedGroupUsers.filter(id => id !== uid); updateSelectedUsersDisplay(); }
+function createGroupChat() {
+  if (_selectedGroupUsers.length < 2) { toast('Нужно минимум 2 участника', true); return; }
+  let name = document.getElementById('group-name')?.value.trim() || `Группа ${_selectedGroupUsers.length}`;
+  let newConv = { id: 'c' + mkId(), type: 'group', name, participants: _selectedGroupUsers, messages: [], createdAt: Date.now() };
+  S.convs.push(newConv);
+  persist();
+  closeGroupModal();
+  _activeConv = newConv.id;
+  renderMsgPanel();
+  toast('Групповой чат создан!');
+}
+function inviteToGroup(convId) {
+  let conv = S.convs.find(c => c.id === convId);
+  if (!conv || conv.type !== 'group') return;
+  let username = prompt('Введите username пользователя для приглашения:');
+  let user = users.find(u => u.username === username);
+  if (user && !conv.participants.includes(user.id)) {
+    conv.participants.push(user.id);
+    persist();
+    toast(`${user.username} добавлен в чат`);
+    renderMsgPanel();
+  } else { toast('Пользователь не найден или уже в чате', true); }
 }
 
 // ==================== АВТОРИЗАЦИЯ ====================
@@ -430,70 +557,6 @@ function doRegister() {
 function closeAuth() { document.getElementById('auth-ov').style.display = 'none'; }
 function nav(hash) { location.hash = hash; render(); }
 
-// ==================== ПОСТЫ НА СТЕНЕ ====================
-function createWallPost(targetUid, content, repostData = null) {
-  if (!sess) return toast('Войдите чтобы оставить запись', true);
-  let targetUser = getUser(targetUid);
-  if (!targetUser) return;
-  if (targetUser.privacy?.wall === 'friends' && !targetUser.friends?.includes(sess.id) && targetUid !== sess.id) return toast('Только друзья могут писать на этой стене', true);
-  if (targetUser.privacy?.wall === 'none' && targetUid !== sess.id) return toast('Этот пользователь закрыл стену', true);
-  if (targetUser.privacy?.profileLocked && targetUid !== sess.id && !targetUser.friends?.includes(sess.id)) return toast('Профиль закрыт', true);
-  
-  let post = {
-    id: 'wp' + mkId(), uid: sess.id, author: sess.username, authorAvatar: sess.avatarBase64,
-    targetUid, content, repost: repostData, createdAt: Date.now(), views: 0
-  };
-  if (!S.wallPosts[targetUid]) S.wallPosts[targetUid] = [];
-  S.wallPosts[targetUid].unshift(post);
-  persist();
-  toast('Пост опубликован!');
-  renderProfile(targetUid);
-}
-function deleteWallPost(postId, targetUid) {
-  let posts = S.wallPosts[targetUid] || [];
-  let post = posts.find(p => p.id === postId);
-  if (post && (canModerate(post.uid) || canModerate(targetUid))) {
-    S.wallPosts[targetUid] = posts.filter(p => p.id !== postId);
-    persist();
-    toast('Пост удалён');
-    renderProfile(targetUid);
-  }
-}
-function addView(postId, type) {
-  if (!S.postViews[postId]) S.postViews[postId] = 0;
-  S.postViews[postId]++;
-  persist();
-}
-function addReaction(postId, type, emoji) {
-  if (!S.reactions[postId]) S.reactions[postId] = {};
-  if (!S.reactions[postId][type]) S.reactions[postId][type] = [];
-  if (S.reactions[postId][type].includes(sess?.id)) {
-    S.reactions[postId][type] = S.reactions[postId][type].filter(id => id !== sess.id);
-  } else {
-    S.reactions[postId][type].push(sess.id);
-  }
-  persist();
-  render();
-}
-function addComment(postId, targetUid, content) {
-  if (!sess) return toast('Войдите чтобы комментировать', true);
-  let targetUser = getUser(targetUid);
-  if (targetUser.privacy?.comment === 'friends' && !targetUser.friends?.includes(sess.id) && targetUid !== sess.id) return toast('Только друзья могут комментировать', true);
-  if (targetUser.privacy?.comment === 'none' && targetUid !== sess.id) return toast('Комментирование отключено', true);
-  if (!S.comments[postId]) S.comments[postId] = [];
-  S.comments[postId].push({ id: 'c' + mkId(), uid: sess.id, author: sess.username, content, createdAt: Date.now() });
-  persist();
-  renderProfile(targetUid);
-}
-function repostToDM(post, targetUserId) {
-  if (!sess) return toast('Войдите чтобы репостить', true);
-  startDM(targetUserId, `🔁 Репост:\n\n${post.author}: ${post.content}\n\n(Отправлено через репост)`);
-}
-function repostToWall(post, targetUid) {
-  if (!sess) return;
-  createWallPost(targetUid, '', { originalAuthor: post.author, originalContent: post.content, originalId: post.id });
-}
-
 // ==================== РЕНДЕР ====================
 function render() {
   let hash = location.hash.slice(1) || '/';
@@ -505,7 +568,6 @@ function render() {
   else if (hash === '/music') renderMusic();
   else if (hash === '/profile') renderProfile(sess?.id);
   else if (hash === '/bmarks') renderBookmarks();
-  else if (hash === '/settings') renderSettings();
   else if (hash === '/admin' && isAdmin()) renderAdmin();
   else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
   else if (hash.startsWith('/thread/')) renderThread(hash.slice(8));
@@ -518,13 +580,11 @@ function showPage(id) { document.querySelectorAll('.page').forEach(p => p.classL
 function renderHome() {
   let el = document.getElementById('p-home');
   let threads = S.threads.slice().sort((a,b) => b.lastActivity - a.lastActivity).slice(0, 20);
-  let storiesHtml = `<div class="stories-bar">${sess ? `<div class="story-item" onclick="openStoryUpload()"><div class="story-ring"><div class="story-ring-inner">+</div></div><div class="story-name">Мои</div></div>` : ''}${Object.keys(S.stories).flatMap(uid => (S.stories[uid] || []).filter(s => s.expires > Date.now()).map(s => `<div class="story-item" onclick="viewStory('${uid}', '${s.id}')"><div class="story-ring"><div class="story-ring-inner">${getUser(uid)?.avatarBase64 ? `<img src="${getUser(uid).avatarBase64}">` : getUser(uid)?.username?.[0]?.toUpperCase() || '?'}</div></div><div class="story-name">${getUser(uid)?.username}</div></div>`)).slice(0, 10)}</div>`;
-  el.innerHTML = `<div class="w">${storiesHtml}<div class="feed">${threads.map(th => `<div class="post" onclick="nav('#/thread/${th.id}')"><div class="post-header"><div class="avatar avatar-sm">${th.op?.author?.[0]?.toUpperCase() || '?'}</div><div><div class="post-author">${esc(th.op?.author || 'Аноним')}</div><div class="post-time">${relTime(th.lastActivity)}</div></div></div><div style="font-weight:600">${esc(th.title)}</div><div class="post-content" style="font-size:13px;color:var(--t2)">${esc(th.op?.content?.slice(0, 100) || '')}</div><div style="margin-top:8px"><span class="pill">💬 ${th.replyCount || 0} ответов</span></div></div>`).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>'}</div></div>`;
+  let storiesHtml = `<div class="stories-bar">${sess ? `<div class="story-item" onclick="openStoryUpload()"><div class="story-ring"><div class="story-ring-inner">+</div></div><div class="story-name">Мои</div></div>` : ''}</div>`;
+  el.innerHTML = `<div class="w">${storiesHtml}<div class="feed">${threads.map(th => `<div class="post" onclick="nav('#/thread/${th.id}')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">${th.op?.author?.[0]?.toUpperCase() || '?'}</div><div><div class="post-author">${esc(th.op?.author || 'Аноним')}</div><div class="post-time">${relTime(th.lastActivity)}</div></div></div><div style="font-weight:600">${esc(th.title)}</div><div class="post-content" style="font-size:13px;color:var(--t2)">${esc(th.op?.content?.slice(0, 100) || '')}</div><div style="margin-top:8px"><span class="pill">💬 ${th.replyCount || 0} ответов</span></div></div>`).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>'}</div></div>`;
   showPage('p-home');
 }
 function openStoryUpload() { if (!sess) { openAuth(); return; } let input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { let file = e.target.files[0]; let reader = new FileReader(); reader.onload = (ev) => { if (!S.stories[sess.id]) S.stories[sess.id] = []; S.stories[sess.id].push({ id: 'st' + mkId(), image: ev.target.result, createdAt: Date.now(), expires: Date.now() + 24*3600000 }); persist(); toast('История опубликована!'); renderHome(); }; reader.readAsDataURL(file); }; input.click(); }
-function viewStory(uid, storyId) { /* simplified */ toast('Просмотр историй'); }
-function deleteStory(uid, storyId) { if (canModerate(uid)) { S.stories[uid] = (S.stories[uid] || []).filter(s => s.id !== storyId); persist(); renderHome(); toast('История удалена'); } }
 
 // ==================== BOARD ====================
 function renderBoard(id) {
@@ -650,39 +710,137 @@ function renderProfile(uid) {
   let badgeNames = { early: '🌱 Ранний', verified: '✓ Верифицирован', admin: '👑 Админ', popular: '⭐ Популярный', pro: '🎧 Профессионал', gold: '🏆 Золотой' };
   let posts = S.wallPosts[uid] || [];
   let el = document.getElementById('p-profile');
-  el.innerHTML = `<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ${user.bannerBase64 ? `url(${user.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))'}"></div><div style="padding:0 24px 24px 24px;margin-top:-50px"><div style="display:flex;justify-content:center;margin-bottom:16px">${getAvatarHTML(user, 100)}</div><div style="text-align:center"><div style="font-size:24px;font-weight:700">${esc(user.username)}</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">${(user.badges || []).map(b => `<span class="pill">${badgeNames[b] || b}</span>`).join('')}</div><div style="color:var(--t3);margin:12px 0">${esc(user.bio || 'Нет описания')}</div><div class="stats" style="display:flex;justify-content:center;gap:24px;margin:16px 0"><div><div style="font-weight:700">${posts.length}</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">${user.followers?.length || 0}</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">${user.friends?.length || 0}</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>${sess && sess.id !== user.id ? `<div class="actions"><button class="btn btn-p" onclick="startDM('${user.id}', 'Привет!')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend('${user.id}')" style="margin-left:12px">${(user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья'}</button><button class="btn btn-d" onclick="toggleFollow('${user.id}')" style="margin-left:12px">${(user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться'}</button></div>` : ''}${isOwn ? `<div class="actions mt-3"><button class="btn btn-d" onclick="editProfile()">✎ Редактировать</button><button class="btn btn-d" onclick="uploadAvatar()">📷 Аватар</button><button class="btn btn-d" onclick="uploadBanner()">🖼 Шапка</button><button class="btn btn-d" onclick="changeAvatarFrame()">💎 Рамка</button></div>` : ''}</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">${canWrite && sess ? `<textarea id="wall-post-content" rows="3" placeholder="Что у вас нового?"></textarea><div class="pf"><button class="btn btn-p" onclick="createWallPost('${uid}', document.getElementById('wall-post-content').value)">Опубликовать</button></div>` : ''}<div id="wall-posts">${posts.map(p => renderWallPost(p, uid)).join('') || '<div class="empty">Нет записей на стене</div>'}</div></div></div></div>`;
+  el.innerHTML = `<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ${user.bannerBase64 ? `url(${user.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))'}"></div><div class="profile-avatar-wrapper">${getAvatarHTML(user, 100)}</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">${esc(user.username)}</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">${(user.badges || []).map(b => `<span class="pill">${badgeNames[b] || b}</span>`).join('')}</div><div style="color:var(--t3);margin:12px 0">${esc(user.bio || 'Нет описания')}</div><div class="stats" style="display:flex;justify-content:center;gap:24px;margin:16px 0"><div><div style="font-weight:700">${posts.length}</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">${user.followers?.length || 0}</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">${user.friends?.length || 0}</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>${sess && sess.id !== user.id ? `<div class="actions"><button class="btn btn-p" onclick="startDM('${user.id}', 'Привет!')">✉ Написать</button><button class="btn btn-d" onclick="toggleFriend('${user.id}')" style="margin-left:12px">${(user.friends || []).includes(sess.id) ? '✓ В друзьях' : '+ В друзья'}</button><button class="btn btn-d" onclick="toggleFollow('${user.id}')" style="margin-left:12px">${(user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться'}</button></div>` : ''}</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">${canWrite && sess ? `<textarea id="wall-post-content" rows="3" placeholder="Что у вас нового?"></textarea><div class="pf"><button class="btn btn-p" onclick="createWallPost('${uid}', document.getElementById('wall-post-content').value)">Опубликовать</button></div>` : ''}<div id="wall-posts">${posts.map(p => renderWallPost(p, uid)).join('') || '<div class="empty">Нет записей на стене</div>'}</div></div></div></div>`;
   showPage('p-profile');
 }
 function renderWallPost(post, targetUid) {
+  let author = getUser(post.uid);
   let reactions = S.reactions[post.id] || {};
   let reactionCount = Object.values(reactions).reduce((a,b) => a + b.length, 0);
   let comments = S.comments[post.id] || [];
   let isOwner = sess && (sess.id === post.uid || sess.id === targetUid);
-  return `<div class="wall-post" id="post-${post.id}"><div class="wall-post-header"><div class="avatar avatar-sm" onclick="nav('#/profile/${post.uid}')">${post.author?.[0]?.toUpperCase() || '?'}</div><div><div class="wall-post-author" onclick="nav('#/profile/${post.uid}')">${esc(post.author)}</div><div class="wall-post-time">${relTime(post.createdAt)} · 👁️ ${S.postViews[post.id] || 0}</div></div>${isOwner ? `<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost('${post.id}', '${targetUid}')">🗑</button></div>` : ''}</div><div class="wall-post-content">${esc(post.content)}</div>${post.repost ? `<div class="repost-origin">🔁 Репост от ${esc(post.repost.originalAuthor)}: ${esc(post.repost.originalContent?.slice(0, 100))}</div>` : ''}<div class="reactions"><div class="reaction-buttons">${['❤️', '👍', '😂', '😮', '😢'].map(e => `<button class="reaction-btn ${reactions[e]?.includes(sess?.id) ? 'active' : ''}" onclick="addReaction('${post.id}', '${e}', '${e}')">${e}<span class="reaction-count">${reactions[e]?.length || 0}</span></button>`).join('')}</div>${reactionCount > 0 ? `<div class="reaction-list">${Object.entries(reactions).map(([e, uids]) => uids.length ? `${e} ${uids.slice(0, 3).map(uid => getUser(uid)?.username).join(', ')}${uids.length > 3 ? ` +${uids.length-3}` : ''}` : '').filter(Boolean).join(' · ')}</div>` : ''}</div><div class="post-actions"><button class="post-action" onclick="toggleComments('${post.id}')">💬 ${comments.length}</button><button class="post-action" onclick="showRepostMenu('${post.id}', '${post.author}', '${esc(post.content).replace(/'/g, "\\'")}')">🔁 Репост</button></div><div class="comments-section" id="comments-${post.id}" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-${post.id}" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment('${post.id}', '${targetUid}', document.getElementById('comment-input-${post.id}').value)">→</button></div>${comments.map(c => `<div class="comment"><div class="comment-avatar" onclick="nav('#/profile/${c.uid}')">${c.author?.[0]?.toUpperCase() || '?'}</div><div class="comment-content"><div class="comment-author" onclick="nav('#/profile/${c.uid}')">${esc(c.author)}</div><div class="comment-text">${esc(c.content)}</div><div class="comment-time">${relTime(c.createdAt)}</div></div>${canModerate(c.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteComment('${post.id}', '${c.id}')">🗑</button>` : ''}</div>`).join('')}</div></div>`;
+  if (!S.postViews[post.id]) S.postViews[post.id] = 0;
+  setTimeout(() => { if (document.getElementById(`post-${post.id}`)) { S.postViews[post.id]++; persist(); } }, 1000);
+  let authorAvatar = author ? getAvatarHTML(author, 32) : `<div class="avatar avatar-sm">${post.author?.[0]?.toUpperCase() || '?'}</div>`;
+  return `<div class="wall-post" id="post-${post.id}"><div class="wall-post-header"><div onclick="nav('#/profile/${post.uid}')" style="cursor:pointer">${authorAvatar}</div><div><div class="wall-post-author" onclick="nav('#/profile/${post.uid}')">${esc(post.author)}</div><div class="wall-post-time">${relTime(post.createdAt)} · 👁️ ${S.postViews[post.id] || 0}</div></div>${isOwner ? `<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost('${post.id}', '${targetUid}')">🗑</button></div>` : ''}</div><div class="wall-post-content">${esc(post.content)}</div>${post.repost ? `<div class="repost-origin">🔁 Репост от ${esc(post.repost.originalAuthor)}: ${esc(post.repost.originalContent?.slice(0, 100))}</div>` : ''}<div class="reactions"><div class="reaction-buttons">${['❤️', '👍', '😂', '😮', '😢'].map(e => `<button class="reaction-btn ${reactions[e]?.includes(sess?.id) ? 'active' : ''}" onclick="addReaction('${post.id}', '${e}', '${targetUid}')">${e}<span class="reaction-count">${reactions[e]?.length || 0}</span></button>`).join('')}</div>${reactionCount > 0 ? `<div class="reaction-list">${Object.entries(reactions).map(([e, uids]) => uids.length ? `${e} ${uids.slice(0, 3).map(uid => getUser(uid)?.username).join(', ')}${uids.length > 3 ? ` +${uids.length-3}` : ''}` : '').filter(Boolean).join(' · ')}</div>` : ''}</div><div class="post-actions"><button class="post-action" onclick="toggleComments('${post.id}')">💬 ${comments.length}</button><button class="post-action" onclick="openRepostModal('${post.id}', '${esc(post.author)}', '${esc(post.content).replace(/'/g, "\\'")}')">🔁 Репост</button></div><div class="comments-section" id="comments-${post.id}" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-${post.id}" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment('${post.id}', '${targetUid}', document.getElementById('comment-input-${post.id}').value)">→</button></div>${comments.map(c => `<div class="comment"><div class="comment-avatar" onclick="nav('#/profile/${c.uid}')">${c.author?.[0]?.toUpperCase() || '?'}</div><div class="comment-content"><div class="comment-author" onclick="nav('#/profile/${c.uid}')">${esc(c.author)}</div><div class="comment-text">${esc(c.content)}</div><div class="comment-time">${relTime(c.createdAt)}</div></div>${canModerate(c.uid) ? `<button class="btn btn-xs btn-r" onclick="deleteComment('${post.id}', '${c.id}')">🗑</button>` : ''}</div>`).join('')}</div></div>`;
 }
 function toggleComments(postId) { let el = document.getElementById(`comments-${postId}`); if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
+function addReaction(postId, emoji, targetUid) {
+  if (!sess) return toast('Войдите чтобы реагировать', true);
+  if (!S.reactions[postId]) S.reactions[postId] = {};
+  if (!S.reactions[postId][emoji]) S.reactions[postId][emoji] = [];
+  if (S.reactions[postId][emoji].includes(sess.id)) {
+    S.reactions[postId][emoji] = S.reactions[postId][emoji].filter(id => id !== sess.id);
+  } else {
+    S.reactions[postId][emoji].push(sess.id);
+    let post = S.wallPosts[targetUid]?.find(p => p.id === postId);
+    if (post && post.uid !== sess.id) addNotification(post.uid, 'reaction', sess.id, postId);
+  }
+  persist();
+  renderProfile(targetUid);
+}
+function addComment(postId, targetUid, content) {
+  if (!sess) return toast('Войдите чтобы комментировать', true);
+  if (!content) return;
+  let targetUser = getUser(targetUid);
+  if (targetUser.privacy?.comment === 'friends' && !targetUser.friends?.includes(sess.id) && targetUid !== sess.id) return toast('Только друзья могут комментировать', true);
+  if (targetUser.privacy?.comment === 'none' && targetUid !== sess.id) return toast('Комментирование отключено', true);
+  if (!S.comments[postId]) S.comments[postId] = [];
+  S.comments[postId].push({ id: 'c' + mkId(), uid: sess.id, author: sess.username, content, createdAt: Date.now() });
+  let post = S.wallPosts[targetUid]?.find(p => p.id === postId);
+  if (post && post.uid !== sess.id) addNotification(post.uid, 'comment', sess.id, postId);
+  persist();
+  renderProfile(targetUid);
+}
 function deleteComment(postId, commentId) { if (S.comments[postId]) { S.comments[postId] = S.comments[postId].filter(c => c.id !== commentId); persist(); render(); toast('Комментарий удалён'); } }
-function showRepostMenu(postId, author, content) { let target = prompt('Репостнуть в ЛС (введите username) или на свою стену? (введите "стена" или username)'); if (!target) return; if (target.toLowerCase() === 'стена') { createWallPost(sess.id, '', { originalAuthor: author, originalContent: content, originalId: postId }); } else { let targetUser = users.find(u => u.username === target); if (targetUser) startDM(targetUser.id, `🔁 Репост от ${author}: ${content}`); else toast('Пользователь не найден', true); } }
+function createWallPost(targetUid, content, repostData = null) {
+  if (!sess) return toast('Войдите чтобы оставить запись', true);
+  let targetUser = getUser(targetUid);
+  if (!targetUser) return;
+  if (targetUser.privacy?.wall === 'friends' && !targetUser.friends?.includes(sess.id) && targetUid !== sess.id) return toast('Только друзья могут писать на этой стене', true);
+  if (targetUser.privacy?.wall === 'none' && targetUid !== sess.id) return toast('Этот пользователь закрыл стену', true);
+  if (targetUser.privacy?.profileLocked && targetUid !== sess.id && !targetUser.friends?.includes(sess.id)) return toast('Профиль закрыт', true);
+  let post = {
+    id: 'wp' + mkId(), uid: sess.id, author: sess.username, authorAvatar: sess.avatarBase64,
+    targetUid, content, repost: repostData, createdAt: Date.now(), views: 0
+  };
+  if (!S.wallPosts[targetUid]) S.wallPosts[targetUid] = [];
+  S.wallPosts[targetUid].unshift(post);
+  if (repostData && targetUid !== repostData.originalAuthorId && repostData.originalAuthorId) addNotification(repostData.originalAuthorId, 'repost', sess.id, null);
+  persist();
+  toast('Пост опубликован!');
+  renderProfile(targetUid);
+}
+function deleteWallPost(postId, targetUid) {
+  let posts = S.wallPosts[targetUid] || [];
+  let post = posts.find(p => p.id === postId);
+  if (post && (canModerate(post.uid) || canModerate(targetUid))) {
+    S.wallPosts[targetUid] = posts.filter(p => p.id !== postId);
+    persist();
+    toast('Пост удалён');
+    renderProfile(targetUid);
+  }
+}
 function toggleFriend(uid) { let me = getUser(sess.id); if (!me) return; let friends = me.friends || []; if (friends.includes(uid)) { updateUser(sess.id, { friends: friends.filter(f => f !== uid) }); toast('Удалён из друзей'); } else { updateUser(sess.id, { friends: [...friends, uid] }); toast('Заявка отправлена'); } renderProfile(uid); }
 function toggleFollow(uid) { let me = getUser(sess.id); if (!me) return; let followers = getUser(uid).followers || []; if (followers.includes(sess.id)) { updateUser(uid, { followers: followers.filter(f => f !== sess.id) }); toast('Отписка'); } else { updateUser(uid, { followers: [...followers, sess.id] }); toast('Подписка оформлена'); } renderProfile(uid); }
-function editProfile() { let bio = prompt('О себе:', getUser(sess.id)?.bio || ''); if (bio !== null) updateUser(sess.id, { bio }); renderProfile(sess.id); }
-function uploadAvatar() { let input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { let file = e.target.files[0]; let reader = new FileReader(); reader.onload = (ev) => { updateUser(sess.id, { avatarBase64: ev.target.result }); renderProfile(sess.id); toast('Аватар обновлён!'); }; reader.readAsDataURL(file); }; input.click(); }
-function uploadBanner() { let input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { let file = e.target.files[0]; let reader = new FileReader(); reader.onload = (ev) => { updateUser(sess.id, { bannerBase64: ev.target.result }); renderProfile(sess.id); toast('Шапка обновлена!'); }; reader.readAsDataURL(file); }; input.click(); }
-function changeAvatarFrame() { let frames = ['default', 'gradient', 'neon', 'fire', 'ice', 'gold', 'rainbow']; let newFrame = prompt(`Выберите рамку (${frames.join(', ')}):`, getUser(sess.id)?.avatarFrame || 'default'); if (frames.includes(newFrame)) { updateUser(sess.id, { avatarFrame: newFrame }); renderProfile(sess.id); toast('Рамка изменена!'); } }
 
-// ==================== НАСТРОЙКИ ====================
-function renderSettings() {
-  if (!sess) { toast('Войдите чтобы изменить настройки', true); nav('#/'); return; }
+// ==================== РЕДАКТИРОВАНИЕ ПРОФИЛЯ ====================
+function openEditModal() {
   let user = getUser(sess.id);
-  let el = document.getElementById('p-settings');
-  el.innerHTML = `<div class="wn"><h1 style="margin-bottom:20px">⚙ Настройки приватности</h1><div class="card"><div class="pb"><div class="flex justify-between"><span>Кто может писать на стене:</span><select id="privacy-wall"><option ${user.privacy?.wall === 'all' ? 'selected' : ''}>all</option><option ${user.privacy?.wall === 'friends' ? 'selected' : ''}>friends</option><option ${user.privacy?.wall === 'none' ? 'selected' : ''}>none</option></select></div><div class="flex justify-between"><span>Кто может комментировать:</span><select id="privacy-comment"><option ${user.privacy?.comment === 'all' ? 'selected' : ''}>all</option><option ${user.privacy?.comment === 'friends' ? 'selected' : ''}>friends</option><option ${user.privacy?.comment === 'none' ? 'selected' : ''}>none</option></select></div><div class="flex justify-between"><span>Закрытый профиль:</span><input type="checkbox" id="privacy-locked" ${user.privacy?.profileLocked ? 'checked' : ''}></div><div class="pf"><button class="btn btn-p" onclick="savePrivacySettings()">Сохранить</button></div></div></div></div>`;
-  showPage('p-settings');
+  document.getElementById('edit-bio').value = user.bio || '';
+  document.getElementById('privacy-wall').value = user.privacy?.wall || 'all';
+  document.getElementById('privacy-comment').value = user.privacy?.comment || 'all';
+  document.getElementById('privacy-locked').checked = user.privacy?.profileLocked || false;
+  document.getElementById('edit-profile-modal').classList.add('open');
 }
-function savePrivacySettings() {
-  updateUser(sess.id, { privacy: { wall: document.getElementById('privacy-wall').value, comment: document.getElementById('privacy-comment').value, profileLocked: document.getElementById('privacy-locked').checked } });
-  toast('Настройки сохранены');
-  nav('#/profile');
+function closeEditModal() { document.getElementById('edit-profile-modal').classList.remove('open'); }
+function uploadAvatarModal() { let input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { let file = e.target.files[0]; let reader = new FileReader(); reader.onload = (ev) => { updateUser(sess.id, { avatarBase64: ev.target.result }); closeEditModal(); renderProfile(sess.id); toast('Аватар обновлён!'); }; reader.readAsDataURL(file); }; input.click(); }
+function uploadBannerModal() { let input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { let file = e.target.files[0]; let reader = new FileReader(); reader.onload = (ev) => { updateUser(sess.id, { bannerBase64: ev.target.result }); closeEditModal(); renderProfile(sess.id); toast('Шапка обновлена!'); }; reader.readAsDataURL(file); }; input.click(); }
+function removeAvatar() { updateUser(sess.id, { avatarBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Аватар удалён'); }
+function removeBanner() { updateUser(sess.id, { bannerBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Шапка удалена'); }
+function setAvatarFrame(frame) { updateUser(sess.id, { avatarFrame: frame }); closeEditModal(); renderProfile(sess.id); toast(`Рамка ${frame} установлена`); }
+function saveProfileEdit() {
+  updateUser(sess.id, { 
+    bio: document.getElementById('edit-bio').value,
+    privacy: { 
+      wall: document.getElementById('privacy-wall').value, 
+      comment: document.getElementById('privacy-comment').value, 
+      profileLocked: document.getElementById('privacy-locked').checked 
+    }
+  });
+  closeEditModal();
+  renderProfile(sess.id);
+  toast('Профиль обновлён');
 }
+
+// ==================== РЕПОСТ ====================
+let _repostPostId = null, _repostAuthor = null, _repostContent = null;
+function openRepostModal(postId, author, content) {
+  _repostPostId = postId; _repostAuthor = author; _repostContent = content;
+  document.getElementById('repost-modal').classList.add('open');
+}
+function closeRepostModal() { document.getElementById('repost-modal').classList.remove('open'); _repostPostId = null; }
+function repostToMyWall() {
+  if (!_repostPostId) return;
+  createWallPost(sess.id, '', { originalAuthor: _repostAuthor, originalContent: _repostContent, originalId: _repostPostId, originalAuthorId: null });
+  closeRepostModal();
+  toast('Репост на стену');
+}
+function searchUserForRepost() {
+  let q = document.getElementById('repost-user-search')?.value.toLowerCase();
+  let results = users.filter(u => u.username.toLowerCase().includes(q) && u.id !== sess.id).slice(0, 10);
+  document.getElementById('repost-user-results').innerHTML = results.map(u => `<div class="conv-item" onclick="repostToDM('${u.id}')"><div class="avatar avatar-sm">${u.username[0]}</div><div>${esc(u.username)}</div></div>`).join('') || '<div class="empty">Ничего не найдено</div>';
+}
+function repostToDM(userId) {
+  if (!_repostPostId) return;
+  startDM(userId, `🔁 Репост от ${_repostAuthor}:\n\n${_repostContent}`);
+  closeRepostModal();
+  toast('Репост отправлен в ЛС');
+}
+
+// ==================== МУЗЫКА ====================
+function renderMusic() { let el = document.getElementById('p-music'); el.innerHTML = `<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav('#/beats')">Перейти в биты</button></div></div>`; showPage('p-music'); }
+function renderBookmarks() { let el = document.getElementById('p-bmarks'); el.innerHTML = `<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>`; showPage('p-bmarks'); }
 
 // ==================== АДМИН ====================
 function renderAdmin() {
@@ -704,9 +862,6 @@ function deleteUserAdmin(uid) { if (uid === sess?.id) return toast('Нельзя
 function adminDeleteBeat() { let id = document.getElementById('admin-beat-select')?.value; if (id) { S.beats = S.beats.filter(b => b.id !== id); persist(); renderAdmin(); toast('Бит удалён'); } }
 function adminDeleteDrumkit() { let id = document.getElementById('admin-dk-select')?.value; if (id) { S.drumkits = S.drumkits.filter(d => d.id !== id); persist(); renderAdmin(); toast('Драмкит удалён'); } }
 function adminDeleteService() { let id = document.getElementById('admin-sv-select')?.value; if (id) { S.services = S.services.filter(s => s.id !== id); persist(); renderAdmin(); toast('Услуга удалена'); } }
-
-function renderMusic() { let el = document.getElementById('p-music'); el.innerHTML = `<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav('#/beats')">Перейти в биты</button></div></div>`; showPage('p-music'); }
-function renderBookmarks() { let el = document.getElementById('p-bmarks'); el.innerHTML = `<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>`; showPage('p-bmarks'); }
 
 // ==================== ПЛЕЕР ====================
 let player = { audio: null, init() { this.audio = new Audio(); this.audio.volume = 0.8; }, play(url, title, artist) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio?.paused ? '▶' : '⏸'; }, hide() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
