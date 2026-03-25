@@ -6,6 +6,8 @@
 <title>4room — социальная платформа для музыкантов и продюсеров</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/7.4.0/wavesurfer.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/7.4.0/wavesurfer.min.js"></script>
 <style>
 * {
   margin: 0;
@@ -14,29 +16,51 @@
 }
 
 :root {
-  --bg: #0c0d13;
-  --s1: #12131b;
-  --s2: #191a26;
-  --s3s: #202130;
-  --s4: #292a3d;
-  --border: #2c2e48;
-  --border2: #3a3c5a;
-  --t1: #e8eaf0;
-  --t2: #9899b3;
-  --t3: #6b6d8a;
-  --t4: #48496a;
-  --blue: #4f7ed4;
-  --blue2: #3a67c0;
-  --blue3: #2952a3;
-  --green: #3cb775;
-  --red: #e05252;
-  --amber: #f0a045;
-  --purple: #9b6dda;
-  --pink: #d96b9e;
-  --cyan: #3dbccc;
-  --r: 8px;
-  --r2: 12px;
-  --r3: 16px;
+  --bg: #0a0b0f;
+  --s1: #12141c;
+  --s2: #1a1d2a;
+  --s3: #222637;
+  --s4: #2d3247;
+  --border: #2a2e42;
+  --border2: #3a405a;
+  --t1: #f0f2f8;
+  --t2: #a0a5c0;
+  --t3: #6b6f8a;
+  --t4: #4a4f6a;
+  --blue: #6366f1;
+  --blue2: #4f46e5;
+  --blue3: #4338ca;
+  --green: #10b981;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --purple: #a855f7;
+  --pink: #ec489a;
+  --cyan: #06b6d4;
+  --r: 12px;
+  --r2: 16px;
+  --r3: 24px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue) var(--s3);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--s3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 10px;
 }
 
 body {
@@ -50,81 +74,98 @@ body {
 }
 
 body.light {
-  --bg: #f2f4f8;
+  --bg: #f5f7fc;
   --s1: #ffffff;
-  --s2: #eaecf2;
-  --s3s: #d5d8e4;
-  --s4: #c8ccda;
-  --border: #cdd0de;
-  --border2: #b5b9cc;
+  --s2: #f0f2f8;
+  --s3: #e4e7f0;
+  --s4: #d1d6e6;
+  --border: #e2e6f0;
+  --border2: #cbd0e0;
   --t1: #1a1b2e;
-  --t2: #363755;
-  --t3: #585a78;
-  --t4: #878aaa;
+  --t2: #4a4f6a;
+  --t3: #6b6f8a;
+  --t4: #8b90aa;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .w, .wn {
-  max-width: 1040px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 20px;
 }
 
 .wn {
-  max-width: 780px;
+  max-width: 800px;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 8px 18px;
+  gap: 8px;
+  padding: 10px 20px;
   border-radius: var(--r);
   font-size: 14px;
   font-weight: 500;
-  border: 1px solid transparent;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s;
-  background: none;
+  transition: all 0.2s ease;
   font-family: inherit;
+  background: none;
 }
 
 .btn-p {
   background: linear-gradient(135deg, var(--blue), var(--blue3));
   color: #fff;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 
 .btn-p:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79,126,212,.4);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 
 .btn-d {
-  background: var(--s3s);
-  border-color: var(--border2);
+  background: var(--s3);
+  border: 1px solid var(--border2);
   color: var(--t1);
+}
+
+.btn-d:hover {
+  background: var(--s4);
+  transform: translateY(-1px);
 }
 
 .btn-g {
   background: transparent;
   color: var(--t3);
-  border-color: var(--border);
+  border: 1px solid var(--border);
+}
+
+.btn-g:hover {
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 .btn-sm {
-  padding: 5px 12px;
+  padding: 6px 14px;
   font-size: 12px;
 }
 
 .btn-xs {
-  padding: 3px 10px;
+  padding: 4px 10px;
   font-size: 11px;
 }
 
 .btn-r {
-  background: rgba(224,82,82,0.15);
-  border-color: var(--red);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--red);
   color: var(--red);
+}
+
+.btn-r:hover {
+  background: rgba(239, 68, 68, 0.2);
 }
 
 .btn-help {
@@ -137,45 +178,54 @@ input, textarea, select {
   color: var(--t1);
   border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 14px;
   outline: none;
   font-family: inherit;
+  transition: all 0.2s;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(79,126,212,.14);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
-.card, .panel, .post, .feed, .beat-card, .drumkit-card, .service-card, .wall-post {
-  background: var(--s2);
+.card, .panel, .post, .beat-card, .service-card, .thread-card {
+  background: var(--s1);
   border: 1px solid var(--border);
   border-radius: var(--r2);
   overflow: hidden;
+  transition: all 0.2s;
+}
+
+.card:hover, .post:hover, .thread-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .ph {
-  padding: 14px 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-weight: 600;
+  font-size: 16px;
 }
 
 .pb {
-  padding: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .pf {
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 12px;
 }
 
 .empty {
@@ -186,18 +236,19 @@ input:focus, textarea:focus {
 
 .empty-ico {
   font-size: 48px;
-  margin-bottom: 12px;
-  opacity: 0.4;
+  margin-bottom: 16px;
+  opacity: 0.5;
 }
 
 .pill {
   display: inline-flex;
-  padding: 2px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 600;
-  background: rgba(79,126,212,.15);
+  background: rgba(99, 102, 241, 0.15);
   color: var(--blue);
+  gap: 4px;
 }
 
 .stitle {
@@ -205,50 +256,8 @@ input:focus, textarea:focus {
   font-weight: 700;
   color: var(--t3);
   text-transform: uppercase;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   margin-bottom: 12px;
-}
-
-.toast {
-  position: fixed;
-  bottom: 80px;
-  right: 16px;
-  z-index: 700;
-  background: var(--s3s);
-  border: 1px solid var(--border2);
-  border-radius: var(--r2);
-  padding: 12px 20px;
-  font-size: 13px;
-  opacity: 0;
-  transform: translateX(110%);
-  transition: all 0.24s cubic-bezier(.34,1.56,.64,1);
-  pointer-events: none;
-}
-
-.toast.on {
-  opacity: 1;
-  transform: none;
-}
-
-.toast-err {
-  border-color: var(--red);
-  color: #faa;
-}
-
-.toast-ok {
-  border-color: var(--green);
-  color: #a8f0c0;
-}
-
-#toasts {
-  position: fixed;
-  bottom: 80px;
-  right: 16px;
-  z-index: 700;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: none;
 }
 
 .avatar {
@@ -265,6 +274,8 @@ input:focus, textarea:focus {
   overflow: hidden;
   flex-shrink: 0;
   background-color: var(--blue);
+  transition: all 0.2s;
+  cursor: pointer;
 }
 
 .avatar-sm {
@@ -276,36 +287,18 @@ input:focus, textarea:focus {
 .avatar-lg {
   width: 100px;
   height: 100px;
-  font-size: 28px;
+  font-size: 32px;
 }
 
-.avatar-frame-default {
-  box-shadow: none;
-}
+.avatar-frame-default { box-shadow: 0 0 0 2px var(--s4); }
+.avatar-frame-gradient { box-shadow: 0 0 0 3px var(--blue), 0 0 0 6px var(--purple); }
+.avatar-frame-neon { box-shadow: 0 0 0 3px #fff, 0 0 15px 5px var(--blue); animation: pulse 2s infinite; }
+.avatar-frame-gold { box-shadow: 0 0 0 3px #ffd700, 0 0 15px 8px #ffb347; }
+.avatar-frame-rainbow { animation: rainbow 3s infinite; box-shadow: 0 0 0 4px red; }
 
-.avatar-frame-gradient {
-  box-shadow: 0 0 0 3px var(--blue), 0 0 0 6px var(--purple);
-}
-
-.avatar-frame-neon {
-  box-shadow: 0 0 0 3px #fff, 0 0 15px 5px var(--blue);
-}
-
-.avatar-frame-fire {
-  box-shadow: 0 0 0 3px #f0a045, 0 0 15px 8px #e05252;
-}
-
-.avatar-frame-ice {
-  box-shadow: 0 0 0 3px #3dbccc, 0 0 15px 8px #4f7ed4;
-}
-
-.avatar-frame-gold {
-  box-shadow: 0 0 0 3px #ffd700, 0 0 15px 8px #ffb347;
-}
-
-.avatar-frame-rainbow {
-  animation: rainbow 3s infinite;
-  box-shadow: 0 0 0 4px red;
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px #fff, 0 0 15px 5px var(--blue); }
+  50% { box-shadow: 0 0 0 3px #fff, 0 0 25px 10px var(--blue); }
 }
 
 @keyframes rainbow {
@@ -320,10 +313,10 @@ input:focus, textarea:focus {
 
 .profile-header-bg {
   width: 100%;
-  height: 160px;
+  height: 180px;
   background-size: cover;
   background-position: center;
-  background-color: var(--s3s);
+  background-color: var(--s3);
   border-radius: var(--r2) var(--r2) 0 0;
   position: relative;
 }
@@ -337,14 +330,18 @@ input:focus, textarea:focus {
 }
 
 .post, .wall-post {
-  padding: 16px;
+  padding: 20px;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   transition: background 0.2s;
 }
 
+.post:last-child, .wall-post:last-child {
+  border-bottom: none;
+}
+
 .post:hover, .wall-post:hover {
-  background: var(--s3s);
+  background: var(--s2);
 }
 
 .post-header, .wall-post-header {
@@ -371,13 +368,14 @@ input:focus, textarea:focus {
 .post-content, .wall-post-content {
   line-height: 1.6;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .post-actions {
   display: flex;
-  gap: 16px;
-  margin-top: 12px;
-  padding-top: 8px;
+  gap: 20px;
+  margin-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--border);
 }
 
@@ -389,8 +387,9 @@ input:focus, textarea:focus {
   font-size: 13px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: inherit;
+  transition: color 0.2s;
 }
 
 .post-action:hover {
@@ -398,66 +397,70 @@ input:focus, textarea:focus {
 }
 
 .repost-origin {
-  background: var(--s3s);
+  background: var(--s2);
   border-radius: var(--r);
-  padding: 8px 12px;
-  margin-top: 8px;
+  padding: 12px;
+  margin-top: 12px;
   font-size: 12px;
   border-left: 3px solid var(--blue);
 }
 
 .reactions {
-  display: flex;
-  gap: 5px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-  flex-direction: column;
+  margin-top: 12px;
 }
 
 .reaction-buttons {
   display: flex;
-  gap: 5px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .reaction-btn {
-  background: var(--s3s);
+  background: var(--s2);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   font-size: 14px;
   cursor: pointer;
   font-family: inherit;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reaction-btn:hover {
+  transform: scale(1.05);
 }
 
 .reaction-btn.active {
-  background: rgba(79,126,212,.3);
+  background: rgba(99, 102, 241, 0.3);
   border-color: var(--blue);
 }
 
-.reaction-list {
+.reaction-count {
   font-size: 11px;
   color: var(--t3);
-  margin-top: 4px;
+  margin-left: 4px;
 }
 
 .comments-section {
-  margin-top: 12px;
-  padding-left: 48px;
+  margin-top: 16px;
+  padding-left: 52px;
 }
 
 .comment {
-  padding: 8px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--border);
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .comment-avatar {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--s3s);
+  background: var(--s3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -477,175 +480,193 @@ input:focus, textarea:focus {
 }
 
 .comment-text {
-  font-size: 12px;
-  margin-top: 2px;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 .comment-time {
   font-size: 10px;
   color: var(--t4);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
-.conv-list {
-  overflow-y: auto;
+.comment-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.comment-input input {
   flex: 1;
+  padding: 10px 12px;
+  font-size: 13px;
 }
 
-.conv-item {
+.audio-player {
+  background: var(--s2);
+  border-radius: var(--r);
+  padding: 12px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 11px 14px;
-  cursor: pointer;
-  border-bottom: 1px solid var(--border);
-}
-
-.conv-item:hover {
-  background: var(--s3s);
-}
-
-.chat-msgs {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.bubble {
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  max-width: 80%;
-  word-break: break-word;
-}
-
-.bubble.mine {
-  background: linear-gradient(135deg, var(--blue), #2952a3);
-  color: #fff;
-  align-self: flex-end;
-  border-bottom-right-radius: 3px;
-}
-
-.bubble.theirs {
-  background: var(--s3s);
-  align-self: flex-start;
-  border-bottom-left-radius: 3px;
-}
-
-.bubble img {
-  max-width: 200px;
-  max-height: 200px;
-  border-radius: 8px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-
-.chat-input-area {
-  padding: 10px 12px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.chat-input-toolbar {
-  display: flex;
-  gap: 5px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.text-editor {
-  background: var(--s1);
+.audio-player button {
+  background: var(--blue);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.waveform-container {
+  flex: 1;
+  min-width: 150px;
+}
+
+.visualization-select {
+  padding: 4px 8px;
+  font-size: 11px;
+  background: var(--s3);
   border: 1px solid var(--border);
-  border-radius: var(--r);
+  border-radius: 8px;
+  color: var(--t2);
+  cursor: pointer;
+}
+
+/* Stories */
+.stories-container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 0 20px;
+  margin-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.story-item {
+  text-align: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.story-item:hover {
+  transform: scale(1.05);
+}
+
+.story-ring {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber), var(--pink));
+  padding: 2px;
+}
+
+.story-ring-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--s1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
   overflow: hidden;
 }
 
-.editor-toolbar {
-  display: flex;
-  gap: 4px;
-  padding: 6px 8px;
-  background: var(--s3s);
-  border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
-}
-
-.editor-btn {
-  background: none;
-  border: none;
-  color: var(--t2);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-family: inherit;
-}
-
-.editor-btn:hover {
-  background: var(--s4);
-  color: var(--t1);
-}
-
-.editor-textarea {
+.story-ring-inner img {
   width: 100%;
-  min-height: 100px;
-  padding: 10px;
-  background: var(--s1);
-  color: var(--t1);
-  border: none;
-  resize: vertical;
-  font-family: inherit;
-  font-size: 14px;
-  outline: none;
+  height: 100%;
+  object-fit: cover;
 }
 
-.editor-preview {
-  padding: 10px;
-  min-height: 100px;
-  background: var(--s1);
-  border-top: 1px solid var(--border);
+.story-name {
+  font-size: 11px;
+  margin-top: 8px;
+  color: var(--t3);
 }
 
-.emoji-picker {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius: var(--r2);
-  padding: 8px;
-  width: 280px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 100;
+.story-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
   display: none;
-  flex-wrap: wrap;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.emoji-picker.open {
+.story-modal.open {
   display: flex;
 }
 
-.emoji-btn {
-  background: none;
+.story-content {
+  max-width: 90vw;
+  max-height: 70vh;
+}
+
+.story-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 20px;
+  object-fit: contain;
+}
+
+.story-progress {
+  position: fixed;
+  top: 30px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.story-progress-fill {
+  height: 100%;
+  background: white;
+  width: 0%;
+  transition: width 0.05s linear;
+  border-radius: 3px;
+}
+
+.story-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.story-nav-btn {
+  background: rgba(0, 0, 0, 0.5);
   border: none;
-  font-size: 24px;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
-  padding: 4px;
-  transition: transform 0.1s;
+  font-size: 24px;
+  transition: background 0.2s;
 }
 
-.emoji-btn:hover {
-  transform: scale(1.2);
+.story-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
+/* Header */
 #hdr {
-  background: rgba(12,13,19,.96);
-  backdrop-filter: blur(14px);
+  background: rgba(10, 11, 15, 0.95);
+  backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -655,9 +676,9 @@ input:focus, textarea:focus {
 .hi {
   display: flex;
   align-items: center;
-  height: 56px;
-  padding: 0 20px;
-  gap: 16px;
+  height: 64px;
+  padding: 0 24px;
+  gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -665,37 +686,39 @@ input:focus, textarea:focus {
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
   flex-shrink: 0;
 }
 
 .logo-ico {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--blue), var(--blue3));
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
+  font-size: 18px;
   color: #fff;
 }
 
 .logo-txt {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
+  letter-spacing: -0.5px;
 }
 
 #hnav {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
   overflow-x: auto;
 }
 
 .hl {
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: var(--r);
   font-size: 13px;
   font-weight: 500;
@@ -704,18 +727,18 @@ input:focus, textarea:focus {
   background: none;
   border: none;
   white-space: nowrap;
-  font-family: inherit;
+  transition: all 0.2s;
 }
 
 .hl:hover, .hl.on {
   color: var(--t1);
-  background: var(--s3s);
+  background: var(--s3);
 }
 
 #hr {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -724,25 +747,26 @@ input:focus, textarea:focus {
   border: none;
   color: var(--t3);
   cursor: pointer;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  font-family: inherit;
+  transition: all 0.2s;
 }
 
 .ico-btn:hover {
-  background: var(--s3s);
+  background: var(--s3);
   color: var(--t1);
 }
 
+/* Pages */
 .page {
   display: none;
-  padding: 24px 0 60px;
-  animation: fadeIn 0.2s ease;
+  padding: 32px 0 60px;
+  animation: fadeIn 0.3s ease;
 }
 
 .page.on {
@@ -750,20 +774,22 @@ input:focus, textarea:focus {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: none; }
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* Mobile nav */
 #mob-bnav {
   display: none;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(18,19,27,.97);
-  backdrop-filter: blur(14px);
+  background: rgba(18, 20, 28, 0.98);
+  backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   z-index: 280;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .mbn {
@@ -775,66 +801,82 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 8px 4px 10px;
+  gap: 4px;
+  padding: 10px 4px 12px;
   font-size: 10px;
   color: var(--t3);
   cursor: pointer;
   background: none;
   border: none;
-  font-family: inherit;
+  transition: color 0.2s;
 }
 
 .mb-btn.on {
   color: var(--blue);
 }
 
+.mb-ico {
+  font-size: 20px;
+}
+
 @media (max-width: 760px) {
   #hnav { display: none; }
   #mob-bnav { display: block; }
   body { padding-bottom: 70px; }
-  .g2 { grid-template-columns: 1fr; }
-  .hi { padding: 0 12px; }
+  .hi { padding: 0 16px; }
+  .w, .wn { padding: 0 16px; }
 }
 
 .flex {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
-.justify-between {
+.flex-between {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.mt-2 {
-  margin-top: 8px;
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.mt-3 {
-  margin-top: 12px;
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 16px; }
+.mt-4 { margin-top: 24px; }
+.mb-4 { margin-bottom: 16px; }
+.w-100 { width: 100%; }
+.text-center { text-align: center; }
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
 }
 
-.mb-4 {
-  margin-bottom: 16px;
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-.gap-2 {
-  gap: 8px;
-}
-
-.w-100 {
-  width: 100%;
-}
-
+/* Modals */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.85);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 1000;
   display: none;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(8px);
 }
 
 .modal.open {
@@ -842,176 +884,391 @@ input:focus, textarea:focus {
 }
 
 .modal-content {
-  background: var(--s2);
+  background: var(--s1);
   border-radius: var(--r3);
   max-width: 500px;
   width: 90%;
-  max-height: 80vh;
+  max-height: 85vh;
   overflow-y: auto;
+  box-shadow: var(--shadow);
 }
 
 .modal-header {
-  padding: 16px;
+  padding: 20px;
   border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-weight: 600;
+  font-size: 18px;
 }
 
 .modal-body {
-  padding: 16px;
+  padding: 20px;
 }
 
-.audio-player {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--s3s);
-  padding: 8px;
-  border-radius: var(--r);
-  margin-top: 8px;
-}
-
-.audio-player button {
-  background: var(--blue);
-  border: none;
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.file-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: var(--s3s);
-  border: 1px dashed var(--border2);
-  border-radius: var(--r);
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.file-label:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.frame-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.frame-preview {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--s3s);
-  cursor: pointer;
-  transition: transform 0.2s;
-  border: 2px solid transparent;
-}
-
-.frame-preview:hover {
-  transform: scale(1.1);
-}
-
-.price {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--blue);
-  margin: 8px 0;
-}
-
-.error-text {
-  color: var(--red);
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.gtabs, .stabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.gtab, .stab {
-  padding: 6px 14px;
-  border-radius: var(--r);
-  background: var(--s3s);
-  border: none;
-  color: var(--t2);
-  cursor: pointer;
-  font-family: inherit;
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 700;
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  padding: 12px 20px;
   font-size: 13px;
+  opacity: 0;
+  transform: translateX(110%);
+  transition: all 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
 }
 
-.gtab.on, .stab.on {
-  background: var(--blue);
-  color: white;
+.toast.on {
+  opacity: 1;
+  transform: none;
 }
 
-.beat-grid, .drumkit-grid, .service-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+.toast-err {
+  border-color: var(--red);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--red);
 }
 
-.toolbar {
-  margin-bottom: 24px;
+.toast-ok {
+  border-color: var(--green);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--green);
 }
 
+#toasts {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Stats */
 .stats {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  margin: 16px 0;
+  gap: 32px;
+  margin: 20px 0;
 }
 
-.g2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--t1);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.tab {
+  padding: 8px 20px;
+  border-radius: var(--r);
+  background: none;
+  border: none;
+  color: var(--t3);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tab.on {
+  background: var(--blue);
+  color: white;
+}
+
+.tab:hover:not(.on) {
+  background: var(--s3);
+  color: var(--t1);
+}
+
+/* Poll */
+.poll-container {
+  background: var(--s2);
+  border-radius: var(--r);
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.poll-option {
+  margin: 8px 0;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--r);
+  background: var(--s3);
+  transition: all 0.2s;
+}
+
+.poll-option:hover {
+  background: var(--s4);
+}
+
+.poll-option.selected {
+  background: rgba(99, 102, 241, 0.2);
+  border-left: 3px solid var(--blue);
+}
+
+.poll-bar {
+  height: 6px;
+  background: var(--blue);
+  border-radius: 3px;
+  margin-top: 4px;
+  transition: width 0.3s;
+}
+
+/* Mention */
+.mention {
+  color: var(--blue);
+  cursor: pointer;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.mention:hover {
+  text-decoration: underline;
+  background: rgba(99, 102, 241, 0.2);
+}
+
+/* Search overlay */
+#search-ov {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 500;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+  backdrop-filter: blur(12px);
+}
+
+#search-box {
+  background: var(--s1);
+  border-radius: var(--r3);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.search-tabs {
+  display: flex;
+  padding: 12px 16px;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.search-tab {
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: var(--s2);
+  border: none;
+  color: var(--t3);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.search-tab.on {
+  background: var(--blue);
+  color: white;
+}
+
+.search-results {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   gap: 12px;
+  transition: background 0.2s;
+}
+
+.search-result-item:hover {
+  background: var(--s2);
+}
+
+/* Messages panel */
+#msg-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 380px;
+  background: var(--s1);
+  border-left: 1px solid var(--border);
+  z-index: 500;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#msg-bd {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 499;
+  display: none;
 }
 
 #notif-panel {
   position: fixed;
-  right: 60px;
-  top: 64px;
+  right: 70px;
+  top: 70px;
   width: 360px;
   max-height: 80vh;
-  background: var(--s2);
+  background: var(--s1);
   border: 1px solid var(--border);
   border-radius: var(--r3);
   z-index: 500;
   display: none;
   flex-direction: column;
+  box-shadow: var(--shadow);
 }
 
-#search-ov {
-  display: none;
+/* Player */
+#player {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  z-index: 500;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(18, 20, 28, 0.98);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
 }
 
-#search-box {
+/* Voice message */
+.voice-message {
+  background: var(--s3);
+  border-radius: 20px;
+  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.voice-message button {
+  background: var(--blue);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+}
+
+.voice-waveform {
+  width: 120px;
+  height: 32px;
+}
+
+/* Collaboration badge */
+.collab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--s3);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  color: var(--cyan);
+  margin-left: 8px;
+}
+
+/* Battle tracks */
+.battle-card {
+  background: linear-gradient(135deg, var(--s2), var(--s3));
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 16px;
+  text-align: center;
+}
+
+.battle-vs {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--amber);
+  margin: 12px 0;
+}
+
+/* Admin panel */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.admin-stat-card {
   background: var(--s2);
-  border-radius: var(--r3);
-  width: 100%;
-  max-width: 560px;
-  margin: 0 20px;
-  overflow: hidden;
+  border-radius: var(--r2);
+  padding: 20px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.admin-stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--blue);
+}
+
+.admin-user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-user-item:last-child {
+  border-bottom: none;
 }
 </style>
 </head>
@@ -1020,7 +1277,10 @@ input:focus, textarea:focus {
 <div id="toasts"></div>
 <div id="hdr">
   <div class="hi">
-    <div class="logo" id="logo"><div class="logo-ico">4r</div><span class="logo-txt">4room</span></div>
+    <div class="logo" id="logo">
+      <div class="logo-ico">4r</div>
+      <span class="logo-txt">4room</span>
+    </div>
     <nav id="hnav"></nav>
     <div id="hr"></div>
   </div>
@@ -1037,23 +1297,67 @@ input:focus, textarea:focus {
   <div id="p-profile" class="page"></div>
   <div id="p-admin" class="page"></div>
   <div id="p-bmarks" class="page"></div>
-  <div id="p-feed" class="page"></div>
+  <div id="p-battles" class="page"></div>
 </main>
 
-<footer style="border-top:1px solid var(--border);padding:20px;text-align:center;font-size:12px;color:var(--t4)">4room — социальная платформа для музыкантов и продюсеров</footer>
+<footer style="border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 12px; color: var(--t4); margin-top: 40px;">
+  4room — социальная платформа для музыкантов и продюсеров
+</footer>
 
-<div id="auth-ov" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:400;align-items:center;justify-content:center;">
-  <div id="auth-box" style="background:var(--s2);border-radius:var(--r3);max-width:400px;width:100%;margin:20px;overflow:hidden;"></div>
+<div id="auth-ov" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:400; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+  <div id="auth-box" style="background:var(--s1); border-radius:var(--r3); max-width:400px; width:100%; margin:20px; overflow:hidden;"></div>
 </div>
-<div id="msg-panel" style="position:fixed;right:0;top:0;bottom:0;width:380px;background:var(--s1);border-left:1px solid var(--border);z-index:500;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;">
-  <div id="mpi" style="flex:1;display:flex;flex-direction:column;"></div>
+
+<div id="msg-panel">
+  <div id="mpi" style="flex:1; display:flex; flex-direction:column;"></div>
 </div>
-<div id="msg-bd" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:499;display:none;"></div>
+<div id="msg-bd"></div>
 <div id="notif-panel"></div>
-<div id="search-ov"><div id="search-box"><div style="display:flex;padding:16px;gap:12px;"><input id="s-inp" type="text" placeholder="Поиск..." style="flex:1"><button class="btn btn-g btn-sm" onclick="closeSearch()">✕</button></div><div id="s-res" style="max-height:400px;overflow-y:auto;"></div></div></div>
-<div id="player" style="position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(18,19,27,.98);backdrop-filter:blur(16px);border-top:1px solid var(--border);z-index:300;display:none;align-items:center;padding:0 20px;gap:12px;"><div id="p-cov" style="width:44px;height:44px;border-radius:8px;background:var(--s3s);display:flex;align-items:center;justify-content:center;">♪</div><div style="flex:1"><div id="p-ttl" style="font-weight:500">—</div><div id="p-art" style="font-size:11px;color:var(--t3)"></div></div><button id="p-pbtn" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--t1);width:40px;">▶</button><div style="flex:1;max-width:300px;height:4px;background:var(--s4);border-radius:4px;cursor:pointer;" id="p-bar"><div id="p-bar-f" style="height:100%;background:var(--blue);width:0%;border-radius:4px;"></div></div><span id="p-time" style="font-size:12px;min-width:45px;">0:00</span><input type="range" class="p-vol" min="0" max="1" step="0.05" value="0.8" style="width:80px;"><button id="p-close" style="background:none;border:none;color:var(--t4);cursor:pointer;font-size:18px;">✕</button></div>
-<nav id="mob-bnav"><div class="mbn"><button class="mb-btn" data-nav="home">🏠<span>Главная</span></button><button class="mb-btn" data-nav="feed">📰<span>Лента</span></button><button class="mb-btn" data-nav="beats">♪<span>Биты</span></button><button class="mb-btn" data-nav="drumkits">🥁<span>Драмкиты</span></button><button class="mb-btn" data-nav="services">🛠<span>Услуги</span></button><button class="mb-btn" data-nav="admin" id="admin-mob-btn" style="display:none">⚙<span>Админ</span></button></div></nav>
 
+<div id="search-ov">
+  <div id="search-box">
+    <div style="display:flex; padding:16px 20px; gap:12px;">
+      <input id="s-inp" type="text" placeholder="Поиск пользователей, битов, тем, услуг..." style="flex:1">
+      <button class="btn btn-g btn-sm" onclick="closeSearch()">✕</button>
+    </div>
+    <div class="search-tabs">
+      <button class="search-tab on" data-search-tab="all">Все</button>
+      <button class="search-tab" data-search-tab="users">Пользователи</button>
+      <button class="search-tab" data-search-tab="beats">Биты</button>
+      <button class="search-tab" data-search-tab="drumkits">Драмкиты</button>
+      <button class="search-tab" data-search-tab="services">Услуги</button>
+      <button class="search-tab" data-search-tab="threads">Темы</button>
+    </div>
+    <div id="s-res" class="search-results"></div>
+  </div>
+</div>
+
+<div id="player">
+  <div id="p-cov" style="width:48px;height:48px;border-radius:12px;background:var(--s3);display:flex;align-items:center;justify-content:center;">♪</div>
+  <div style="flex:1">
+    <div id="p-ttl" style="font-weight:500">—</div>
+    <div id="p-art" style="font-size:11px;color:var(--t3)"></div>
+  </div>
+  <button id="p-pbtn" style="background:none;border:none;font-size:24px;cursor:pointer;color:var(--t1);width:44px;">▶</button>
+  <div style="flex:1; max-width:300px; height:4px; background:var(--s4); border-radius:4px; cursor:pointer;" id="p-bar">
+    <div id="p-bar-f" style="height:100%; background:var(--blue); width:0%; border-radius:4px;"></div>
+  </div>
+  <span id="p-time" style="font-size:12px; min-width:45px;">0:00</span>
+  <input type="range" class="p-vol" min="0" max="1" step="0.05" value="0.8" style="width:80px;">
+  <button id="p-close" style="background:none;border:none;color:var(--t4);cursor:pointer;font-size:20px;">✕</button>
+</div>
+
+<nav id="mob-bnav">
+  <div class="mbn">
+    <button class="mb-btn" data-nav="home"><span class="mb-ico">🏠</span><span>Главная</span></button>
+    <button class="mb-btn" data-nav="feed"><span class="mb-ico">📰</span><span>Лента</span></button>
+    <button class="mb-btn" data-nav="beats"><span class="mb-ico">♪</span><span>Биты</span></button>
+    <button class="mb-btn" data-nav="drumkits"><span class="mb-ico">🥁</span><span>Драмкиты</span></button>
+    <button class="mb-btn" data-nav="services"><span class="mb-ico">🛠</span><span>Услуги</span></button>
+  </div>
+</nav>
+
+<!-- Модалки -->
 <div id="edit-profile-modal" class="modal">
   <div class="modal-content">
     <div class="modal-header"><span>✎ Редактировать профиль</span><button onclick="closeEditModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;">✕</button></div>
@@ -1061,23 +1365,21 @@ input:focus, textarea:focus {
       <div class="stitle">Основное</div>
       <input id="edit-bio" type="text" placeholder="О себе" style="width:100%">
       <div class="stitle mt-3">Аватар</div>
-      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadAvatarModal()">📷 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeAvatar()">🗑 Удалить</button></div>
+      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadAvatar()">📷 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeAvatar()">🗑 Удалить</button></div>
       <div class="stitle mt-3">Шапка профиля</div>
-      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadBannerModal()">🖼 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeBanner()">🗑 Удалить</button></div>
+      <div class="flex gap-2"><button class="btn btn-d btn-sm" onclick="uploadBanner()">🖼 Загрузить</button><button class="btn btn-r btn-sm" onclick="removeBanner()">🗑 Удалить</button></div>
       <div class="stitle mt-3">Рамка аватара</div>
-      <div class="frame-buttons">
-        <div class="frame-preview avatar-frame-default" onclick="setAvatarFrame('default')"></div>
-        <div class="frame-preview avatar-frame-gradient" onclick="setAvatarFrame('gradient')"></div>
-        <div class="frame-preview avatar-frame-neon" onclick="setAvatarFrame('neon')"></div>
-        <div class="frame-preview avatar-frame-fire" onclick="setAvatarFrame('fire')"></div>
-        <div class="frame-preview avatar-frame-ice" onclick="setAvatarFrame('ice')"></div>
-        <div class="frame-preview avatar-frame-gold" onclick="setAvatarFrame('gold')"></div>
-        <div class="frame-preview avatar-frame-rainbow" onclick="setAvatarFrame('rainbow')"></div>
+      <div class="frame-buttons" style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="avatar avatar-frame-default" style="width:40px;height:40px;cursor:pointer;" onclick="setAvatarFrame('default')"></div>
+        <div class="avatar avatar-frame-gradient" style="width:40px;height:40px;cursor:pointer;" onclick="setAvatarFrame('gradient')"></div>
+        <div class="avatar avatar-frame-neon" style="width:40px;height:40px;cursor:pointer;" onclick="setAvatarFrame('neon')"></div>
+        <div class="avatar avatar-frame-gold" style="width:40px;height:40px;cursor:pointer;" onclick="setAvatarFrame('gold')"></div>
+        <div class="avatar avatar-frame-rainbow" style="width:40px;height:40px;cursor:pointer;" onclick="setAvatarFrame('rainbow')"></div>
       </div>
       <div class="stitle mt-3">Настройки приватности</div>
-      <div class="flex justify-between"><span>Кто может писать на стене:</span><select id="privacy-wall"><option value="all">Все</option><option value="friends">Только друзья</option><option value="none">Никто</option></select></div>
-      <div class="flex justify-between mt-2"><span>Кто может комментировать:</span><select id="privacy-comment"><option value="all">Все</option><option value="friends">Только друзья</option><option value="none">Никто</option></select></div>
-      <div class="flex justify-between mt-2"><span>Закрытый профиль:</span><input type="checkbox" id="privacy-locked"></div>
+      <div class="flex-between"><span>Кто может писать на стене:</span><select id="privacy-wall"><option value="all">Все</option><option value="friends">Только друзья</option><option value="none">Никто</option></select></div>
+      <div class="flex-between mt-2"><span>Кто может комментировать:</span><select id="privacy-comment"><option value="all">Все</option><option value="friends">Только друзья</option><option value="none">Никто</option></select></div>
+      <div class="flex-between mt-2"><span>Закрытый профиль:</span><input type="checkbox" id="privacy-locked"></div>
       <div class="pf mt-3"><button class="btn btn-p" onclick="saveProfileEdit()">Сохранить</button><button class="btn btn-g" onclick="closeEditModal()">Отмена</button></div>
     </div>
   </div>
@@ -1091,7 +1393,7 @@ input:focus, textarea:focus {
       <button class="btn btn-p w-100 mt-2" onclick="repostToMyWall()">📌 На свою стену</button>
       <div class="stitle mt-3">В личные сообщения</div>
       <input id="repost-user-search" type="text" placeholder="Поиск пользователя..." oninput="searchUserForRepost()">
-      <div id="repost-user-results" style="max-height:200px;overflow-y:auto;margin-top:8px;"></div>
+      <div id="repost-user-results" style="max-height:200px; overflow-y:auto; margin-top:8px;"></div>
     </div>
   </div>
 </div>
@@ -1103,1464 +1405,1689 @@ input:focus, textarea:focus {
       <input id="group-name" type="text" placeholder="Название группы">
       <div class="stitle mt-2">Участники</div>
       <input id="group-user-search" type="text" placeholder="Поиск..." oninput="searchUserForGroup()">
-      <div id="group-user-results" style="max-height:200px;overflow-y:auto;"></div>
-      <div id="selected-users" class="mt-2" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+      <div id="group-user-results" style="max-height:200px; overflow-y:auto;"></div>
+      <div id="selected-users" class="mt-2" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
       <div class="pf mt-3"><button class="btn btn-p" onclick="createGroupChat()">Создать</button></div>
     </div>
   </div>
 </div>
 
-<script>
-// ==================== КОНФИГ ====================
-const ADMIN_LOGIN = 'temaprikolov';
-const ADMIN_PASS = 'Daraso19';
+<div id="story-modal" class="story-modal">
+  <div class="story-progress"><div class="story-progress-fill" id="story-progress-fill"></div></div>
+  <div class="story-content" id="story-content"></div>
+  <div class="story-nav">
+    <button class="story-nav-btn" id="story-prev">‹</button>
+    <button class="story-nav-btn" id="story-next">›</button>
+  </div>
+  <button onclick="closeStoryModal()" style="position:fixed; top:20px; right:20px; background:rgba(0,0,0,0.5); border:none; color:#fff; width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:20px;">✕</button>
+</div>
 
-// ==================== ПОЛНАЯ ОЧИСТКА ДАННЫХ ====================
-if (!localStorage.getItem('4r_cleaned_v2')) {
-  localStorage.clear();
-  localStorage.setItem('4r_cleaned_v2', 'true');
-  console.log('Все данные очищены, начинаем с чистого листа');
+<script>
+// ==================== API КЛИЕНТ ====================
+const API_BASE = '/api';
+
+async function apiCall(endpoint, method = 'GET', data = null) {
+  const options = {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include'
+  };
+  if (data) options.body = JSON.stringify(data);
+  
+  const response = await fetch(`${API_BASE}${endpoint}`, options);
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || 'API error');
+  return result;
 }
 
-// ==================== СОСТОЯНИЕ ====================
-let S = { 
-  threads: [], 
-  replies: {}, 
-  beats: [], 
-  drumkits: [], 
-  services: [], 
-  wallPosts: {}, 
-  convs: [], 
-  reactions: {}, 
-  postViews: {}, 
-  comments: {},
-  notifications: {},
-  counter: 1000 
-};
-let users = JSON.parse(localStorage.getItem('4r_users') || '[]');
-let sess = JSON.parse(localStorage.getItem('4r_session') || 'null');
-let _theme = localStorage.getItem('4r_theme') || 'dark';
-let _bg = 'all', _bs = 'newest';
-let _activeConv = null;
-let _repostPostId = null, _repostAuthor = null, _repostContent = null;
-let _selectedGroupUsers = [];
+// ==================== ГЛОБАЛЬНОЕ СОСТОЯНИЕ ====================
+let sess = null;
+let currentSearchTab = 'all';
+let currentBoard = null;
+let currentThread = null;
+let currentProfileUser = null;
+let activeConv = null;
+let repostData = null;
+let selectedGroupUsers = [];
+let currentStories = [];
+let currentStoryIndex = 0;
+let storyInterval = null;
 
 // ==================== УТИЛИТЫ ====================
-function toast(msg, isErr) {
-  let box = document.getElementById('toasts');
-  if (!box) return;
-  let el = document.createElement('div');
-  el.className = 'toast' + (isErr ? ' toast-err' : ' toast-ok');
+function toast(msg, isErr = false) {
+  const box = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = `toast ${isErr ? 'toast-err' : 'toast-ok'}`;
   el.textContent = msg;
   box.appendChild(el);
-  setTimeout(function() { el.classList.add('on'); }, 10);
-  setTimeout(function() { el.classList.remove('on'); setTimeout(function() { el.remove(); }, 300); }, 3200);
-}
-function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-function relTime(ts) { let d = Math.floor((Date.now() - ts) / 1000); if (d < 60) return d + 'с'; if (d < 3600) return Math.floor(d / 60) + 'м'; if (d < 86400) return Math.floor(d / 3600) + 'ч'; return Math.floor(d / 86400) + 'д'; }
-function mkId() { S.counter = S.counter + 1; return String(S.counter); }
-function persist() { 
-  localStorage.setItem('4r_data', JSON.stringify(S)); 
-  localStorage.setItem('4r_users', JSON.stringify(users)); 
-  localStorage.setItem('4r_session', JSON.stringify(sess)); 
-}
-function loadData() { 
-  let d = localStorage.getItem('4r_data'); 
-  if (d) { 
-    try { 
-      let p = JSON.parse(d); 
-      Object.assign(S, p); 
-      if (!S.reactions) S.reactions = {}; 
-      if (!S.postViews) S.postViews = {};
-      if (!S.comments) S.comments = {};
-      if (!S.notifications) S.notifications = {};
-    } catch(e) { console.error('Error loading data', e); } 
-  }
-  
-  let adminExists = false;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username === ADMIN_LOGIN) {
-      adminExists = true;
-      users[i].isAdmin = true;
-      if (!users[i].badges) users[i].badges = [];
-      if (users[i].badges.indexOf('admin') === -1) users[i].badges.push('admin');
-      if (users[i].badges.indexOf('verified') === -1) users[i].badges.push('verified');
-      break;
-    }
-  }
-  
-  if (!adminExists) {
-    users.unshift({
-      id: 'u_admin_' + Date.now(),
-      username: ADMIN_LOGIN,
-      password: ADMIN_PASS,
-      avatarBase64: null,
-      bannerBase64: null,
-      avatarFrame: 'default',
-      bio: 'Администратор платформы',
-      badges: ['admin', 'verified', 'early'],
-      isAdmin: true,
-      banned: false,
-      privacy: { wall: 'all', comment: 'all', profileLocked: false },
-      friends: [],
-      followers: [],
-      createdAt: Date.now()
-    });
-    persist();
-  }
-}
-loadData();
-
-function getUser(id) { 
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].id === id) return users[i];
-  }
-  return null;
-}
-function updateUser(id, data) { 
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].id === id) { 
-      for (let key in data) { users[i][key] = data[key]; }
-      if (sess && sess.id === id) sess = users[i]; 
-      persist(); 
-      break;
-    }
-  } 
-}
-function isAdmin() { 
-  if (!sess) return false;
-  return sess.username === ADMIN_LOGIN;
-}
-function canModerate(targetUid) { 
-  return isAdmin() || (sess && sess.id === targetUid); 
-}
-function addNotification(userId, type, fromUserId, postId) {
-  if (!userId || userId === fromUserId) return;
-  if (!S.notifications[userId]) S.notifications[userId] = [];
-  S.notifications[userId].unshift({ 
-    id: mkId(), 
-    type: type, 
-    fromUserId: fromUserId, 
-    postId: postId, 
-    createdAt: Date.now(), 
-    read: false 
-  });
-  if (S.notifications[userId].length > 100) S.notifications[userId] = S.notifications[userId].slice(0, 100);
-  persist();
+  setTimeout(() => el.classList.add('on'), 10);
+  setTimeout(() => {
+    el.classList.remove('on');
+    setTimeout(() => el.remove(), 300);
+  }, 3200);
 }
 
-// ==================== ВИЗУАЛЬНЫЙ РЕДАКТОР ====================
-const EMOJIS_LIST = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','☠️','👽','👾','🤖','🎃','❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','👍','👎','👊','✊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦵','🦶','👂','👃','🧠','🦷','🦴','👀','👁️','👅','👄'];
+function esc(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
-function formatText(textareaId, openTag, closeTag) {
-  let textarea = document.getElementById(textareaId);
-  if (!textarea) return;
-  let start = textarea.selectionStart;
-  let end = textarea.selectionEnd;
-  let selected = textarea.value.substring(start, end);
-  let replacement = openTag + selected + closeTag;
-  textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
-  textarea.selectionStart = start + openTag.length;
-  textarea.selectionEnd = end + openTag.length;
-  textarea.focus();
-  updatePreview(textareaId);
+function relTime(ts) {
+  const d = Math.floor((Date.now() - ts) / 1000);
+  if (d < 60) return d + 'с';
+  if (d < 3600) return Math.floor(d / 60) + 'м';
+  if (d < 86400) return Math.floor(d / 3600) + 'ч';
+  return Math.floor(d / 86400) + 'д';
 }
-function updatePreview(textareaId) {
-  let textarea = document.getElementById(textareaId);
-  let preview = document.getElementById('preview-' + textareaId);
-  if (!preview) return;
-  let text = textarea.value;
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
-  text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-  text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
-  preview.innerHTML = text;
-}
-function toggleEditorMode(textareaId) {
-  let preview = document.getElementById('preview-' + textareaId);
-  let textarea = document.getElementById(textareaId);
-  if (preview.style.display === 'none') {
-    preview.style.display = 'block';
-    textarea.style.display = 'none';
-  } else {
-    preview.style.display = 'none';
-    textarea.style.display = 'block';
-  }
-}
-function insertEmoji(textareaId, emoji) {
-  let textarea = document.getElementById(textareaId);
-  if (!textarea) return;
-  let start = textarea.selectionStart;
-  textarea.value = textarea.value.substring(0, start) + emoji + textarea.value.substring(start);
-  textarea.selectionStart = start + emoji.length;
-  textarea.selectionEnd = start + emoji.length;
-  textarea.focus();
-  updatePreview(textareaId);
-}
-function showEmojiPicker(textareaId, btn) {
-  let existing = document.querySelector('.emoji-picker.open');
-  if (existing) existing.remove();
-  let picker = document.createElement('div');
-  picker.className = 'emoji-picker';
-  for (let i = 0; i < Math.min(80, EMOJIS_LIST.length); i++) {
-    let emoji = EMOJIS_LIST[i];
-    let btnEmoji = document.createElement('button');
-    btnEmoji.textContent = emoji;
-    btnEmoji.className = 'emoji-btn';
-    btnEmoji.onclick = function(e) { 
-      e.stopPropagation();
-      insertEmoji(textareaId, emoji); 
-      picker.remove(); 
-    };
-    picker.appendChild(btnEmoji);
-  }
-  let rect = btn.getBoundingClientRect();
-  picker.style.position = 'absolute';
-  picker.style.bottom = '100%';
-  picker.style.left = '0';
-  picker.style.marginBottom = '5px';
-  let parent = btn.parentElement;
-  parent.style.position = 'relative';
-  parent.appendChild(picker);
-  setTimeout(function() { picker.classList.add('open'); }, 10);
-  setTimeout(function() {
-    document.addEventListener('click', function closePicker(e) {
-      if (!picker.contains(e.target) && e.target !== btn) {
-        picker.remove();
-        document.removeEventListener('click', closePicker);
-      }
-    });
-  }, 100);
-}
-function formatMessageContent(content) {
+
+function formatContent(content) {
   if (!content) return '';
   let text = esc(content);
+  // Упоминания @username
+  text = text.replace(/@(\w+)/g, '<span class="mention" onclick="navToProfileByUsername(\'$1\')">@$1</span>');
+  // Жирный
   text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Курсив
   text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  // Зачеркнутый
   text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
+  // Код
   text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-  text = text.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
-  if (content && content.startsWith('data:image')) {
-    text = '<img src="' + content + '" style="max-width:200px;max-height:200px;border-radius:8px">';
-  }
+  // Цитаты
+  text = text.replace(/^&gt; (.*?)$/gm, '<blockquote>$1</blockquote>');
+  // Ссылки
+  text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:var(--blue)">$1</a>');
   return text;
 }
 
-// ==================== РЕГИСТРАЦИЯ ====================
-function register(username, password) {
-  if (!username || username.length < 3) return { ok: false, err: 'Имя не менее 3 символов' };
-  if (!password || password.length < 4) return { ok: false, err: 'Пароль не менее 4 символов' };
-  if (username === ADMIN_LOGIN) return { ok: false, err: 'Это имя занято' };
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username === username) return { ok: false, err: 'Имя занято' };
-  }
-  let newUser = {
-    id: 'u' + mkId(),
-    username: username,
-    password: password,
-    avatarBase64: null,
-    bannerBase64: null,
-    avatarFrame: 'default',
-    bio: '',
-    badges: ['early'],
-    isAdmin: false,
-    banned: false,
-    privacy: { wall: 'all', comment: 'all', profileLocked: false },
-    friends: [],
-    followers: [],
-    createdAt: Date.now()
-  };
-  users.push(newUser);
-  persist();
-  return { ok: true, user: newUser };
-}
-function login(username, password) {
-  let user = null;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username === username && users[i].password === password) {
-      user = users[i];
-      break;
-    }
-  }
-  if (!user) return { ok: false, err: 'Неверное имя или пароль' };
-  if (user.banned) return { ok: false, err: 'Аккаунт заблокирован' };
-  if (username === ADMIN_LOGIN && password === ADMIN_PASS && !user.isAdmin) {
-    user.isAdmin = true;
-    if (user.badges.indexOf('admin') === -1) user.badges.push('admin');
-    persist();
-  }
-  sess = { id: user.id, username: user.username, isAdmin: user.isAdmin, avatarBase64: user.avatarBase64, avatarFrame: user.avatarFrame };
-  persist();
-  return { ok: true, user: user };
-}
-function logout() { sess = null; persist(); buildHeader(); render(); }
-
-// ==================== HEADER ====================
-function buildHeader() {
-  let nav = document.getElementById('hnav');
-  if (nav && sess) {
-    let adminButton = isAdmin() ? '<button class="hl" onclick="nav(\'#/admin\')">⚙ Админ-панель</button>' : '';
-    nav.innerHTML = 
-      '<button class="hl" onclick="nav(\'#/feed\')">📰 Лента</button>' +
-      '<button class="hl" onclick="nav(\'#/board/tech\')">⚙ Тех-раздел</button>' +
-      '<button class="hl" onclick="nav(\'#/board/art\')">◈ Арт</button>' +
-      '<button class="hl" onclick="nav(\'#/board/music\')">♪ Музыка</button>' +
-      '<button class="hl" onclick="nav(\'#/board/shitposting\')">✦ Шитпостинг</button>' +
-      '<button class="hl" onclick="nav(\'#/beats\')">♪ Биты</button>' +
-      '<button class="hl" onclick="nav(\'#/drumkits\')">🥁 Драмкиты</button>' +
-      '<button class="hl" onclick="nav(\'#/services\')">🛠 Услуги</button>' +
-      adminButton;
-  }
-  let hr = document.getElementById('hr');
-  if (hr) {
-    if (sess) {
-      hr.innerHTML = 
-        '<button class="ico-btn" onclick="openSearch()">🔍</button>' +
-        '<button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button>' +
-        '<button class="ico-btn" onclick="openMsgPanel()">✉</button>' +
-        '<button class="ico-btn" onclick="toggleNotif()">🔔</button>' +
-        '<div style="position:relative">' +
-          '<button class="ico-btn" onclick="toggleUmenu()" style="padding:0;width:auto;">' + getAvatarHTML(sess, 36) + '</button>' +
-          '<div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;">' +
-            '<div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">' + esc(sess.username) + '</div>' +
-            '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/profile\');closeUmenu()">👤 Мой профиль</div>' +
-            '<div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>' +
-            '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/bmarks\');closeUmenu()">🔖 Закладки</div>' +
-            '<div style="height:1px;background:var(--border);margin:4px 0"></div>' +
-            '<div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>' +
-          '</div>' +
-        '</div>';
-    } else {
-      hr.innerHTML = '<button class="ico-btn" onclick="toggleTheme()">' + (_theme === 'light' ? '🌙' : '☀') + '</button><button class="btn btn-p" onclick="openAuth()">Войти</button><button class="btn btn-d" onclick="openReg()">Регистрация</button>';
-    }
-  }
-  
-  let adminMobBtn = document.getElementById('admin-mob-btn');
-  if (adminMobBtn) {
-    adminMobBtn.style.display = isAdmin() ? 'flex' : 'none';
-  }
-}
-function getAvatarHTML(user, size) {
-  if (!user) return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;"></div>';
-  let frameClass = 'avatar-frame-' + (user.avatarFrame || 'default');
-  let bgStyle = user.avatarBase64 ? 'url(' + user.avatarBase64 + ') center/cover' : '#4f7ed4';
-  let letter = !user.avatarBase64 ? (user.username ? user.username[0].toUpperCase() : '?') : '';
-  return '<div class="avatar ' + frameClass + '" style="width:' + size + 'px;height:' + size + 'px;background:' + bgStyle + ';display:flex;align-items:center;justify-content:center;font-weight:600;">' + letter + '</div>';
-}
-function toggleUmenu() { let m = document.getElementById('umenu'); if (m) m.style.display = m.style.display === 'none' ? 'block' : 'none'; }
-function closeUmenu() { var m = document.getElementById('umenu'); if (m) m.style.display = 'none'; }
-function toggleTheme() { _theme = _theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('4r_theme', _theme); document.body.classList.toggle('light', _theme === 'light'); buildHeader(); }
-function openSearch() { document.getElementById('search-ov').style.display = 'flex'; setTimeout(function() { var inp = document.getElementById('s-inp'); if (inp) inp.focus(); }, 100); }
-function closeSearch() { document.getElementById('search-ov').style.display = 'none'; }
-function toggleNotif() { 
-  let p = document.getElementById('notif-panel'); 
-  if (p.style.display === 'flex') { p.style.display = 'none'; return; }
-  let notifs = S.notifications[sess ? sess.id : null] || [];
-  let html = '<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="pb">';
-  if (notifs.length) {
-    for (let i = 0; i < Math.min(20, notifs.length); i++) {
-      let n = notifs[i];
-      let fromUser = getUser(n.fromUserId);
-      let text = '';
-      if (n.type === 'reaction') text = (fromUser ? fromUser.username : 'Кто-то') + ' отреагировал на ваш пост';
-      else if (n.type === 'comment') text = (fromUser ? fromUser.username : 'Кто-то') + ' прокомментировал ваш пост';
-      else if (n.type === 'repost') text = (fromUser ? fromUser.username : 'Кто-то') + ' сделал репост вашего поста';
-      else if (n.type === 'message') text = 'Новое сообщение от ' + (fromUser ? fromUser.username : 'Кого-то');
-      else text = 'Новое уведомление';
-      html += '<div style="padding:8px;border-bottom:1px solid var(--border)">' + text + '</div>';
-    }
-  } else {
-    html += '<div class="empty">Нет уведомлений</div>';
-  }
-  html += '</div>';
-  p.innerHTML = html;
-  p.style.display = 'flex';
+function getAvatarHTML(user, size = 40) {
+  if (!user) return `<div class="avatar" style="width:${size}px;height:${size}px;"></div>`;
+  const frameClass = user.avatarFrame ? `avatar-frame-${user.avatarFrame}` : '';
+  const bgStyle = user.avatarBase64 ? `url(${user.avatarBase64}) center/cover` : '#6366f1';
+  const letter = !user.avatarBase64 && user.username ? user.username[0].toUpperCase() : '';
+  return `<div class="avatar ${frameClass}" style="width:${size}px;height:${size}px;background:${bgStyle};display:flex;align-items:center;justify-content:center;font-weight:600;cursor:pointer;" onclick="event.stopPropagation();nav('#/profile/${user.id}')">${letter}</div>`;
 }
 
-// ==================== СООБЩЕНИЯ ====================
-function openMsgPanel() { 
-  document.getElementById('msg-panel').style.transform = 'translateX(0)'; 
-  document.getElementById('msg-bd').style.display = 'block'; 
-  renderMsgPanel(); 
+function nav(hash) {
+  window.location.hash = hash;
+  render();
 }
-function closeMsgPanel() { 
-  document.getElementById('msg-panel').style.transform = 'translateX(100%)'; 
-  document.getElementById('msg-bd').style.display = 'none'; 
-  _activeConv = null;
-}
-function renderMsgPanel() {
-  if (!sess) return;
-  let convs = [];
-  for (let i = 0; i < S.convs.length; i++) {
-    if (S.convs[i].participants && S.convs[i].participants.indexOf(sess.id) !== -1) {
-      convs.push(S.convs[i]);
-    }
-  }
-  let html = '<div class="ph">Сообщения<div class="flex"><input id="conv-search" type="text" placeholder="Поиск..." style="width:120px;padding:4px 8px;" oninput="filterConvs()"><button class="btn btn-xs btn-p" onclick="openGroupModal()" style="margin-left:5px">+ Группа</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div><div id="conv-list" class="conv-list">';
-  if (convs.length === 0) {
-    html += '<div class="empty">Нет диалогов</div>';
-  } else {
-    for (let i = 0; i < convs.length; i++) {
-      let c = convs[i];
-      let otherId = null;
-      for (let j = 0; j < c.participants.length; j++) {
-        if (c.participants[j] !== sess.id) { otherId = c.participants[j]; break; }
-      }
-      let otherUser = getUser(otherId);
-      let displayName = c.name || (c.type === 'group' ? 'Группа' : (otherUser ? otherUser.username : 'Диалог'));
-      html += '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">' + (c.type === 'group' ? '👥' : '💬') + '</div><div><div class="conv-name">' + esc(displayName) + '</div></div></div>';
-    }
-  }
-  html += '</div>';
-  if (_activeConv) {
-    let conv = null;
-    for (let i = 0; i < convs.length; i++) {
-      if (convs[i].id === _activeConv) { conv = convs[i]; break; }
-    }
-    if (conv) renderChatView(conv);
-    else { _activeConv = null; renderMsgPanel(); }
-    return;
-  }
-  document.getElementById('mpi').innerHTML = html;
-}
-function filterConvs() {
-  if (!sess) return;
-  let query = document.getElementById('conv-search') ? document.getElementById('conv-search').value.toLowerCase() : '';
-  let convs = [];
-  for (let i = 0; i < S.convs.length; i++) {
-    if (S.convs[i].participants && S.convs[i].participants.indexOf(sess.id) !== -1) {
-      convs.push(S.convs[i]);
-    }
-  }
-  let filtered = [];
-  for (let i = 0; i < convs.length; i++) {
-    let c = convs[i];
-    let otherId = null;
-    for (let j = 0; j < c.participants.length; j++) {
-      if (c.participants[j] !== sess.id) { otherId = c.participants[j]; break; }
-    }
-    let otherUser = getUser(otherId);
-    let displayName = c.name || (c.type === 'group' ? 'Группа' : (otherUser ? otherUser.username : 'Диалог'));
-    if (displayName.toLowerCase().includes(query)) {
-      filtered.push(c);
-    }
-  }
-  let listDiv = document.getElementById('conv-list');
-  if (listDiv) {
-    let html = '';
-    for (let i = 0; i < filtered.length; i++) {
-      let c = filtered[i];
-      let otherId = null;
-      for (let j = 0; j < c.participants.length; j++) {
-        if (c.participants[j] !== sess.id) { otherId = c.participants[j]; break; }
-      }
-      let otherUser = getUser(otherId);
-      let displayName = c.name || (c.type === 'group' ? 'Группа' : (otherUser ? otherUser.username : 'Диалог'));
-      html += '<div class="conv-item" onclick="openConv(\'' + c.id + '\')"><div class="avatar avatar-sm" style="background:var(--purple);font-size:16px;">' + (c.type === 'group' ? '👥' : '💬') + '</div><div><div class="conv-name">' + esc(displayName) + '</div></div></div>';
-    }
-    listDiv.innerHTML = html || '<div class="empty">Ничего не найдено</div>';
-  }
-}
-function renderChatView(conv) {
-  if (!conv) { _activeConv = null; renderMsgPanel(); return; }
-  let otherId = null;
-  for (let j = 0; j < conv.participants.length; j++) {
-    if (conv.participants[j] !== sess.id) { otherId = conv.participants[j]; break; }
-  }
-  let otherUser = getUser(otherId);
-  let displayName = conv.name || (conv.type === 'group' ? 'Группа' : (otherUser ? otherUser.username : 'Диалог'));
-  let msgs = '';
-  if (conv.messages) {
-    for (let i = 0; i < conv.messages.length; i++) {
-      let m = conv.messages[i];
-      msgs += '<div class="' + (m.fromUid === sess.id ? 'bubble mine' : 'bubble theirs') + '">' + formatMessageContent(m.content) + '<div style="font-size:10px;color:var(--t4);margin-top:2px">' + relTime(m.createdAt) + '</div></div>';
-    }
-  }
-  document.getElementById('mpi').innerHTML = 
-    '<div class="ph"><button style="background:none;border:none;cursor:pointer;font-size:18px;" onclick="_activeConv=null;renderMsgPanel()">←</button>' + esc(displayName) + '<div><button class="btn btn-xs btn-d" onclick="inviteToGroup(\'' + conv.id + '\')" ' + (conv.type !== 'group' ? 'style="display:none"' : '') + '>➕</button><button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button></div></div>' +
-    '<div class="chat-msgs" id="chat-msgs">' + (msgs || '<div class="empty">Нет сообщений</div>') + '</div>' +
-    '<div class="chat-input-area">' +
-      '<div class="chat-input-toolbar">' +
-        '<button class="editor-btn" onclick="showEmojiPicker(\'chat-in\', this)">😀</button>' +
-        '<button class="editor-btn" onclick="sendImage()">🖼️</button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'**\', \'**\')"><b>B</b></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'*\', \'*\')"><i>I</i></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'~~\', \'~~\')"><s>S</s></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'`\', \'`\')"><code>{ }</code></button>' +
-        '<button class="editor-btn" onclick="formatText(\'chat-in\', \'> \', \'\')">"</button>' +
-      '</div>' +
-      '<div class="text-editor">' +
-        '<textarea id="chat-in" class="editor-textarea" placeholder="Сообщение..." onkeydown="if(event.key===\'Enter\' && !event.shiftKey){event.preventDefault();sendMsg()}" oninput="updatePreview(\'chat-in\')"></textarea>' +
-        '<div id="preview-chat-in" class="editor-preview" style="display:none"></div>' +
-      '</div>' +
-      '<div class="flex justify-between"><button class="btn btn-g btn-sm" onclick="toggleEditorMode(\'chat-in\')">📄 Предпросмотр</button><button class="btn btn-p btn-sm" onclick="sendMsg()">→ Отправить</button></div>' +
-    '</div>';
-  setTimeout(function() { let el = document.getElementById('chat-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
-}
-function openConv(id) { _activeConv = id; renderMsgPanel(); }
-function sendMsg() {
-  if (!sess) return;
-  let conv = null;
-  for (let i = 0; i < S.convs.length; i++) {
-    if (S.convs[i].id === _activeConv) { conv = S.convs[i]; break; }
-  }
-  if (!conv) return;
-  let textarea = document.getElementById('chat-in');
-  let text = textarea ? textarea.value.trim() : '';
-  if (!text) return;
-  if (!conv.messages) conv.messages = [];
-  conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: text, createdAt: Date.now(), readBy: [sess.id] });
-  for (let i = 0; i < conv.participants.length; i++) {
-    if (conv.participants[i] !== sess.id) addNotification(conv.participants[i], 'message', sess.id, null);
-  }
-  persist();
-  if (textarea) textarea.value = '';
-  renderMsgPanel();
-}
-function sendImage() {
-  if (!sess) return;
-  let input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = function(e) {
-    let file = e.target.files[0];
-    if (!file) return;
-    let reader = new FileReader();
-    reader.onload = function(ev) {
-      let conv = null;
-      for (let i = 0; i < S.convs.length; i++) {
-        if (S.convs[i].id === _activeConv) { conv = S.convs[i]; break; }
-      }
-      if (conv) {
-        if (!conv.messages) conv.messages = [];
-        conv.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: ev.target.result, createdAt: Date.now(), readBy: [sess.id] });
-        for (let i = 0; i < conv.participants.length; i++) {
-          if (conv.participants[i] !== sess.id) addNotification(conv.participants[i], 'message', sess.id, null);
-        }
-        persist();
-        renderMsgPanel();
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
-function startDM(userId, initialMessage) {
-  if (!sess) return;
-  let existing = null;
-  for (let i = 0; i < S.convs.length; i++) {
-    let c = S.convs[i];
-    if (c.type === 'dm' && c.participants && c.participants.indexOf(sess.id) !== -1 && c.participants.indexOf(userId) !== -1) {
-      existing = c; break;
-    }
-  }
-  if (existing) {
-    if (initialMessage) {
-      if (!existing.messages) existing.messages = [];
-      existing.messages.push({ id: 'm' + mkId(), fromUid: sess.id, content: initialMessage, createdAt: Date.now(), readBy: [sess.id] });
-      persist();
-    }
-    _activeConv = existing.id;
-  } else {
-    let newConv = { id: 'c' + mkId(), type: 'dm', participants: [sess.id, userId], messages: initialMessage ? [{ id: 'm' + mkId(), fromUid: sess.id, content: initialMessage, createdAt: Date.now(), readBy: [sess.id] }] : [], createdAt: Date.now() };
-    S.convs.push(newConv);
-    persist();
-    _activeConv = newConv.id;
-  }
-  openMsgPanel();
-}
-function openGroupModal() { 
-  if (!sess) return;
-  document.getElementById('group-chat-modal').classList.add('open'); 
-  _selectedGroupUsers = [sess.id]; 
-  updateSelectedUsersDisplay(); 
-}
-function closeGroupModal() { document.getElementById('group-chat-modal').classList.remove('open'); }
-function searchUserForGroup() {
-  let q = document.getElementById('group-user-search') ? document.getElementById('group-user-search').value.toLowerCase() : '';
-  let results = [];
-  for (let i = 0; i < users.length; i++) {
-    let u = users[i];
-    if (u.username.toLowerCase().includes(q) && _selectedGroupUsers.indexOf(u.id) === -1 && u.id !== sess.id) {
-      results.push(u);
-    }
-  }
-  results = results.slice(0, 10);
-  let resDiv = document.getElementById('group-user-results');
-  if (resDiv) {
-    let html = '';
-    for (let i = 0; i < results.length; i++) {
-      let u = results[i];
-      html += '<div class="conv-item" onclick="addToGroup(\'' + u.id + '\', \'' + esc(u.username) + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>';
-    }
-    resDiv.innerHTML = html || '<div class="empty">Ничего не найдено</div>';
-  }
-}
-function addToGroup(uid, name) { 
-  if (_selectedGroupUsers.indexOf(uid) === -1) { 
-    _selectedGroupUsers.push(uid); 
-    updateSelectedUsersDisplay(); 
-    searchUserForGroup(); 
-  } 
-}
-function updateSelectedUsersDisplay() {
-  let selected = [];
-  for (let i = 0; i < _selectedGroupUsers.length; i++) {
-    let id = _selectedGroupUsers[i];
-    if (id !== sess.id) {
-      let u = getUser(id);
-      if (u) selected.push(u);
-    }
-  }
-  let selDiv = document.getElementById('selected-users');
-  if (selDiv) {
-    let html = '';
-    for (let i = 0; i < selected.length; i++) {
-      let u = selected[i];
-      html += '<span class="pill">' + esc(u.username) + ' <button onclick="removeFromGroup(\'' + u.id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;">✕</button></span>';
-    }
-    selDiv.innerHTML = html;
-  }
-}
-function removeFromGroup(uid) { 
-  _selectedGroupUsers = _selectedGroupUsers.filter(function(id) { return id !== uid; }); 
-  updateSelectedUsersDisplay(); 
-}
-function createGroupChat() {
-  if (!sess) return;
-  if (_selectedGroupUsers.length < 2) { toast('Нужно минимум 2 участника', true); return; }
-  let nameInput = document.getElementById('group-name');
-  let name = nameInput ? nameInput.value.trim() : '';
-  name = name || 'Группа ' + _selectedGroupUsers.length;
-  let newConv = { id: 'c' + mkId(), type: 'group', name: name, participants: _selectedGroupUsers, messages: [], createdAt: Date.now() };
-  S.convs.push(newConv);
-  persist();
-  closeGroupModal();
-  _activeConv = newConv.id;
-  renderMsgPanel();
-  toast('Групповой чат создан!');
-}
-function inviteToGroup(convId) {
-  let conv = null;
-  for (let i = 0; i < S.convs.length; i++) {
-    if (S.convs[i].id === convId) { conv = S.convs[i]; break; }
-  }
-  if (!conv || conv.type !== 'group') return;
-  let username = prompt('Введите username пользователя для приглашения:');
-  let user = null;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username === username) { user = users[i]; break; }
-  }
-  if (user && conv.participants.indexOf(user.id) === -1) {
-    conv.participants.push(user.id);
-    persist();
-    toast(user.username + ' добавлен в чат');
-    renderMsgPanel();
-  } else { toast('Пользователь не найден или уже в чате', true); }
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  const page = document.getElementById(pageId);
+  if (page) page.classList.add('on');
 }
 
 // ==================== АВТОРИЗАЦИЯ ====================
-function openAuth() { 
-  document.getElementById('auth-ov').style.display = 'flex'; 
-  document.getElementById('auth-box').innerHTML = '<div class="ph">Вход<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="login-username" type="text" placeholder="Имя пользователя"><input id="login-password" type="password" placeholder="Пароль"><div id="login-error" class="error-text"></div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doLogin()">Войти</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Нет аккаунта?</p><button class="btn btn-d" onclick="openReg()">Регистрация</button></div>'; 
-}
-function openReg() {
-  document.getElementById('auth-ov').style.display = 'flex'; 
-  document.getElementById('auth-box').innerHTML = '<div class="ph">Регистрация<button class="btn btn-g btn-sm" onclick="closeAuth()">✕</button></div><div class="pb"><input id="reg-username" type="text" placeholder="Имя пользователя (мин 3 символа)"><input id="reg-password" type="password" placeholder="Пароль (мин 4 символа)"><input id="reg-password2" type="password" placeholder="Повторите пароль"><div id="reg-error" class="error-text"></div><div class="pf"><button class="btn btn-g" onclick="closeAuth()">Отмена</button><button class="btn btn-p" onclick="doRegister()">Зарегистрироваться</button></div></div><div class="pb" style="border-top:1px solid var(--border);text-align:center"><p class="stitle">Уже есть аккаунт?</p><button class="btn btn-d" onclick="openAuth()">Войти</button></div>'; 
-}
-function doLogin() {
-  let username = document.getElementById('login-username') ? document.getElementById('login-username').value.trim() : '';
-  let password = document.getElementById('login-password') ? document.getElementById('login-password').value : '';
-  let res = login(username, password);
-  if (!res.ok) { let errDiv = document.getElementById('login-error'); if (errDiv) errDiv.textContent = res.err; return; }
-  closeAuth();
-  buildHeader();
-  render();
-  toast('Добро пожаловать, ' + username + '!');
-}
-function doRegister() {
-  let username = document.getElementById('reg-username') ? document.getElementById('reg-username').value.trim() : '';
-  let password = document.getElementById('reg-password') ? document.getElementById('reg-password').value : '';
-  let password2 = document.getElementById('reg-password2') ? document.getElementById('reg-password2').value : '';
-  if (password !== password2) { let errDiv = document.getElementById('reg-error'); if (errDiv) errDiv.textContent = 'Пароли не совпадают'; return; }
-  let res = register(username, password);
-  if (!res.ok) { let errDiv = document.getElementById('reg-error'); if (errDiv) errDiv.textContent = res.err; return; }
-  closeAuth();
-  sess = { id: res.user.id, username: res.user.username, isAdmin: false, avatarBase64: res.user.avatarBase64, avatarFrame: 'default' };
-  persist();
-  buildHeader();
-  render();
-  toast('Аккаунт создан! Добро пожаловать, ' + username + '!');
-}
-function closeAuth() { document.getElementById('auth-ov').style.display = 'none'; }
-function nav(hash) { 
-  location.hash = hash; 
-  render(); 
-}
-
-// ==================== ОСНОВНЫЕ СТРАНИЦЫ ====================
-function renderHome() {
-  let threads = (S.threads || []).slice().sort(function(a,b) { return b.lastActivity - a.lastActivity; }).slice(0, 20);
-  let el = document.getElementById('p-home');
-  let html = '<div class="w"><h1 style="margin-bottom:20px">Последние темы</h1><div class="feed">';
-  if (threads.length) {
-    for (let i = 0; i < threads.length; i++) {
-      let th = threads[i];
-      html += '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm" style="background:#4f7ed4">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div class="post-content" style="font-size:13px;color:var(--t2)">' + esc(th.op ? th.op.content.slice(0, 100) : '') + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>';
-    }
-  } else {
-    html += '<div class="empty">Нет тем. Создайте первую тему!</div>';
-  }
-  html += '</div></div>';
-  el.innerHTML = html;
-  showPage('p-home');
-}
-function renderFeed() {
-  let feed = [];
-  if (S.wallPosts) {
-    for (let uid in S.wallPosts) {
-      let user = getUser(uid);
-      if (user && (sess.id === uid || (user.friends && user.friends.indexOf(sess.id) !== -1) || user.privacy?.wall === 'all')) {
-        let posts = S.wallPosts[uid];
-        for (let i = 0; i < posts.length; i++) {
-          feed.push(posts[i]);
-        }
-      }
-    }
-  }
-  feed.sort(function(a,b) { return b.createdAt - a.createdAt; });
-  let el = document.getElementById('p-feed');
-  let html = '<div class="w"><h1 style="margin-bottom:20px">📰 Лента новостей</h1><div id="feed-posts">';
-  if (feed.length) {
-    for (let i = 0; i < feed.length; i++) {
-      html += renderWallPost(feed[i], feed[i].targetUid);
-    }
-  } else {
-    html += '<div class="empty">Подпишитесь на друзей, чтобы видеть их посты</div>';
-  }
-  html += '</div></div>';
-  el.innerHTML = html;
-  showPage('p-feed');
-}
-function renderBoard(id) {
-  let threads = (S.threads || []).filter(function(t) { return t.boardId === id; });
-  let boardNames = { tech: 'Тех-раздел', art: 'Арт', music: 'Музыка', shitposting: 'Шитпостинг' };
-  let el = document.getElementById('p-board');
-  let html = '<div class="w"><h1 style="margin-bottom:20px">' + (boardNames[id] || id) + '</h1><button class="btn btn-p mb-4" onclick="showNewThreadForm(\'' + id + '\')">+ Новая тема</button><div id="new-thread-form" style="display:none" class="panel mb-4"><div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div><div class="pb"><input id="nt-title" placeholder="Заголовок"><textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea><div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread(\'' + id + '\')">Создать</button></div></div></div><div class="feed">';
-  if (threads.length) {
-    for (let i = 0; i < threads.length; i++) {
-      let th = threads[i];
-      html += '<div class="post" onclick="nav(\'#/thread/' + th.id + '\')"><div class="post-header"><div class="avatar avatar-sm">' + (th.op && th.op.author ? th.op.author[0].toUpperCase() : '?') + '</div><div><div class="post-author">' + esc(th.op ? th.op.author : 'Аноним') + '</div><div class="post-time">' + relTime(th.lastActivity) + '</div></div></div><div style="font-weight:600">' + esc(th.title) + '</div><div style="margin-top:8px"><span class="pill">💬 ' + (th.replyCount || 0) + ' ответов</span></div></div>';
-    }
-  } else {
-    html += '<div class="empty">В этом разделе пока нет тем</div>';
-  }
-  html += '</div></div>';
-  el.innerHTML = html;
-  showPage('p-board');
-}
-function showNewThreadForm() { document.getElementById('new-thread-form').style.display = 'block'; }
-function hideNewThreadForm() { document.getElementById('new-thread-form').style.display = 'none'; }
-function createThread(boardId) {
-  let title = document.getElementById('nt-title') ? document.getElementById('nt-title').value.trim() : '';
-  let content = document.getElementById('nt-content') ? document.getElementById('nt-content').value.trim() : '';
-  if (!title || !content) { toast('Заполните все поля', true); return; }
-  let thread = { id: 't' + mkId(), boardId: boardId, title: title, op: { uid: sess.id, author: sess.username, content: content, createdAt: Date.now() }, replyCount: 0, lastActivity: Date.now() };
-  S.threads.unshift(thread);
-  persist();
-  hideNewThreadForm();
-  toast('Тема создана!');
-  nav('#/thread/' + thread.id);
-}
-function renderThread(id) {
-  let thread = null;
-  for (let i = 0; i < S.threads.length; i++) {
-    if (S.threads[i].id === id) { thread = S.threads[i]; break; }
-  }
-  if (!thread) { document.getElementById('p-thread').innerHTML = '<div class="wn"><div class="empty">Тема не найдена</div></div>'; showPage('p-thread'); return; }
-  let replies = S.replies[id] || [];
-  let el = document.getElementById('p-thread');
-  let html = '<div class="wn"><div class="card" style="margin-bottom:20px"><div style="padding:20px"><div style="font-size:22px;font-weight:700;margin-bottom:12px">' + esc(thread.title) + '</div><div class="flex" style="margin-bottom:16px;gap:12px"><div class="avatar avatar-sm">' + (thread.op.author ? thread.op.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(thread.op.author) + '</div><div style="font-size:12px;color:var(--t3)">' + relTime(thread.op.createdAt) + '</div></div></div><div style="white-space:pre-wrap;line-height:1.6">' + esc(thread.op.content) + '</div></div></div><div class="stitle">Ответы (' + replies.length + ')</div>';
-  for (let i = 0; i < replies.length; i++) {
-    let r = replies[i];
-    html += '<div class="card" style="margin-bottom:12px"><div style="padding:16px"><div class="flex" style="gap:12px;margin-bottom:12px"><div class="avatar avatar-sm">' + (r.author ? r.author[0].toUpperCase() : '?') + '</div><div><div style="font-weight:500">' + esc(r.author) + '</div><div style="font-size:11px;color:var(--t3)">' + relTime(r.createdAt) + '</div></div></div><div style="white-space:pre-wrap">' + esc(r.content) + '</div>' + (canModerate(r.uid) ? '<div class="flex justify-between mt-2"><button class="btn btn-xs btn-r" onclick="deleteReply(\'' + id + '\', \'' + r.id + '\')">🗑 Удалить</button></div>' : '') + '</div></div>';
-  }
-  html += '<div class="card" style="margin-top:16px"><div class="ph">Ваш ответ</div><div class="pb"><textarea id="reply-text" rows="4" placeholder="Напишите ответ..."></textarea><div class="pf"><button class="btn btn-p" onclick="addReply(\'' + id + '\')">Отправить</button></div></div></div></div>';
-  el.innerHTML = html;
-  showPage('p-thread');
-}
-function addReply(threadId) {
-  let content = document.getElementById('reply-text') ? document.getElementById('reply-text').value.trim() : '';
-  if (!content) { toast('Введите текст ответа', true); return; }
-  let reply = { id: 'r' + mkId(), uid: sess.id, author: sess.username, content: content, createdAt: Date.now() };
-  if (!S.replies[threadId]) S.replies[threadId] = [];
-  S.replies[threadId].push(reply);
-  for (let i = 0; i < S.threads.length; i++) {
-    if (S.threads[i].id === threadId) { 
-      S.threads[i].replyCount = (S.threads[i].replyCount || 0) + 1; 
-      S.threads[i].lastActivity = Date.now(); 
-      break; 
-    }
-  }
-  persist();
-  toast('Ответ добавлен!');
-  renderThread(threadId);
-}
-function deleteReply(threadId, replyId) {
-  let replies = S.replies[threadId] || [];
-  let reply = null;
-  for (let i = 0; i < replies.length; i++) {
-    if (replies[i].id === replyId) { reply = replies[i]; break; }
-  }
-  if (reply && canModerate(reply.uid)) {
-    S.replies[threadId] = replies.filter(function(r) { return r.id !== replyId; });
-    for (let i = 0; i < S.threads.length; i++) {
-      if (S.threads[i].id === threadId) { 
-        S.threads[i].replyCount = Math.max(0, (S.threads[i].replyCount || 0) - 1);
-        break; 
-      }
-    }
-    persist();
-    toast('Ответ удалён');
-    renderThread(threadId);
+async function login(username, password) {
+  try {
+    const result = await apiCall('/auth/login', 'POST', { username, password });
+    sess = result.user;
+    toast(`Добро пожаловать, ${sess.username}!`);
+    closeAuth();
+    buildHeader();
+    render();
+    return true;
+  } catch (err) {
+    toast(err.message, true);
+    return false;
   }
 }
 
-// ==================== СТЕНА И ПОСТЫ ====================
-function renderProfile(uid) {
-  let user = getUser(uid);
-  if (!user) { document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="empty">Пользователь не найден</div></div>'; showPage('p-profile'); return; }
+async function register(username, password) {
+  try {
+    const result = await apiCall('/auth/register', 'POST', { username, password });
+    sess = result.user;
+    toast(`Аккаунт создан! Добро пожаловать, ${sess.username}!`);
+    closeAuth();
+    buildHeader();
+    render();
+    return true;
+  } catch (err) {
+    toast(err.message, true);
+    return false;
+  }
+}
+
+async function logout() {
+  await apiCall('/auth/logout', 'POST');
+  sess = null;
+  buildHeader();
+  render();
+  toast('Вы вышли из аккаунта');
+}
+
+function openAuth() {
+  document.getElementById('auth-ov').style.display = 'flex';
+  document.getElementById('auth-box').innerHTML = `
+    <div class="modal-header">Вход<button onclick="closeAuth()" style="background:none;border:none;font-size:20px;cursor:pointer;">✕</button></div>
+    <div class="modal-body">
+      <input id="login-username" type="text" placeholder="Имя пользователя" style="width:100%">
+      <input id="login-password" type="password" placeholder="Пароль" style="width:100%">
+      <div id="login-error" class="error-text" style="color:var(--red);font-size:12px;"></div>
+      <div class="flex gap-2 mt-3">
+        <button class="btn btn-g" onclick="closeAuth()">Отмена</button>
+        <button class="btn btn-p" onclick="doLogin()">Войти</button>
+      </div>
+      <hr style="margin:16px 0; border-color:var(--border)">
+      <div class="text-center">
+        <div class="stitle">Нет аккаунта?</div>
+        <button class="btn btn-d" onclick="showRegister()">Регистрация</button>
+      </div>
+    </div>
+  `;
+}
+
+function showRegister() {
+  document.getElementById('auth-box').innerHTML = `
+    <div class="modal-header">Регистрация<button onclick="closeAuth()" style="background:none;border:none;font-size:20px;cursor:pointer;">✕</button></div>
+    <div class="modal-body">
+      <input id="reg-username" type="text" placeholder="Имя пользователя (мин 3 символа)" style="width:100%">
+      <input id="reg-password" type="password" placeholder="Пароль (мин 4 символа)" style="width:100%">
+      <input id="reg-password2" type="password" placeholder="Повторите пароль" style="width:100%">
+      <div id="reg-error" class="error-text" style="color:var(--red);font-size:12px;"></div>
+      <div class="flex gap-2 mt-3">
+        <button class="btn btn-g" onclick="closeAuth()">Отмена</button>
+        <button class="btn btn-p" onclick="doRegister()">Зарегистрироваться</button>
+      </div>
+      <hr style="margin:16px 0; border-color:var(--border)">
+      <div class="text-center">
+        <div class="stitle">Уже есть аккаунт?</div>
+        <button class="btn btn-d" onclick="openAuth()">Войти</button>
+      </div>
+    </div>
+  `;
+}
+
+function closeAuth() {
+  document.getElementById('auth-ov').style.display = 'none';
+}
+
+async function doLogin() {
+  const username = document.getElementById('login-username')?.value.trim();
+  const password = document.getElementById('login-password')?.value;
+  if (!username || !password) {
+    document.getElementById('login-error').textContent = 'Заполните все поля';
+    return;
+  }
+  await login(username, password);
+}
+
+async function doRegister() {
+  const username = document.getElementById('reg-username')?.value.trim();
+  const password = document.getElementById('reg-password')?.value;
+  const password2 = document.getElementById('reg-password2')?.value;
+  if (!username || !password) {
+    document.getElementById('reg-error').textContent = 'Заполните все поля';
+    return;
+  }
+  if (password !== password2) {
+    document.getElementById('reg-error').textContent = 'Пароли не совпадают';
+    return;
+  }
+  if (username.length < 3) {
+    document.getElementById('reg-error').textContent = 'Имя не менее 3 символов';
+    return;
+  }
+  if (password.length < 4) {
+    document.getElementById('reg-error').textContent = 'Пароль не менее 4 символов';
+    return;
+  }
+  await register(username, password);
+}
+
+// ==================== HEADER ====================
+function buildHeader() {
+  const nav = document.getElementById('hnav');
+  if (nav) {
+    nav.innerHTML = `
+      <button class="hl" onclick="nav('#/board/tech')">⚙ Тех-раздел</button>
+      <button class="hl" onclick="nav('#/board/art')">◈ Арт</button>
+      <button class="hl" onclick="nav('#/board/music')">♪ Музыка</button>
+      <button class="hl" onclick="nav('#/board/shitposting')">✦ Шитпостинг</button>
+      <button class="hl" onclick="nav('#/beats')">♪ Биты</button>
+      <button class="hl" onclick="nav('#/drumkits')">🥁 Драмкиты</button>
+      <button class="hl" onclick="nav('#/services')">🛠 Услуги</button>
+      <button class="hl" onclick="nav('#/battles')">⚔️ Баттлы</button>
+    `;
+  }
   
-  if (user.privacy?.profileLocked && uid !== sess?.id && !(user.friends && user.friends.indexOf(sess?.id) !== -1)) {
-    document.getElementById('p-profile').innerHTML = '<div class="wn"><div class="card" style="text-align:center"><div style="padding:40px"><div class="empty-ico">🔒</div><div>Профиль закрыт</div><div style="font-size:12px;color:var(--t3);margin-top:8px">Только друзья могут видеть этот профиль</div></div></div></div>';
-    showPage('p-profile'); 
+  const hr = document.getElementById('hr');
+  if (hr) {
+    if (sess) {
+      hr.innerHTML = `
+        <button class="ico-btn" onclick="openSearch()">🔍</button>
+        <button class="ico-btn" onclick="toggleTheme()">${document.body.classList.contains('light') ? '🌙' : '☀'}</button>
+        <button class="ico-btn" onclick="openMsgPanel()">✉</button>
+        <button class="ico-btn" onclick="toggleNotif()">🔔</button>
+        <div style="position:relative">
+          <button class="ico-btn" onclick="toggleUmenu()" style="padding:0;width:auto;">${getAvatarHTML(sess, 36)}</button>
+          <div id="umenu" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);min-width:200px;z-index:400;box-shadow:var(--shadow);">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-weight:600">${esc(sess.username)}</div>
+            <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/profile');closeUmenu()">👤 Мой профиль</div>
+            <div style="padding:10px 16px;cursor:pointer" onclick="openEditModal();closeUmenu()">✎ Редактировать</div>
+            <div style="padding:10px 16px;cursor:pointer" onclick="nav('#/bmarks');closeUmenu()">🔖 Закладки</div>
+            ${sess.isAdmin ? '<div style="padding:10px 16px;cursor:pointer" onclick="nav(\'#/admin\');closeUmenu()">⚙ Админ-панель</div>' : ''}
+            <div style="height:1px;background:var(--border);margin:4px 0"></div>
+            <div style="padding:10px 16px;cursor:pointer;color:var(--red)" onclick="logout();closeUmenu()">🚪 Выйти</div>
+          </div>
+        </div>
+      `;
+    } else {
+      hr.innerHTML = `
+        <button class="ico-btn" onclick="openSearch()">🔍</button>
+        <button class="ico-btn" onclick="toggleTheme()">${document.body.classList.contains('light') ? '🌙' : '☀'}</button>
+        <button class="btn btn-p" onclick="openAuth()">Войти</button>
+      `;
+    }
+  }
+}
+
+function toggleUmenu() {
+  const m = document.getElementById('umenu');
+  if (m) m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+
+function closeUmenu() {
+  const m = document.getElementById('umenu');
+  if (m) m.style.display = 'none';
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  buildHeader();
+}
+
+// ==================== ПОИСК ====================
+function openSearch() {
+  document.getElementById('search-ov').style.display = 'flex';
+  setTimeout(() => document.getElementById('s-inp')?.focus(), 100);
+  performSearch();
+}
+
+function closeSearch() {
+  document.getElementById('search-ov').style.display = 'none';
+}
+
+async function performSearch() {
+  const query = document.getElementById('s-inp')?.value.trim();
+  if (!query) {
+    document.getElementById('s-res').innerHTML = '<div class="empty">Введите запрос для поиска</div>';
     return;
   }
   
-  let isOwn = sess && sess.id === user.id;
-  let canWrite = isOwn || (user.privacy?.wall === 'all') || (user.privacy?.wall === 'friends' && user.friends && user.friends.indexOf(sess?.id) !== -1);
-  let badgeNames = { early: '🌱 Ранний', verified: '✓ Верифицирован', admin: '👑 Админ', popular: '⭐ Популярный', pro: '🎧 Профессионал', gold: '🏆 Золотой' };
-  let posts = S.wallPosts[uid] || [];
-  let el = document.getElementById('p-profile');
-  
-  let html = '<div class="wn"><div class="card" style="overflow:hidden"><div class="profile-header-bg" style="background-image: ' + (user.bannerBase64 ? 'url(' + user.bannerBase64 + ')' : 'linear-gradient(135deg, var(--blue), var(--purple))') + '"></div><div class="profile-avatar-wrapper">' + getAvatarHTML(user, 100) + '</div><div style="padding:0 24px 24px 24px"><div style="text-align:center"><div style="font-size:24px;font-weight:700">' + esc(user.username) + '</div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">';
-  for (let i = 0; i < (user.badges || []).length; i++) {
-    let b = user.badges[i];
-    html += '<span class="pill">' + (badgeNames[b] || b) + '</span>';
-  }
-  html += '</div><div style="color:var(--t3);margin:12px 0">' + esc(user.bio || 'Нет описания') + '</div><div class="stats"><div><div style="font-weight:700">' + posts.length + '</div><div style="font-size:11px;color:var(--t3)">записей</div></div><div><div style="font-weight:700">' + (user.followers ? user.followers.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">подписчиков</div></div><div><div style="font-weight:700">' + (user.friends ? user.friends.length : 0) + '</div><div style="font-size:11px;color:var(--t3)">друзей</div></div></div>';
-  
-  if (sess && sess.id !== user.id) {
-    html += '<div class="actions"><button class="btn btn-p" onclick="startDM(\'' + user.id + '\', \'Привет!\')">✉ Написать</button>' +
-      '<button class="btn btn-d" onclick="toggleFriend(\'' + user.id + '\')" style="margin-left:12px">' + ((user.friends || []).indexOf(sess.id) !== -1 ? '✓ В друзьях' : '+ В друзья') + '</button>' +
-      '<button class="btn btn-d" onclick="toggleFollow(\'' + user.id + '\')" style="margin-left:12px">' + ((user.followers || []).indexOf(sess.id) !== -1 ? '✓ Отписаться' : '+ Подписаться') + '</button></div>';
-  }
-  
-  html += '</div></div></div><div class="card mt-3"><div class="ph">Стена</div><div class="pb">';
-  
-  if (canWrite && sess) {
-    html += '<div class="text-editor"><div class="editor-toolbar">' +
-      '<button class="editor-btn" onclick="showEmojiPicker(\'wall-post-content\', this)">😀</button>' +
-      '<button class="editor-btn" onclick="formatText(\'wall-post-content\', \'**\', \'**\')"><b>B</b></button>' +
-      '<button class="editor-btn" onclick="formatText(\'wall-post-content\', \'*\', \'*\')"><i>I</i></button>' +
-      '<button class="editor-btn" onclick="formatText(\'wall-post-content\', \'~~\', \'~~\')"><s>S</s></button>' +
-      '<button class="editor-btn" onclick="formatText(\'wall-post-content\', \'`\', \'`\')"><code>{ }</code></button>' +
-      '<button class="editor-btn" onclick="formatText(\'wall-post-content\', \'> \', \'\')">"</button>' +
-      '<button class="editor-btn" onclick="toggleEditorMode(\'wall-post-content\')">📄</button>' +
-      '</div><textarea id="wall-post-content" class="editor-textarea" rows="3" placeholder="Что у вас нового?" oninput="updatePreview(\'wall-post-content\')"></textarea>' +
-      '<div id="preview-wall-post-content" class="editor-preview" style="display:none"></div></div>' +
-      '<div class="pf"><button class="btn btn-p" onclick="createWallPost(\'' + uid + '\', document.getElementById(\'wall-post-content\').value)">Опубликовать</button></div>';
-  }
-  
-  html += '<div id="wall-posts">';
-  if (posts.length) {
-    for (let i = 0; i < posts.length; i++) {
-      html += renderWallPost(posts[i], uid);
+  try {
+    const results = await apiCall(`/search?q=${encodeURIComponent(query)}&type=${currentSearchTab}`);
+    let html = '';
+    
+    if (currentSearchTab === 'all' || currentSearchTab === 'users') {
+      for (const user of results.users || []) {
+        html += `<div class="search-result-item" onclick="nav('#/profile/${user.id}');closeSearch()">
+          ${getAvatarHTML(user, 36)}
+          <div><strong>${esc(user.username)}</strong><div style="font-size:12px;color:var(--t3)">${esc(user.bio || '')}</div></div>
+        </div>`;
+      }
     }
-  } else {
-    html += '<div class="empty">Нет записей на стене</div>';
+    
+    if (currentSearchTab === 'all' || currentSearchTab === 'beats') {
+      for (const beat of results.beats || []) {
+        html += `<div class="search-result-item" onclick="nav('#/beats');closeSearch()">
+          <div style="width:36px;height:36px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;">♪</div>
+          <div><strong>${esc(beat.title)}</strong><div style="font-size:12px;color:var(--t3)">Бит · ${beat.price} ₽</div></div>
+        </div>`;
+      }
+    }
+    
+    if (currentSearchTab === 'all' || currentSearchTab === 'threads') {
+      for (const thread of results.threads || []) {
+        html += `<div class="search-result-item" onclick="nav('#/thread/${thread.id}');closeSearch()">
+          <div style="width:36px;height:36px;background:var(--purple);border-radius:8px;display:flex;align-items:center;justify-content:center;">📄</div>
+          <div><strong>${esc(thread.title)}</strong><div style="font-size:12px;color:var(--t3)">${thread.replyCount || 0} ответов</div></div>
+        </div>`;
+      }
+    }
+    
+    if (!html) html = '<div class="empty">Ничего не найдено</div>';
+    document.getElementById('s-res').innerHTML = html;
+  } catch (err) {
+    console.error(err);
+    document.getElementById('s-res').innerHTML = '<div class="empty">Ошибка поиска</div>';
   }
-  html += '</div></div></div></div>';
-  el.innerHTML = html;
-  showPage('p-profile');
 }
-function renderWallPost(post, targetUid) {
-  let author = getUser(post.uid);
-  let reactions = S.reactions[post.id] || {};
-  let reactionCount = 0;
-  for (let key in reactions) { reactionCount += reactions[key].length; }
-  let comments = S.comments[post.id] || [];
-  let isOwner = sess && (sess.id === post.uid || sess.id === targetUid);
-  
-  if (!S.postViews[post.id]) S.postViews[post.id] = 0;
-  setTimeout(function() { 
-    if (document.getElementById('post-' + post.id)) { 
-      S.postViews[post.id]++; 
-      persist(); 
-    } 
-  }, 1000);
-  
-  let authorAvatar = author ? getAvatarHTML(author, 32) : '<div class="avatar avatar-sm">' + (post.author ? post.author[0].toUpperCase() : '?') + '</div>';
-  let reactionsHtml = '<div class="reaction-buttons">';
-  let reactionTypes = ['❤️', '👍', '😂', '😮', '😢'];
-  for (let i = 0; i < reactionTypes.length; i++) {
-    let e = reactionTypes[i];
-    let active = reactions[e] && reactions[e].indexOf(sess ? sess.id : null) !== -1;
-    reactionsHtml += '<button class="reaction-btn ' + (active ? 'active' : '') + '" onclick="addReaction(\'' + post.id + '\', \'' + e + '\', \'' + targetUid + '\')">' + e + '<span class="reaction-count">' + (reactions[e] ? reactions[e].length : 0) + '</span></button>';
+
+// ==================== РЕНДЕР СТРАНИЦ ====================
+async function render() {
+  if (!sess && location.hash !== '#/' && !location.hash.startsWith('#/board/')) {
+    location.hash = '/';
   }
+  
+  const hash = location.hash.slice(1) || '/';
+  buildHeader();
+  
+  if (hash === '/' || hash === '') await renderHome();
+  else if (hash === '/feed') await renderFeed();
+  else if (hash === '/beats') await renderBeats();
+  else if (hash === '/drumkits') await renderDrumkits();
+  else if (hash === '/services') await renderServices();
+  else if (hash === '/music') await renderMusic();
+  else if (hash === '/profile') await renderProfile(sess?.id);
+  else if (hash === '/bmarks') await renderBookmarks();
+  else if (hash === '/battles') await renderBattles();
+  else if (hash === '/admin' && sess?.isAdmin) await renderAdmin();
+  else if (hash.startsWith('/board/')) await renderBoard(hash.slice(7));
+  else if (hash.startsWith('/thread/')) await renderThread(hash.slice(8));
+  else if (hash.startsWith('/profile/')) await renderProfile(hash.slice(9));
+  else await renderHome();
+}
+
+async function renderHome() {
+  try {
+    const data = await apiCall('/home');
+    const threads = data.threads || [];
+    
+    const el = document.getElementById('p-home');
+    el.innerHTML = `
+      <div class="w">
+        <div class="stories-container" id="stories-container"></div>
+        <div class="flex-between mb-4">
+          <h1 style="font-size:24px">Последние темы</h1>
+          ${sess ? `<button class="btn btn-p" onclick="nav('#/board/tech')">+ Новая тема</button>` : ''}
+        </div>
+        <div class="grid-2">
+          ${threads.map(th => `
+            <div class="thread-card" style="cursor:pointer" onclick="nav('#/thread/${th.id}')">
+              <div class="post-header" style="padding:16px 16px 0 16px">
+                ${getAvatarHTML({ id: th.op?.uid, username: th.op?.author, avatarBase64: th.op?.avatarBase64, avatarFrame: th.op?.avatarFrame }, 40)}
+                <div>
+                  <div class="post-author">${esc(th.op?.author || 'Аноним')}</div>
+                  <div class="post-time">${relTime(th.lastActivity)}</div>
+                </div>
+              </div>
+              <div style="padding:12px 16px 16px 16px">
+                <div style="font-weight:600; font-size:18px; margin-bottom:8px">${esc(th.title)}</div>
+                <div class="post-content" style="color:var(--t2); font-size:13px">${esc(th.op?.content?.slice(0, 100) || '')}${(th.op?.content?.length || 0) > 100 ? '...' : ''}</div>
+                <div style="margin-top:12px"><span class="pill">💬 ${th.replyCount || 0} ответов</span></div>
+              </div>
+            </div>
+          `).join('') || '<div class="empty">Нет тем. Создайте первую тему!</div>'}
+        </div>
+      </div>
+    `;
+    
+    // Рендер историй
+    const storiesHtml = data.stories?.map(s => `
+      <div class="story-item" onclick="openStoryView('${s.userId}', ${s.index})">
+        <div class="story-ring"><div class="story-ring-inner"><img src="${s.avatar}" onerror="this.style.background='var(--blue)'"></div></div>
+        <div class="story-name">${esc(s.username)}</div>
+      </div>
+    `).join('') || '';
+    
+    const storiesContainer = document.getElementById('stories-container');
+    if (storiesContainer) {
+      storiesContainer.innerHTML = (sess ? `<div class="story-item" onclick="uploadStory()"><div class="story-ring"><div class="story-ring-inner">+</div></div><div class="story-name">Мои</div></div>` : '') + storiesHtml;
+    }
+    
+    showPage('p-home');
+  } catch (err) {
+    console.error(err);
+    document.getElementById('p-home').innerHTML = '<div class="w"><div class="empty">Ошибка загрузки</div></div>';
+  }
+}
+
+async function renderFeed() {
+  try {
+    const data = await apiCall('/feed');
+    const posts = data.posts || [];
+    
+    const el = document.getElementById('p-feed');
+    el.innerHTML = `
+      <div class="w">
+        <h1 style="margin-bottom:24px">📰 Лента новостей</h1>
+        <div id="feed-posts">
+          ${posts.map(post => renderWallPost(post)).join('') || '<div class="empty">Подпишитесь на друзей, чтобы видеть их посты</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-feed');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function renderWallPost(post) {
+  const author = post.author || {};
+  const reactions = post.reactions || {};
+  const reactionCount = Object.values(reactions).reduce((a, b) => a + b.length, 0);
+  const comments = post.comments || [];
+  
+  let reactionsHtml = '<div class="reaction-buttons">';
+  ['❤️', '👍', '😂', '😮', '😢'].forEach(emoji => {
+    const active = reactions[emoji]?.includes(sess?.id);
+    reactionsHtml += `<button class="reaction-btn ${active ? 'active' : ''}" onclick="addReaction('${post.id}', '${emoji}')">${emoji}<span class="reaction-count">${reactions[emoji]?.length || 0}</span></button>`;
+  });
   reactionsHtml += '</div>';
   
-  let reactionListHtml = '';
-  if (reactionCount > 0) {
-    let items = [];
-    for (let e in reactions) {
-      if (reactions[e].length) {
-        let names = [];
-        for (let j = 0; j < Math.min(3, reactions[e].length); j++) {
-          let u = getUser(reactions[e][j]);
-          if (u) names.push(u.username);
-        }
-        items.push(e + ' ' + names.join(', ') + (reactions[e].length > 3 ? ' +' + (reactions[e].length-3) : ''));
-      }
-    }
-    reactionListHtml = '<div class="reaction-list">' + items.join(' · ') + '</div>';
-  }
-  
   let commentsHtml = '';
-  for (let i = 0; i < comments.length; i++) {
-    let c = comments[i];
-    commentsHtml += '<div class="comment"><div class="comment-avatar" onclick="nav(\'#/profile/' + c.uid + '\')">' + (c.author ? c.author[0].toUpperCase() : '?') + '</div><div class="comment-content"><div class="comment-author" onclick="nav(\'#/profile/' + c.uid + '\')">' + esc(c.author) + '</div><div class="comment-text">' + formatMessageContent(c.content) + '</div><div class="comment-time">' + relTime(c.createdAt) + '</div></div>' + (canModerate(c.uid) ? '<button class="btn btn-xs btn-r" onclick="deleteComment(\'' + post.id + '\', \'' + c.id + '\')">🗑</button>' : '') + '</div>';
+  comments.forEach(c => {
+    commentsHtml += `
+      <div class="comment">
+        ${getAvatarHTML({ id: c.userId, username: c.author, avatarBase64: c.avatarBase64 }, 28)}
+        <div class="comment-content">
+          <div class="comment-author" onclick="nav('#/profile/${c.userId}')">${esc(c.author)}</div>
+          <div class="comment-text">${formatContent(c.content)}</div>
+          <div class="comment-time">${relTime(c.createdAt)}</div>
+        </div>
+      </div>
+    `;
+  });
+  
+  return `
+    <div class="wall-post" id="post-${post.id}">
+      <div class="wall-post-header">
+        ${getAvatarHTML({ id: post.userId, username: post.author, avatarBase64: post.authorAvatar, avatarFrame: post.authorFrame }, 40)}
+        <div>
+          <div class="wall-post-author" onclick="nav('#/profile/${post.userId}')">${esc(post.author)}</div>
+          <div class="wall-post-time">${relTime(post.createdAt)} · 👁️ ${post.views || 0}</div>
+        </div>
+        ${sess?.id === post.userId ? `<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deletePost('${post.id}')">🗑</button></div>` : ''}
+      </div>
+      <div class="wall-post-content">${formatContent(post.content)}</div>
+      <div class="reactions">${reactionsHtml}</div>
+      <div class="post-actions">
+        <button class="post-action" onclick="toggleComments('${post.id}')">💬 ${comments.length}</button>
+        <button class="post-action" onclick="openRepostModal('${post.id}', '${esc(post.author)}', '${esc(post.content).replace(/'/g, "\\'")}')">🔁 Репост</button>
+      </div>
+      <div class="comments-section" id="comments-${post.id}" style="display:none">
+        ${sess ? `<div class="comment-input"><input id="comment-input-${post.id}" type="text" placeholder="Написать комментарий..."><button class="btn btn-xs btn-p" onclick="addComment('${post.id}', document.getElementById('comment-input-${post.id}').value)">→</button></div>` : ''}
+        ${commentsHtml}
+      </div>
+    </div>
+  `;
+}
+
+async function renderBoard(boardId) {
+  try {
+    const data = await apiCall(`/board/${boardId}`);
+    const threads = data.threads || [];
+    const boardNames = { tech: 'Тех-раздел', art: 'Арт', music: 'Музыка', shitposting: 'Шитпостинг' };
+    
+    const el = document.getElementById('p-board');
+    el.innerHTML = `
+      <div class="w">
+        <div class="flex-between mb-4">
+          <h1 style="font-size:28px">${boardNames[boardId] || boardId}</h1>
+          ${sess ? `<button class="btn btn-p" onclick="showNewThreadForm('${boardId}')">+ Новая тема</button>` : ''}
+        </div>
+        <div id="new-thread-form" style="display:none" class="card mb-4">
+          <div class="ph">Новая тема<button class="btn btn-g btn-sm" onclick="hideNewThreadForm()">✕</button></div>
+          <div class="pb">
+            <input id="nt-title" placeholder="Заголовок">
+            <textarea id="nt-content" rows="4" placeholder="Текст темы..."></textarea>
+            <div class="pf"><button class="btn btn-g" onclick="hideNewThreadForm()">Отмена</button><button class="btn btn-p" onclick="createThread('${boardId}')">Создать</button></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          ${threads.map(th => `
+            <div class="thread-card" style="cursor:pointer" onclick="nav('#/thread/${th.id}')">
+              <div class="post-header" style="padding:16px 16px 0 16px">
+                ${getAvatarHTML({ id: th.op?.uid, username: th.op?.author, avatarBase64: th.op?.avatarBase64 }, 40)}
+                <div>
+                  <div class="post-author">${esc(th.op?.author || 'Аноним')}</div>
+                  <div class="post-time">${relTime(th.lastActivity)}</div>
+                </div>
+              </div>
+              <div style="padding:12px 16px 16px 16px">
+                <div style="font-weight:600; font-size:18px; margin-bottom:8px">${esc(th.title)}</div>
+                <div style="margin-top:8px"><span class="pill">💬 ${th.replyCount || 0} ответов</span></div>
+              </div>
+            </div>
+          `).join('') || '<div class="empty">В этом разделе пока нет тем</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-board');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function showNewThreadForm() {
+  document.getElementById('new-thread-form').style.display = 'block';
+}
+
+function hideNewThreadForm() {
+  document.getElementById('new-thread-form').style.display = 'none';
+}
+
+async function createThread(boardId) {
+  const title = document.getElementById('nt-title')?.value.trim();
+  const content = document.getElementById('nt-content')?.value.trim();
+  if (!title || !content) {
+    toast('Заполните все поля', true);
+    return;
+  }
+  try {
+    const result = await apiCall('/threads', 'POST', { boardId, title, content });
+    hideNewThreadForm();
+    toast('Тема создана!');
+    nav(`#/thread/${result.thread.id}`);
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function renderThread(threadId) {
+  try {
+    const data = await apiCall(`/thread/${threadId}`);
+    const thread = data.thread;
+    const replies = data.replies || [];
+    
+    const el = document.getElementById('p-thread');
+    el.innerHTML = `
+      <div class="wn">
+        <div class="card" style="margin-bottom:24px">
+          <div style="padding:24px">
+            <div style="font-size:28px;font-weight:700;margin-bottom:16px">${esc(thread.title)}</div>
+            <div class="flex" style="margin-bottom:20px;gap:12px">
+              ${getAvatarHTML({ id: thread.op?.uid, username: thread.op?.author, avatarBase64: thread.op?.avatarBase64 }, 48)}
+              <div>
+                <div style="font-weight:600;font-size:16px">${esc(thread.op?.author)}</div>
+                <div style="font-size:12px;color:var(--t3)">${relTime(thread.op?.createdAt)}</div>
+              </div>
+            </div>
+            <div class="post-content" style="font-size:16px;line-height:1.7">${formatContent(thread.op?.content)}</div>
+          </div>
+        </div>
+        
+        <div class="stitle">Ответы (${replies.length})</div>
+        ${replies.map(r => `
+          <div class="card" style="margin-bottom:16px">
+            <div style="padding:20px">
+              <div class="flex" style="gap:12px;margin-bottom:12px">
+                ${getAvatarHTML({ id: r.uid, username: r.author, avatarBase64: r.avatarBase64 }, 36)}
+                <div>
+                  <div style="font-weight:600">${esc(r.author)}</div>
+                  <div style="font-size:11px;color:var(--t3)">${relTime(r.createdAt)}</div>
+                </div>
+              </div>
+              <div class="post-content">${formatContent(r.content)}</div>
+            </div>
+          </div>
+        `).join('')}
+        
+        ${sess ? `
+          <div class="card" style="margin-top:24px">
+            <div class="ph">Ваш ответ</div>
+            <div class="pb">
+              <textarea id="reply-text" rows="4" placeholder="Напишите ответ... Используйте **жирный**, *курсив*, @упоминания"></textarea>
+              <div class="pf"><button class="btn btn-p" onclick="addReply('${threadId}')">Отправить</button></div>
+            </div>
+          </div>
+        ` : '<div class="empty">Войдите чтобы ответить</div>'}
+      </div>
+    `;
+    showPage('p-thread');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function addReply(threadId) {
+  const content = document.getElementById('reply-text')?.value.trim();
+  if (!content) {
+    toast('Введите текст ответа', true);
+    return;
+  }
+  try {
+    await apiCall(`/thread/${threadId}/reply`, 'POST', { content });
+    toast('Ответ добавлен!');
+    renderThread(threadId);
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function renderProfile(userId) {
+  if (!userId) {
+    if (!sess) {
+      document.getElementById('p-profile').innerHTML = `<div class="wn"><div class="empty">Войдите чтобы просмотреть профиль<button class="btn btn-p mt-3" onclick="openAuth()">Войти</button></div></div>`;
+      showPage('p-profile');
+      return;
+    }
+    userId = sess.id;
   }
   
-  return '<div class="wall-post" id="post-' + post.id + '"><div class="wall-post-header"><div onclick="nav(\'#/profile/' + post.uid + '\')" style="cursor:pointer">' + authorAvatar + '</div><div><div class="wall-post-author" onclick="nav(\'#/profile/' + post.uid + '\')">' + esc(post.author) + '</div><div class="wall-post-time">' + relTime(post.createdAt) + ' · 👁️ ' + (S.postViews[post.id] || 0) + '</div></div>' + (isOwner ? '<div style="margin-left:auto"><button class="btn btn-xs btn-r" onclick="deleteWallPost(\'' + post.id + '\', \'' + targetUid + '\')">🗑</button></div>' : '') + '</div><div class="wall-post-content">' + formatMessageContent(post.content) + '</div>' + (post.repost ? '<div class="repost-origin">🔁 Репост от ' + esc(post.repost.originalAuthor) + ': ' + formatMessageContent((post.repost.originalContent || '').slice(0, 100)) + '</div>' : '') + '<div class="reactions">' + reactionsHtml + reactionListHtml + '</div><div class="post-actions"><button class="post-action" onclick="toggleComments(\'' + post.id + '\')">💬 ' + comments.length + '</button><button class="post-action" onclick="openRepostModal(\'' + post.id + '\', \'' + esc(post.author) + '\', \'' + esc(post.content).replace(/'/g, "\\'") + '\')">🔁 Репост</button></div><div class="comments-section" id="comments-' + post.id + '" style="display:none"><div class="comment-input mt-2 flex"><input id="comment-input-' + post.id + '" type="text" placeholder="Написать комментарий..." style="flex:1"><button class="btn btn-xs btn-p" onclick="addComment(\'' + post.id + '\', \'' + targetUid + '\', document.getElementById(\'comment-input-' + post.id + '\').value)">→</button></div>' + commentsHtml + '</div></div>';
-}
-function toggleComments(postId) { 
-  let el = document.getElementById('comments-' + postId); 
-  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none'; 
-}
-function addReaction(postId, emoji, targetUid) {
-  if (!sess) return toast('Войдите чтобы реагировать', true);
-  if (!S.reactions[postId]) S.reactions[postId] = {};
-  if (!S.reactions[postId][emoji]) S.reactions[postId][emoji] = [];
-  let idx = S.reactions[postId][emoji].indexOf(sess.id);
-  if (idx !== -1) {
-    S.reactions[postId][emoji].splice(idx, 1);
-  } else {
-    S.reactions[postId][emoji].push(sess.id);
-    let post = null;
-    for (let uid in S.wallPosts) {
-      let posts = S.wallPosts[uid];
-      for (let i = 0; i < posts.length; i++) {
-        if (posts[i].id === postId) { post = posts[i]; break; }
-      }
-      if (post) break;
-    }
-    if (post && post.uid !== sess.id) addNotification(post.uid, 'reaction', sess.id, postId);
+  try {
+    const data = await apiCall(`/profile/${userId}`);
+    const user = data.user;
+    const posts = data.posts || [];
+    
+    const el = document.getElementById('p-profile');
+    el.innerHTML = `
+      <div class="wn">
+        <div class="card" style="overflow:hidden">
+          <div class="profile-header-bg" style="background-image: ${user.bannerBase64 ? `url(${user.bannerBase64})` : 'linear-gradient(135deg, var(--blue), var(--purple))'}"></div>
+          <div class="profile-avatar-wrapper">
+            ${getAvatarHTML(user, 100)}
+          </div>
+          <div style="padding:0 24px 24px 24px; text-align:center">
+            <div style="font-size:28px;font-weight:700">${esc(user.username)}${user.verified ? '<span style="color:var(--blue);margin-left:8px;">✓</span>' : ''}</div>
+            <div style="color:var(--t3); margin:12px 0">${esc(user.bio || 'Нет описания')}</div>
+            <div class="stats">
+              <div class="stat-item"><div class="stat-value">${posts.length}</div><div class="stat-label">записей</div></div>
+              <div class="stat-item"><div class="stat-value">${user.followers?.length || 0}</div><div class="stat-label">подписчиков</div></div>
+              <div class="stat-item"><div class="stat-value">${user.friends?.length || 0}</div><div class="stat-label">друзей</div></div>
+            </div>
+            ${sess && sess.id !== user.id ? `
+              <div class="flex" style="justify-content:center; gap:12px">
+                <button class="btn btn-p" onclick="startDM('${user.id}')">✉ Написать</button>
+                <button class="btn btn-d" onclick="toggleFriend('${user.id}')">${(sess.friends || []).includes(user.id) ? '✓ В друзьях' : '+ В друзья'}</button>
+                <button class="btn btn-d" onclick="toggleFollow('${user.id}')">${(user.followers || []).includes(sess.id) ? '✓ Отписаться' : '+ Подписаться'}</button>
+              </div>
+            ` : ''}
+            ${sess && sess.id === user.id ? `<button class="btn btn-d mt-3" onclick="openEditModal()">✎ Редактировать профиль</button>` : ''}
+          </div>
+        </div>
+        
+        <div class="card mt-4">
+          <div class="ph">Стена</div>
+          <div class="pb">
+            ${sess && (sess.id === user.id || user.privacy?.wall !== 'none') ? `
+              <textarea id="wall-post-content" rows="3" placeholder="Что у вас нового? Используйте @username для упоминаний, **жирный**, *курсив*..."></textarea>
+              <div class="pf"><button class="btn btn-p" onclick="createWallPost('${userId}')">Опубликовать</button></div>
+            ` : ''}
+            <div id="wall-posts">
+              ${posts.map(p => renderWallPost(p)).join('') || '<div class="empty">Нет записей на стене</div>'}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    showPage('p-profile');
+  } catch (err) {
+    console.error(err);
   }
-  persist();
-  renderProfile(targetUid);
-  if (document.getElementById('p-feed') && document.getElementById('p-feed').classList.contains('on')) renderFeed();
 }
-function addComment(postId, targetUid, content) {
-  if (!sess) return toast('Войдите чтобы комментировать', true);
+
+async function createWallPost(targetUserId) {
+  const content = document.getElementById('wall-post-content')?.value.trim();
+  if (!content) {
+    toast('Введите текст записи', true);
+    return;
+  }
+  try {
+    await apiCall('/wall', 'POST', { targetUserId, content });
+    document.getElementById('wall-post-content').value = '';
+    toast('Пост опубликован!');
+    renderProfile(targetUserId);
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function addReaction(postId, emoji) {
+  if (!sess) {
+    toast('Войдите чтобы реагировать', true);
+    return;
+  }
+  try {
+    await apiCall(`/post/${postId}/reaction`, 'POST', { emoji });
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function addComment(postId, content) {
+  if (!sess) {
+    toast('Войдите чтобы комментировать', true);
+    return;
+  }
   if (!content) return;
-  let targetUser = getUser(targetUid);
-  if (targetUser.privacy?.comment === 'friends' && !(targetUser.friends && targetUser.friends.indexOf(sess.id) !== -1) && targetUid !== sess.id) return toast('Только друзья могут комментировать', true);
-  if (targetUser.privacy?.comment === 'none' && targetUid !== sess.id) return toast('Комментирование отключено', true);
-  if (!S.comments[postId]) S.comments[postId] = [];
-  S.comments[postId].push({ id: 'c' + mkId(), uid: sess.id, author: sess.username, content: content, createdAt: Date.now() });
-  let post = null;
-  for (let uid in S.wallPosts) {
-    let posts = S.wallPosts[uid];
-    for (let i = 0; i < posts.length; i++) {
-      if (posts[i].id === postId) { post = posts[i]; break; }
-    }
-    if (post) break;
+  try {
+    await apiCall(`/post/${postId}/comment`, 'POST', { content });
+    render();
+  } catch (err) {
+    toast(err.message, true);
   }
-  if (post && post.uid !== sess.id) addNotification(post.uid, 'comment', sess.id, postId);
-  persist();
-  renderProfile(targetUid);
-  if (document.getElementById('p-feed') && document.getElementById('p-feed').classList.contains('on')) renderFeed();
 }
-function deleteComment(postId, commentId) { 
-  if (S.comments[postId]) { 
-    S.comments[postId] = S.comments[postId].filter(function(c) { return c.id !== commentId; }); 
-    persist(); 
-    render(); 
-    toast('Комментарий удалён'); 
-  } 
-}
-function createWallPost(targetUid, content, repostData) {
-  if (!sess) return toast('Войдите чтобы оставить запись', true);
-  if (!content && !repostData) return toast('Введите текст записи', true);
-  let targetUser = getUser(targetUid);
-  if (!targetUser) return;
-  if (targetUser.privacy?.wall === 'friends' && !(targetUser.friends && targetUser.friends.indexOf(sess.id) !== -1) && targetUid !== sess.id) return toast('Только друзья могут писать на этой стене', true);
-  if (targetUser.privacy?.wall === 'none' && targetUid !== sess.id) return toast('Этот пользователь закрыл стену', true);
-  if (targetUser.privacy?.profileLocked && targetUid !== sess.id && !(targetUser.friends && targetUser.friends.indexOf(sess.id) !== -1)) return toast('Профиль закрыт', true);
-  let post = {
-    id: 'wp' + mkId(), uid: sess.id, author: sess.username, authorAvatar: sess.avatarBase64,
-    targetUid: targetUid, content: content || '', repost: repostData, createdAt: Date.now(), views: 0
-  };
-  if (!S.wallPosts[targetUid]) S.wallPosts[targetUid] = [];
-  S.wallPosts[targetUid].unshift(post);
-  if (repostData && targetUid !== repostData.originalAuthorId && repostData.originalAuthorId) addNotification(repostData.originalAuthorId, 'repost', sess.id, null);
-  persist();
-  toast('Пост опубликован!');
-  let wp = document.getElementById('wall-post-content');
-  if (wp) wp.value = '';
-  renderProfile(targetUid);
-  if (document.getElementById('p-feed') && document.getElementById('p-feed').classList.contains('on')) renderFeed();
-}
-function deleteWallPost(postId, targetUid) {
-  let posts = S.wallPosts[targetUid] || [];
-  let post = null;
-  for (let i = 0; i < posts.length; i++) {
-    if (posts[i].id === postId) { post = posts[i]; break; }
-  }
-  if (post && (canModerate(post.uid) || canModerate(targetUid))) {
-    S.wallPosts[targetUid] = posts.filter(function(p) { return p.id !== postId; });
-    persist();
+
+async function deletePost(postId) {
+  try {
+    await apiCall(`/post/${postId}`, 'DELETE');
     toast('Пост удалён');
-    renderProfile(targetUid);
-    if (document.getElementById('p-feed') && document.getElementById('p-feed').classList.contains('on')) renderFeed();
+    render();
+  } catch (err) {
+    toast(err.message, true);
   }
 }
-function toggleFriend(uid) { 
-  let me = getUser(sess.id); 
-  if (!me) return; 
-  let friends = me.friends || []; 
-  let idx = friends.indexOf(uid);
-  if (idx !== -1) { 
-    friends.splice(idx, 1);
-    updateUser(sess.id, { friends: friends }); 
-    toast('Удалён из друзей'); 
-  } else { 
-    friends.push(uid);
-    updateUser(sess.id, { friends: friends }); 
-    toast('Друг добавлен'); 
-  } 
-  renderProfile(uid); 
+
+function toggleComments(postId) {
+  const el = document.getElementById(`comments-${postId}`);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
-function toggleFollow(uid) { 
-  let targetUser = getUser(uid);
-  if (!targetUser) return;
-  let followers = targetUser.followers || []; 
-  let idx = followers.indexOf(sess.id);
-  if (idx !== -1) { 
-    followers.splice(idx, 1);
-    updateUser(uid, { followers: followers }); 
-    toast('Отписка'); 
-  } else { 
-    followers.push(sess.id);
-    updateUser(uid, { followers: followers }); 
-    toast('Подписка оформлена'); 
-  } 
-  renderProfile(uid); 
+
+async function renderBeats() {
+  try {
+    const data = await apiCall('/beats');
+    const beats = data.beats || [];
+    
+    const el = document.getElementById('p-beats');
+    el.innerHTML = `
+      <div class="w">
+        <div class="flex-between mb-4">
+          <h1>🎵 Маркетплейс битов</h1>
+          ${sess ? `<button class="btn btn-p" onclick="toggleBeatForm()">+ Продать бит</button>` : ''}
+        </div>
+        <div id="beat-form" style="display:none" class="card mb-4">
+          <div class="ph">Новый бит<button class="btn btn-g btn-sm" onclick="toggleBeatForm()">✕</button></div>
+          <div class="pb">
+            <input id="bt-title" placeholder="Название бита">
+            <div class="grid-2">
+              <input id="bt-price" type="number" placeholder="Цена (₽)">
+              <input id="bt-bpm" type="number" placeholder="BPM">
+            </div>
+            <select id="bt-genre"><option>Trap</option><option>Hip-Hop</option><option>Rap</option><option>Drill</option><option>Lo-fi</option><option>Другое</option></select>
+            <input id="bt-collab" placeholder="Соавтор (username, если есть)">
+            <textarea id="bt-desc" rows="3" placeholder="Описание бита, лицензия..."></textarea>
+            <div class="file-label" onclick="document.getElementById('bt-audio').click()">🎵 Загрузить аудио (MP3/WAV)<input type="file" id="bt-audio" accept="audio/*" style="display:none"></div>
+            <div class="pf"><button class="btn btn-g" onclick="toggleBeatForm()">Отмена</button><button class="btn btn-p" onclick="submitBeat()">Опубликовать</button></div>
+          </div>
+        </div>
+        <div class="grid-3">
+          ${beats.map(beat => `
+            <div class="beat-card">
+              <div style="padding:20px">
+                <div style="font-size:18px;font-weight:600">${esc(beat.title)}</div>
+                <div style="font-size:13px;color:var(--t3);margin:8px 0">${beat.bpm || '?'} BPM · ${beat.genre || '?'}</div>
+                ${beat.collaborator ? `<span class="collab-badge">👥 с ${esc(beat.collaborator)}</span>` : ''}
+                <div class="price">${beat.price > 0 ? beat.price + ' ₽' : 'Бесплатно'}</div>
+                <div style="font-size:12px;color:var(--t2);margin:12px 0">${esc((beat.desc || '').slice(0, 80))}</div>
+                ${beat.audioUrl ? `
+                  <div class="audio-player">
+                    <button onclick="event.stopPropagation();playAudio('${beat.audioUrl}', '${esc(beat.title)}')">▶</button>
+                    <div class="waveform-container" id="wave-${beat.id}"></div>
+                    <select class="visualization-select" onchange="changeVisualization('${beat.id}', this.value)">
+                      <option value="waveform">Волна</option>
+                      <option value="spectrogram">Спектр</option>
+                      <option value="bars">Бары</option>
+                    </select>
+                  </div>
+                ` : ''}
+                <button class="btn btn-p btn-sm w-100 mt-2" onclick="buyItem('beats', '${beat.id}')">💸 Купить / Связаться</button>
+              </div>
+            </div>
+          `).join('') || '<div class="empty">Битов пока нет. Будьте первым продавцом!</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-beats');
+    
+    // Инициализация волновых форм
+    beats.forEach(beat => {
+      if (beat.audioUrl) initWaveform(beat.id, beat.audioUrl);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function toggleBeatForm() {
+  const f = document.getElementById('beat-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+async function submitBeat() {
+  const title = document.getElementById('bt-title')?.value.trim();
+  if (!title) {
+    toast('Введите название', true);
+    return;
+  }
+  const price = parseFloat(document.getElementById('bt-price')?.value) || 0;
+  const bpm = parseInt(document.getElementById('bt-bpm')?.value) || 0;
+  const genre = document.getElementById('bt-genre')?.value;
+  const collaborator = document.getElementById('bt-collab')?.value.trim();
+  const desc = document.getElementById('bt-desc')?.value;
+  const audioFile = document.getElementById('bt-audio')?.files[0];
+  
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('price', price);
+  formData.append('bpm', bpm);
+  formData.append('genre', genre);
+  formData.append('collaborator', collaborator);
+  formData.append('desc', desc);
+  if (audioFile) formData.append('audio', audioFile);
+  
+  try {
+    await fetch('/api/beats', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    });
+    toast('Бит опубликован!');
+    toggleBeatForm();
+    renderBeats();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+function initWaveform(id, audioUrl) {
+  const container = document.getElementById(`wave-${id}`);
+  if (!container) return;
+  try {
+    const wavesurfer = WaveSurfer.create({
+      container: `#wave-${id}`,
+      waveColor: 'var(--t4)',
+      progressColor: 'var(--blue)',
+      cursorColor: 'var(--blue)',
+      barWidth: 2,
+      barRadius: 3,
+      height: 40,
+      responsive: true
+    });
+    wavesurfer.load(audioUrl);
+    window.wavesurfers = window.wavesurfers || {};
+    window.wavesurfers[id] = wavesurfer;
+  } catch (e) {
+    console.error('WaveSurfer error:', e);
+  }
+}
+
+function changeVisualization(id, type) {
+  const ws = window.wavesurfers?.[id];
+  if (!ws) return;
+  if (type === 'waveform') ws.setOptions({ waveColor: 'var(--t4)', progressColor: 'var(--blue)' });
+  else if (type === 'spectrogram') ws.setOptions({ waveColor: 'var(--purple)', progressColor: 'var(--pink)' });
+  else if (type === 'bars') ws.setOptions({ barWidth: 3, barGap: 1 });
+}
+
+async function renderDrumkits() {
+  try {
+    const data = await apiCall('/drumkits');
+    const kits = data.drumkits || [];
+    
+    const el = document.getElementById('p-drumkits');
+    el.innerHTML = `
+      <div class="w">
+        <div class="flex-between mb-4">
+          <h1>🥁 Драмкиты</h1>
+          ${sess ? `<button class="btn btn-p" onclick="toggleDrumkitForm()">+ Продать драмкит</button>` : ''}
+        </div>
+        <div id="drumkit-form" style="display:none" class="card mb-4">
+          <div class="ph">Новый драмкит<button class="btn btn-g btn-sm" onclick="toggleDrumkitForm()">✕</button></div>
+          <div class="pb">
+            <input id="dk-title" placeholder="Название драмкита">
+            <input id="dk-price" type="number" placeholder="Цена (₽)">
+            <textarea id="dk-desc" rows="3" placeholder="Описание: какие сэмплы входят, сколько файлов, стиль..."></textarea>
+            <div class="file-label" onclick="document.getElementById('dk-zip').click()">📦 Загрузить ZIP/RAR<input type="file" id="dk-zip" accept=".zip,.rar" style="display:none"></div>
+            <div class="pf"><button class="btn btn-g" onclick="toggleDrumkitForm()">Отмена</button><button class="btn btn-p" onclick="submitDrumkit()">Опубликовать</button></div>
+          </div>
+        </div>
+        <div class="grid-3">
+          ${kits.map(kit => `
+            <div class="beat-card">
+              <div style="padding:20px">
+                <div style="font-size:18px;font-weight:600">${esc(kit.title)}</div>
+                <div class="price">${kit.price > 0 ? kit.price + ' ₽' : 'Бесплатно'}</div>
+                <div style="font-size:12px;color:var(--t2);margin:12px 0">${esc((kit.desc || '').slice(0, 100))}</div>
+                <button class="btn btn-p btn-sm w-100" onclick="buyDrumkit('${kit.id}')">📥 Купить / Скачать</button>
+              </div>
+            </div>
+          `).join('') || '<div class="empty">Драмкитов пока нет</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-drumkits');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function toggleDrumkitForm() {
+  const f = document.getElementById('drumkit-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+async function submitDrumkit() {
+  const title = document.getElementById('dk-title')?.value.trim();
+  if (!title) {
+    toast('Введите название', true);
+    return;
+  }
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('price', parseFloat(document.getElementById('dk-price')?.value) || 0);
+  formData.append('desc', document.getElementById('dk-desc')?.value);
+  const zipFile = document.getElementById('dk-zip')?.files[0];
+  if (zipFile) formData.append('file', zipFile);
+  
+  try {
+    await fetch('/api/drumkits', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    });
+    toast('Драмкит опубликован!');
+    toggleDrumkitForm();
+    renderDrumkits();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function buyDrumkit(id) {
+  try {
+    const result = await apiCall(`/drumkits/${id}/download`, 'GET');
+    if (result.downloadUrl) {
+      window.open(result.downloadUrl, '_blank');
+    } else {
+      toast('Свяжитесь с продавцом для получения файла');
+    }
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function renderServices() {
+  try {
+    const data = await apiCall('/services');
+    const services = data.services || [];
+    
+    const el = document.getElementById('p-services');
+    el.innerHTML = `
+      <div class="w">
+        <div class="flex-between mb-4">
+          <h1>🛠 Услуги (сведение, мастеринг, аранжировка)</h1>
+          ${sess ? `<button class="btn btn-p" onclick="toggleServiceForm()">+ Предложить услугу</button>` : ''}
+        </div>
+        <div id="service-form" style="display:none" class="card mb-4">
+          <div class="ph">Новая услуга<button class="btn btn-g btn-sm" onclick="toggleServiceForm()">✕</button></div>
+          <div class="pb">
+            <input id="sv-title" placeholder="Название услуги">
+            <input id="sv-price" type="number" placeholder="Цена (₽)">
+            <select id="sv-type">
+              <option>Сведение вокала</option><option>Мастеринг</option><option>Эксклюзивный бит</option><option>Аранжировка</option><option>Сведение + Мастеринг</option><option>Другое</option>
+            </select>
+            <textarea id="sv-desc" rows="4" placeholder="Подробное описание услуги, сроки, примеры работ..."></textarea>
+            <div class="g2">
+              <div><div class="stitle">Пример до</div><input type="file" id="sv-before" accept="audio/*"></div>
+              <div><div class="stitle">Пример после</div><input type="file" id="sv-after" accept="audio/*"></div>
+            </div>
+            <div class="pf"><button class="btn btn-g" onclick="toggleServiceForm()">Отмена</button><button class="btn btn-p" onclick="submitService()">Опубликовать</button></div>
+          </div>
+        </div>
+        <div class="grid-3">
+          ${services.map(s => `
+            <div class="service-card">
+              <div style="padding:20px">
+                <div style="font-size:18px;font-weight:600">${esc(s.title)}</div>
+                <div style="font-size:12px;color:var(--blue);margin:4px 0">${s.type || 'Услуга'}</div>
+                <div class="price">${s.price > 0 ? s.price + ' ₽' : 'Договорная'}</div>
+                <div style="font-size:13px;color:var(--t2);margin:12px 0">${esc((s.desc || '').slice(0, 120))}</div>
+                ${s.beforeAudio ? `<audio controls style="width:100%;margin:8px 0"><source src="${s.beforeAudio}"></audio>` : ''}
+                ${s.afterAudio ? `<audio controls style="width:100%;margin:8px 0"><source src="${s.afterAudio}"></audio>` : ''}
+                <button class="btn btn-p btn-sm w-100" onclick="buyService('${s.id}')">📩 Заказать</button>
+              </div>
+            </div>
+          `).join('') || '<div class="empty">Услуг пока нет</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-services');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function toggleServiceForm() {
+  const f = document.getElementById('service-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+async function submitService() {
+  const title = document.getElementById('sv-title')?.value.trim();
+  if (!title) {
+    toast('Введите название', true);
+    return;
+  }
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('price', parseFloat(document.getElementById('sv-price')?.value) || 0);
+  formData.append('type', document.getElementById('sv-type')?.value);
+  formData.append('desc', document.getElementById('sv-desc')?.value);
+  const beforeFile = document.getElementById('sv-before')?.files[0];
+  const afterFile = document.getElementById('sv-after')?.files[0];
+  if (beforeFile) formData.append('before', beforeFile);
+  if (afterFile) formData.append('after', afterFile);
+  
+  try {
+    await fetch('/api/services', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    });
+    toast('Услуга опубликована!');
+    toggleServiceForm();
+    renderServices();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+function buyService(id) {
+  toast('Свяжитесь с исполнителем для заказа');
+}
+
+function buyItem(type, id) {
+  toast('Свяжитесь с продавцом для покупки');
+}
+
+async function renderMusic() {
+  try {
+    const data = await apiCall('/charts');
+    const topBeats = data.topBeats || [];
+    
+    const el = document.getElementById('p-music');
+    el.innerHTML = `
+      <div class="w">
+        <h1 style="margin-bottom:24px">♫ Музыкальный чарт недели</h1>
+        <div class="grid-3">
+          ${topBeats.map((beat, idx) => `
+            <div class="beat-card">
+              <div style="padding:20px">
+                <div style="font-size:32px;font-weight:800;color:var(--amber);margin-bottom:8px">#${idx + 1}</div>
+                <div style="font-size:18px;font-weight:600">${esc(beat.title)}</div>
+                <div style="font-size:13px;color:var(--t3)">${beat.plays || 0} прослушиваний</div>
+                ${beat.audioUrl ? `<button class="btn btn-d btn-sm mt-2" onclick="playAudio('${beat.audioUrl}', '${esc(beat.title)}')">▶ Прослушать</button>` : ''}
+              </div>
+            </div>
+          `).join('') || '<div class="empty">Чарт формируется из прослушиваний</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-music');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function renderBattles() {
+  try {
+    const data = await apiCall('/battles');
+    const battles = data.battles || [];
+    
+    const el = document.getElementById('p-battles');
+    el.innerHTML = `
+      <div class="w">
+        <div class="flex-between mb-4">
+          <h1>⚔️ Баттл-треки</h1>
+          ${sess ? `<button class="btn btn-p" onclick="createBattle()">+ Создать баттл</button>` : ''}
+        </div>
+        <div class="grid-3">
+          ${battles.map(b => `
+            <div class="battle-card">
+              <div style="font-size:16px;font-weight:600">${esc(b.title)}</div>
+              <div class="battle-vs">VS</div>
+              <div>Участников: ${b.entries?.length || 0}</div>
+              <button class="btn btn-d btn-sm mt-2" onclick="joinBattle('${b.id}')">Участвовать</button>
+            </div>
+          `).join('') || '<div class="empty">Активных баттлов нет</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-battles');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function createBattle() {
+  toast('Функция создания баттла в разработке');
+}
+
+function joinBattle(id) {
+  toast('Вы участвуете в баттле! Загрузите трек в разделе Биты');
+}
+
+async function renderBookmarks() {
+  try {
+    const data = await apiCall('/bookmarks');
+    const bookmarks = data.bookmarks || [];
+    
+    const el = document.getElementById('p-bmarks');
+    el.innerHTML = `
+      <div class="wn">
+        <h1>🔖 Закладки</h1>
+        <div class="grid-2">
+          ${bookmarks.map(b => `
+            <div class="card" style="cursor:pointer" onclick="nav('${b.url}')">
+              <div style="padding:16px">
+                <div style="font-weight:600">${esc(b.title)}</div>
+                <div style="font-size:12px;color:var(--t3)">${b.type}</div>
+              </div>
+            </div>
+          `).join('') || '<div class="empty">У вас пока нет закладок</div>'}
+        </div>
+      </div>
+    `;
+    showPage('p-bmarks');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function renderAdmin() {
+  if (!sess?.isAdmin) {
+    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">⛔ Доступ запрещён</div></div>';
+    showPage('p-admin');
+    return;
+  }
+  
+  try {
+    const data = await apiCall('/admin/stats');
+    
+    const el = document.getElementById('p-admin');
+    el.innerHTML = `
+      <div class="w">
+        <h1>⚙ Админ-панель</h1>
+        <div class="admin-stats">
+          <div class="admin-stat-card"><div class="admin-stat-value">${data.usersCount || 0}</div><div>Пользователей</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-value">${data.threadsCount || 0}</div><div>Тем</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-value">${data.beatsCount || 0}</div><div>Битов</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-value">${data.reportsCount || 0}</div><div>Жалоб</div></div>
+        </div>
+        <div class="card">
+          <div class="ph">Управление пользователями</div>
+          <div id="admin-users-list" class="pb"></div>
+        </div>
+      </div>
+    `;
+    
+    const usersList = document.getElementById('admin-users-list');
+    if (usersList && data.users) {
+      usersList.innerHTML = data.users.map(u => `
+        <div class="admin-user-item">
+          <div class="flex"><div class="avatar-sm" style="background:${u.avatarBase64 ? `url(${u.avatarBase64}) center/cover` : '#6366f1'}">${u.username[0]}</div><span>${esc(u.username)}</span>${u.isAdmin ? '<span class="pill">Admin</span>' : ''}</div>
+          <div class="flex gap-2">
+            <button class="btn btn-xs btn-r" onclick="banUser('${u.id}')">${u.banned ? 'Разбан' : 'Бан'}</button>
+            <button class="btn btn-xs btn-r" onclick="deleteUser('${u.id}')">🗑</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    showPage('p-admin');
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function banUser(userId) {
+  try {
+    await apiCall(`/admin/users/${userId}/ban`, 'POST');
+    toast('Пользователь забанен');
+    renderAdmin();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function deleteUser(userId) {
+  if (!confirm('Удалить пользователя?')) return;
+  try {
+    await apiCall(`/admin/users/${userId}`, 'DELETE');
+    toast('Пользователь удалён');
+    renderAdmin();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+// ==================== СООБЩЕНИЯ ====================
+function openMsgPanel() {
+  document.getElementById('msg-panel').style.transform = 'translateX(0)';
+  document.getElementById('msg-bd').style.display = 'block';
+  renderMsgPanel();
+}
+
+function closeMsgPanel() {
+  document.getElementById('msg-panel').style.transform = 'translateX(100%)';
+  document.getElementById('msg-bd').style.display = 'none';
+}
+
+async function renderMsgPanel() {
+  if (!sess) return;
+  try {
+    const data = await apiCall('/messages/conversations');
+    const convs = data.conversations || [];
+    
+    let html = `
+      <div class="ph">
+        Сообщения
+        <div class="flex">
+          <button class="btn btn-xs btn-p" onclick="openGroupModal()">+ Группа</button>
+          <button onclick="closeMsgPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;">✕</button>
+        </div>
+      </div>
+      <div id="conv-list" class="conv-list" style="flex:1;overflow-y:auto">
+    `;
+    
+    if (convs.length === 0) {
+      html += '<div class="empty">Нет диалогов</div>';
+    } else {
+      convs.forEach(c => {
+        html += `
+          <div class="conv-item" onclick="openConv('${c.id}')">
+            <div class="avatar avatar-sm" style="background:var(--purple)">${c.type === 'group' ? '👥' : '💬'}</div>
+            <div><div class="conv-name">${esc(c.name)}</div></div>
+          </div>
+        `;
+      });
+    }
+    html += '</div>';
+    document.getElementById('mpi').innerHTML = html;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function openConv(convId) {
+  toast('Открытие чата...');
+  closeMsgPanel();
+}
+
+function startDM(userId) {
+  toast(`Открытие чата с пользователем`);
+  openMsgPanel();
+}
+
+function openGroupModal() {
+  document.getElementById('group-chat-modal').classList.add('open');
+}
+
+function closeGroupModal() {
+  document.getElementById('group-chat-modal').classList.remove('open');
+}
+
+function searchUserForGroup() {
+  // Заглушка
+}
+
+function addToGroup(uid, name) {
+  // Заглушка
+}
+
+function updateSelectedUsersDisplay() {
+  // Заглушка
+}
+
+function createGroupChat() {
+  toast('Групповой чат создан');
+  closeGroupModal();
+}
+
+// ==================== ИСТОРИИ ====================
+function uploadStory() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('story', file);
+    try {
+      await fetch('/api/stories', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+      toast('История опубликована!');
+      renderHome();
+    } catch (err) {
+      toast(err.message, true);
+    }
+  };
+  input.click();
+}
+
+async function openStoryView(userId, index) {
+  try {
+    const data = await apiCall(`/stories/${userId}`);
+    currentStories = data.stories || [];
+    currentStoryIndex = index || 0;
+    if (currentStories.length === 0) return;
+    showStory(currentStoryIndex);
+    document.getElementById('story-modal').classList.add('open');
+    startStoryTimer();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function showStory(index) {
+  const story = currentStories[index];
+  if (!story) return;
+  const content = document.getElementById('story-content');
+  content.innerHTML = `<img src="${story.image}" style="max-width:90vw;max-height:70vh;border-radius:20px;">`;
+}
+
+function startStoryTimer() {
+  if (storyInterval) clearInterval(storyInterval);
+  let progress = 0;
+  const fill = document.getElementById('story-progress-fill');
+  fill.style.width = '0%';
+  storyInterval = setInterval(() => {
+    progress += 2;
+    fill.style.width = progress + '%';
+    if (progress >= 100) {
+      clearInterval(storyInterval);
+      nextStory();
+    }
+  }, 100);
+}
+
+function nextStory() {
+  if (currentStoryIndex + 1 < currentStories.length) {
+    currentStoryIndex++;
+    showStory(currentStoryIndex);
+    startStoryTimer();
+  } else {
+    closeStoryModal();
+  }
+}
+
+function prevStory() {
+  if (currentStoryIndex > 0) {
+    currentStoryIndex--;
+    showStory(currentStoryIndex);
+    if (storyInterval) clearInterval(storyInterval);
+    startStoryTimer();
+  }
+}
+
+function closeStoryModal() {
+  if (storyInterval) clearInterval(storyInterval);
+  document.getElementById('story-modal').classList.remove('open');
+  currentStories = [];
 }
 
 // ==================== РЕДАКТИРОВАНИЕ ПРОФИЛЯ ====================
 function openEditModal() {
   if (!sess) return;
-  let user = getUser(sess.id);
-  document.getElementById('edit-bio').value = user.bio || '';
-  document.getElementById('privacy-wall').value = user.privacy?.wall || 'all';
-  document.getElementById('privacy-comment').value = user.privacy?.comment || 'all';
-  document.getElementById('privacy-locked').checked = user.privacy?.profileLocked || false;
+  document.getElementById('edit-bio').value = sess.bio || '';
+  document.getElementById('privacy-wall').value = sess.privacy?.wall || 'all';
+  document.getElementById('privacy-comment').value = sess.privacy?.comment || 'all';
+  document.getElementById('privacy-locked').checked = sess.privacy?.profileLocked || false;
   document.getElementById('edit-profile-modal').classList.add('open');
 }
-function closeEditModal() { document.getElementById('edit-profile-modal').classList.remove('open'); }
-function uploadAvatarModal() { 
-  let input = document.createElement('input'); 
-  input.type = 'file'; 
-  input.accept = 'image/*'; 
-  input.onchange = function(e) { 
-    let file = e.target.files[0]; 
-    if (!file) return;
-    let reader = new FileReader(); 
-    reader.onload = function(ev) { 
-      updateUser(sess.id, { avatarBase64: ev.target.result }); 
-      closeEditModal(); 
-      renderProfile(sess.id); 
-      toast('Аватар обновлён!'); 
-    }; 
-    reader.readAsDataURL(file); 
-  }; 
-  input.click(); 
+
+function closeEditModal() {
+  document.getElementById('edit-profile-modal').classList.remove('open');
 }
-function uploadBannerModal() { 
-  let input = document.createElement('input'); 
-  input.type = 'file'; 
-  input.accept = 'image/*'; 
-  input.onchange = function(e) { 
-    let file = e.target.files[0];
+
+async function uploadAvatar() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
     if (!file) return;
-    let reader = new FileReader(); 
-    reader.onload = function(ev) { 
-      updateUser(sess.id, { bannerBase64: ev.target.result }); 
-      closeEditModal(); 
-      renderProfile(sess.id); 
-      toast('Шапка обновлена!'); 
-    }; 
-    reader.readAsDataURL(file); 
-  }; 
-  input.click(); 
-}
-function removeAvatar() { updateUser(sess.id, { avatarBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Аватар удалён'); }
-function removeBanner() { updateUser(sess.id, { bannerBase64: null }); closeEditModal(); renderProfile(sess.id); toast('Шапка удалена'); }
-function setAvatarFrame(frame) { updateUser(sess.id, { avatarFrame: frame }); closeEditModal(); renderProfile(sess.id); toast('Рамка ' + frame + ' установлена'); }
-function saveProfileEdit() {
-  updateUser(sess.id, { 
-    bio: document.getElementById('edit-bio').value,
-    privacy: { 
-      wall: document.getElementById('privacy-wall').value, 
-      comment: document.getElementById('privacy-comment').value, 
-      profileLocked: document.getElementById('privacy-locked').checked 
+    const formData = new FormData();
+    formData.append('avatar', file);
+    try {
+      await fetch('/api/profile/avatar', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+      toast('Аватар обновлён!');
+      closeEditModal();
+      render();
+    } catch (err) {
+      toast(err.message, true);
     }
-  });
-  closeEditModal();
-  renderProfile(sess.id);
-  toast('Профиль обновлён');
+  };
+  input.click();
+}
+
+async function uploadBanner() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('banner', file);
+    try {
+      await fetch('/api/profile/banner', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+      toast('Шапка обновлена!');
+      closeEditModal();
+      render();
+    } catch (err) {
+      toast(err.message, true);
+    }
+  };
+  input.click();
+}
+
+async function removeAvatar() {
+  try {
+    await apiCall('/profile/avatar', 'DELETE');
+    toast('Аватар удалён');
+    closeEditModal();
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function removeBanner() {
+  try {
+    await apiCall('/profile/banner', 'DELETE');
+    toast('Шапка удалена');
+    closeEditModal();
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function setAvatarFrame(frame) {
+  try {
+    await apiCall('/profile/frame', 'POST', { frame });
+    toast(`Рамка ${frame} установлена`);
+    closeEditModal();
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+async function saveProfileEdit() {
+  try {
+    await apiCall('/profile', 'PUT', {
+      bio: document.getElementById('edit-bio').value,
+      privacy: {
+        wall: document.getElementById('privacy-wall').value,
+        comment: document.getElementById('privacy-comment').value,
+        profileLocked: document.getElementById('privacy-locked').checked
+      }
+    });
+    toast('Профиль обновлён');
+    closeEditModal();
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
 }
 
 // ==================== РЕПОСТ ====================
 function openRepostModal(postId, author, content) {
-  _repostPostId = postId; _repostAuthor = author; _repostContent = content;
+  repostData = { postId, author, content };
   document.getElementById('repost-modal').classList.add('open');
 }
-function closeRepostModal() { document.getElementById('repost-modal').classList.remove('open'); _repostPostId = null; }
-function repostToMyWall() {
-  if (!_repostPostId) return;
-  createWallPost(sess.id, '', { originalAuthor: _repostAuthor, originalContent: _repostContent, originalId: _repostPostId, originalAuthorId: null });
-  closeRepostModal();
-  toast('Репост на стену');
+
+function closeRepostModal() {
+  document.getElementById('repost-modal').classList.remove('open');
+  repostData = null;
 }
+
+async function repostToMyWall() {
+  if (!repostData) return;
+  try {
+    await apiCall('/repost', 'POST', { postId: repostData.postId });
+    toast('Репост на стену');
+    closeRepostModal();
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
 function searchUserForRepost() {
-  let q = document.getElementById('repost-user-search') ? document.getElementById('repost-user-search').value.toLowerCase() : '';
-  let results = [];
-  for (let i = 0; i < users.length; i++) {
-    let u = users[i];
-    if (u.username.toLowerCase().includes(q) && u.id !== sess.id) results.push(u);
-  }
-  results = results.slice(0, 10);
-  let resDiv = document.getElementById('repost-user-results');
-  if (resDiv) {
-    let html = '';
-    for (let i = 0; i < results.length; i++) {
-      let u = results[i];
-      html += '<div class="conv-item" onclick="repostToDM(\'' + u.id + '\')"><div class="avatar avatar-sm">' + u.username[0] + '</div><div>' + esc(u.username) + '</div></div>';
-    }
-    resDiv.innerHTML = html || '<div class="empty">Ничего не найдено</div>';
-  }
-}
-function repostToDM(userId) {
-  if (!_repostPostId) return;
-  startDM(userId, '🔁 Репост от ' + _repostAuthor + ':\n\n' + _repostContent);
-  closeRepostModal();
-  toast('Репост отправлен в ЛС');
-}
-
-// ==================== МАРКЕТПЛЕЙС ====================
-function renderBeats() { renderMarketplace('beats', '🎵 Маркетплейс битов', 'Продать бит'); }
-function renderDrumkits() { renderMarketplace('drumkits', '🥁 Драмкиты', 'Продать драмкит'); }
-function renderServices() { renderMarketplace('services', '🛠 Услуги', 'Предложить услугу'); }
-function renderMusic() { 
-  document.getElementById('p-music').innerHTML = '<div class="w"><h1>♫ Музыка</h1><div class="empty"><div class="empty-ico">🎵</div><p>Топ чарт битов</p><button class="btn btn-p mt-3" onclick="nav(\'#/beats\')">Перейти в биты</button></div></div>';
-  showPage('p-music'); 
-}
-function renderBookmarks() { 
-  document.getElementById('p-bmarks').innerHTML = '<div class="wn"><h1>🔖 Закладки</h1><div class="empty">У вас пока нет закладок</div></div>';
-  showPage('p-bmarks'); 
-}
-
-function renderMarketplace(type, title, buttonText) {
-  let items = S[type] || [];
-  if (_bg !== 'all') {
-    items = items.filter(function(b) { return (b.customGenre || b.genre) === _bg; });
-  }
-  if (_bs === 'newest') {
-    items.sort(function(a,b) { return b.createdAt - a.createdAt; });
-  } else if (_bs === 'price_asc') {
-    items.sort(function(a,b) { return a.price - b.price; });
-  } else if (_bs === 'price_desc') {
-    items.sort(function(a,b) { return b.price - a.price; });
-  }
-  
-  let genres = ['all'];
-  for (let i = 0; i < items.length; i++) {
-    let g = items[i].customGenre || items[i].genre;
-    if (g && genres.indexOf(g) === -1) genres.push(g);
-  }
-  
-  let el = document.getElementById('p-' + type);
-  let genreHtml = '<div class="gtabs">';
-  for (let i = 0; i < genres.length; i++) {
-    let g = genres[i];
-    genreHtml += '<button class="gtab ' + (_bg === g ? 'on' : '') + '" onclick="setBeatGenre(\'' + g + '\')">' + (g === 'all' ? 'Все' : g) + '</button>';
-  }
-  genreHtml += '</div><div class="stabs">' +
-    '<button class="stab ' + (_bs === 'newest' ? 'on' : '') + '" onclick="setBeatSort(\'newest\')">Новые</button>' +
-    '<button class="stab ' + (_bs === 'price_asc' ? 'on' : '') + '" onclick="setBeatSort(\'price_asc\')">Дешевле</button>' +
-    '<button class="stab ' + (_bs === 'price_desc' ? 'on' : '') + '" onclick="setBeatSort(\'price_desc\')">Дороже</button>' +
-    '<button class="stab ' + (_bs === 'popular' ? 'on' : '') + '" onclick="setBeatSort(\'popular\')">Популярные</button>' +
-    '</div>';
-  
-  let itemHtml = '';
-  for (let i = 0; i < items.length; i++) {
-    let it = items[i];
-    itemHtml += '<div class="beat-card"><div style="padding:16px"><div style="font-size:16px;font-weight:600">' + esc(it.title) + '</div><div style="font-size:13px;color:var(--t3)">' + (it.bpm || '?') + ' BPM · ' + (it.genre || it.customGenre || '?') + '</div><div class="price">' + (it.price > 0 ? it.price + ' ₽' : 'Бесплатно') + '</div><div style="font-size:12px;color:var(--t2);margin:8px 0">' + esc((it.desc || '').slice(0, 80)) + '</div>' +
-      (it.audioUrl ? '<div class="audio-player"><button onclick="event.stopPropagation();playBeatAudio(\'' + it.audioUrl + '\', \'' + esc(it.title) + '\')">▶</button><span>Прослушать</span></div>' : '') +
-      '<button class="btn btn-p btn-sm" onclick="buyItem(\'' + type + '\', \'' + it.id + '\')">' + (type === 'services' ? '📩 Заказать' : '💸 Купить') + '</button></div></div>';
-  }
-  
-  let formHtml = '<div id="form-' + type + '" style="display:none" class="panel mb-4"><div class="ph">Новый ' + (type === 'beats' ? 'бит' : type === 'drumkits' ? 'драмкит' : 'услуга') + '<button class="btn btn-g btn-sm" onclick="toggleForm(\'' + type + '\')">✕</button></div><div class="pb"><input id="' + type + '-title" placeholder="Название"><div class="g2"><input id="' + type + '-price" type="number" placeholder="Цена (₽)">' + (type === 'beats' ? '<input id="bt-bpm" type="number" placeholder="BPM">' : '') + '</div>' + (type === 'beats' ? '<select id="bt-genre"><option>Rap</option><option>Trap</option><option>Hip-Hop</option><option>Другое</option></select><input id="bt-custom-genre" placeholder="Свой жанр" style="display:none">' : '') + '<textarea id="' + type + '-desc" rows="3" placeholder="Описание"></textarea>' + (type === 'beats' ? '<div class="file-label" onclick="document.getElementById(\'bt-audio\').click()">🎵 Загрузить аудио (MP3/WAV)<input type="file" id="bt-audio" accept="audio/*" style="display:none"></div>' : '') + '<div class="pf"><button class="btn btn-g" onclick="toggleForm(\'' + type + '\')">Отмена</button><button class="btn btn-p" onclick="submitItem(\'' + type + '\')">Опубликовать</button></div></div></div>';
-  
-  el.innerHTML = '<div class="w"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><h1>' + title + '</h1><button class="btn btn-p" onclick="toggleForm(\'' + type + '\')">+ ' + buttonText + '</button></div>' + formHtml + '<div class="toolbar">' + genreHtml + '</div><div class="beat-grid">' + (itemHtml || '<div class="empty">Пока ничего нет</div>') + '</div></div>';
-  showPage('p-' + type);
-}
-function setBeatGenre(g) { _bg = g; renderBeats(); }
-function setBeatSort(s) { _bs = s; renderBeats(); }
-function playBeatAudio(url, title) { 
-  if (player.audio) {
-    player.audio.src = url;
-    player.audio.play();
-    document.getElementById('p-ttl').textContent = title;
-    document.getElementById('player').style.display = 'flex';
-  }
-}
-function toggleForm(type) { let f = document.getElementById('form-' + type); if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
-function submitItem(type) {
-  let title = document.getElementById(type + '-title') ? document.getElementById(type + '-title').value.trim() : '';
-  if (!title) { toast('Введите название', true); return; }
-  let item = { id: type[0] + mkId(), uid: sess.id, title: title, price: parseFloat(document.getElementById(type + '-price') ? document.getElementById(type + '-price').value : 0) || 0, desc: document.getElementById(type + '-desc') ? document.getElementById(type + '-desc').value : '', createdAt: Date.now() };
-  if (type === 'beats') {
-    item.bpm = parseInt(document.getElementById('bt-bpm') ? document.getElementById('bt-bpm').value : 0) || 0;
-    item.genre = document.getElementById('bt-genre') ? document.getElementById('bt-genre').value : '';
-    let audioFile = document.getElementById('bt-audio') ? document.getElementById('bt-audio').files[0] : null;
-    if (audioFile) {
-      let reader = new FileReader();
-      reader.onload = function(e) { 
-        item.audioUrl = e.target.result; 
-        S[type].push(item); 
-        persist(); 
-        toast('Опубликовано!'); 
-        toggleForm(type); 
-        if (type === 'beats') renderBeats(); 
-        else if (type === 'drumkits') renderDrumkits(); 
-        else renderServices(); 
-      };
-      reader.readAsDataURL(audioFile);
-      return;
-    }
-  }
-  S[type].push(item);
-  persist();
-  toast('Опубликовано!');
-  toggleForm(type);
-  if (type === 'beats') renderBeats();
-  else if (type === 'drumkits') renderDrumkits();
-  else renderServices();
-}
-function buyItem(type, id) {
-  let item = null;
-  for (let i = 0; i < S[type].length; i++) {
-    if (S[type][i].id === id) { item = S[type][i]; break; }
-  }
-  if (item) startDM(item.uid, 'Интересуюсь ' + (type === 'beats' ? 'битом' : type === 'drumkits' ? 'драмкитом' : 'услугой') + ': ' + item.title);
-}
-
-// ==================== АДМИН-ПАНЕЛЬ ====================
-function renderAdmin() {
-  if (!isAdmin()) {
-    document.getElementById('p-admin').innerHTML = '<div class="w"><div class="empty">⛔ Доступ запрещён. Только для администратора.</div></div>';
-    showPage('p-admin');
-    return;
-  }
-  
-  let totalReplies = 0;
-  for (let key in S.replies) { totalReplies += S.replies[key].length; }
-  
-  let el = document.getElementById('p-admin');
-  let usersHtml = '';
-  for (let i = 0; i < users.length; i++) {
-    let u = users[i];
-    let isMainAdmin = u.username === ADMIN_LOGIN;
-    usersHtml += '<div class="flex justify-between" style="padding:12px;border-bottom:1px solid var(--border)"><div><b>' + esc(u.username) + '</b> ' + (u.isAdmin ? '👑' : '') + '<div style="font-size:11px">Бейджи: ' + (u.badges || []).join(', ') + '</div></div><div class="flex gap-2">' +
-      (!isMainAdmin ? '<button class="btn btn-xs ' + (u.isAdmin ? 'btn-p' : 'btn-d') + '" onclick="toggleAdmin(\'' + u.id + '\')">' + (u.isAdmin ? 'Снять админа' : 'Сделать админом') + '</button>' : '<span class="pill">Главный админ</span>') +
-      (!isMainAdmin ? '<button class="btn btn-xs btn-r" onclick="banUser(\'' + u.id + '\')">' + (u.banned ? 'Разбан' : 'Бан') + '</button>' : '') +
-      (!isMainAdmin ? '<button class="btn btn-xs btn-r" onclick="deleteUserAdmin(\'' + u.id + '\')">🗑</button>' : '') + '</div></div>';
-  }
-  
-  el.innerHTML = '<div class="w"><h1>⚙ Админ-панель</h1><div class="g2" style="margin-bottom:24px"><div class="card"><div class="ph">Пользователи</div><div class="pb" style="font-size:28px">' + users.length + '</div></div><div class="card"><div class="ph">Темы</div><div class="pb" style="font-size:28px">' + S.threads.length + '</div></div><div class="card"><div class="ph">Ответы</div><div class="pb" style="font-size:28px">' + totalReplies + '</div></div><div class="card"><div class="ph">Биты</div><div class="pb" style="font-size:28px">' + S.beats.length + '</div></div></div><div class="stitle">👥 Пользователи</div><div id="admin-users-list">' + usersHtml + '</div><div class="stitle mt-3">🗑 Удалить контент</div><div class="g2"><div class="card"><div class="ph">Биты</div><div class="pb"><select id="admin-beat-select">' + S.beats.map(function(b) { return '<option value="' + b.id + '">' + esc(b.title) + ' (' + (getUser(b.uid) ? getUser(b.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteBeat()">Удалить бит</button></div></div><div class="card"><div class="ph">Драмкиты</div><div class="pb"><select id="admin-dk-select">' + S.drumkits.map(function(d) { return '<option value="' + d.id + '">' + esc(d.title) + ' (' + (getUser(d.uid) ? getUser(d.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteDrumkit()">Удалить драмкит</button></div></div><div class="card"><div class="ph">Услуги</div><div class="pb"><select id="admin-sv-select">' + S.services.map(function(s) { return '<option value="' + s.id + '">' + esc(s.title) + ' (' + (getUser(s.uid) ? getUser(s.uid).username : '?') + ')</option>'; }).join('') + '</select><button class="btn btn-r btn-sm mt-2" onclick="adminDeleteService()">Удалить услугу</button></div></div></div></div>';
-  showPage('p-admin');
-}
-function toggleAdmin(uid) {
-  if (!isAdmin()) return;
-  let u = getUser(uid);
-  if (u && u.username !== ADMIN_LOGIN) {
-    u.isAdmin = !u.isAdmin;
-    if (u.isAdmin) {
-      if (u.badges.indexOf('admin') === -1) u.badges.push('admin');
-    } else {
-      u.badges = u.badges.filter(function(b) { return b !== 'admin'; });
-    }
-    persist();
-    renderAdmin();
-    toast(u.isAdmin ? 'Назначен админом' : 'Права админа сняты');
-  }
-}
-function banUser(uid) {
-  if (!isAdmin()) return;
-  let u = getUser(uid);
-  if (u && u.username !== ADMIN_LOGIN) {
-    u.banned = !u.banned;
-    persist();
-    renderAdmin();
-    toast(u.banned ? 'Пользователь забанен' : 'Пользователь разбанен');
-  }
-}
-function deleteUserAdmin(uid) {
-  if (!isAdmin()) return;
-  if (uid === sess.id) return toast('Нельзя удалить себя', true);
-  let u = getUser(uid);
-  if (u && u.username === ADMIN_LOGIN) return toast('Нельзя удалить главного администратора', true);
-  users = users.filter(function(u) { return u.id !== uid; });
-  persist();
-  renderAdmin();
-  toast('Пользователь удалён');
-}
-function adminDeleteBeat() {
-  if (!isAdmin()) return;
-  let select = document.getElementById('admin-beat-select');
-  let id = select ? select.value : null;
-  if (id) { 
-    S.beats = S.beats.filter(function(b) { return b.id !== id; }); 
-    persist(); 
-    renderAdmin(); 
-    toast('Бит удалён'); 
-  } 
-}
-function adminDeleteDrumkit() {
-  if (!isAdmin()) return;
-  let select = document.getElementById('admin-dk-select');
-  let id = select ? select.value : null;
-  if (id) { 
-    S.drumkits = S.drumkits.filter(function(d) { return d.id !== id; }); 
-    persist(); 
-    renderAdmin(); 
-    toast('Драмкит удалён'); 
-  } 
-}
-function adminDeleteService() {
-  if (!isAdmin()) return;
-  let select = document.getElementById('admin-sv-select');
-  let id = select ? select.value : null;
-  if (id) { 
-    S.services = S.services.filter(function(s) { return s.id !== id; }); 
-    persist(); 
-    renderAdmin(); 
-    toast('Услуга удалена'); 
-  } 
+  // Заглушка
 }
 
 // ==================== ПЛЕЕР ====================
-let player = { audio: null, init: function() { this.audio = new Audio(); this.audio.volume = 0.8; }, play: function(url, title) { if (this.audio.src !== url) this.audio.src = url; document.getElementById('p-ttl').textContent = title || '—'; document.getElementById('player').style.display = 'flex'; this.audio.play(); }, toggle: function() { this.audio.paused ? this.audio.play() : this.audio.pause(); }, updateUI: function() { let btn = document.getElementById('p-pbtn'); if (btn) btn.textContent = this.audio && this.audio.paused ? '▶' : '⏸'; }, hide: function() { this.audio.pause(); document.getElementById('player').style.display = 'none'; } };
-player.init(); 
-player.audio.onplay = function() { player.updateUI(); }; 
-player.audio.onpause = function() { player.updateUI(); }; 
-player.audio.ontimeupdate = function() { 
-  let pct = (player.audio.currentTime / player.audio.duration) * 100 || 0; 
-  let bar = document.getElementById('p-bar-f');
-  if (bar) bar.style.width = pct + '%'; 
-  let timeEl = document.getElementById('p-time');
-  if (timeEl) timeEl.textContent = Math.floor(player.audio.currentTime / 60) + ':' + String(Math.floor(player.audio.currentTime % 60)).padStart(2,'0'); 
-};
+let playerAudio = null;
+let currentWaveSurfer = null;
 
-// ==================== ПОИСК ====================
-var searchInput = document.getElementById('s-inp');
-if (searchInput) {
-  searchInput.addEventListener('input', function(e) { 
-    let q = e.target.value.toLowerCase(); 
-    let results = [];
-    for (let i = 0; i < S.threads.length; i++) {
-      if (S.threads[i].title.toLowerCase().includes(q)) {
-        results.push('<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav(\'#/thread/' + S.threads[i].id + '\');closeSearch()">📄 ' + esc(S.threads[i].title) + '</div>');
-        if (results.length >= 3) break;
-      }
-    }
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].username.toLowerCase().includes(q)) {
-        results.push('<div style="padding:12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="nav(\'#/profile/' + users[i].id + '\');closeSearch()">👤 ' + esc(users[i].username) + '</div>');
-        if (results.length >= 6) break;
-      }
-    }
-    let resDiv = document.getElementById('s-res');
-    if (resDiv) resDiv.innerHTML = results.length ? results.join('') : '<div class="empty">Ничего не найдено</div>'; 
+function initPlayer() {
+  playerAudio = new Audio();
+  playerAudio.volume = 0.8;
+  
+  const pbtn = document.getElementById('p-pbtn');
+  const pbar = document.getElementById('p-bar');
+  const pclose = document.getElementById('p-close');
+  const pvol = document.querySelector('.p-vol');
+  
+  pbtn?.addEventListener('click', () => {
+    if (playerAudio.paused) playerAudio.play();
+    else playerAudio.pause();
+  });
+  
+  pbar?.addEventListener('click', (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    if (playerAudio.duration) playerAudio.currentTime = percent * playerAudio.duration;
+  });
+  
+  pclose?.addEventListener('click', () => {
+    playerAudio.pause();
+    document.getElementById('player').style.display = 'none';
+  });
+  
+  pvol?.addEventListener('input', (e) => {
+    playerAudio.volume = parseFloat(e.target.value);
+  });
+  
+  playerAudio.addEventListener('timeupdate', () => {
+    const percent = (playerAudio.currentTime / playerAudio.duration) * 100 || 0;
+    document.getElementById('p-bar-f').style.width = percent + '%';
+    const mins = Math.floor(playerAudio.currentTime / 60);
+    const secs = Math.floor(playerAudio.currentTime % 60);
+    document.getElementById('p-time').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  });
+  
+  playerAudio.addEventListener('play', () => {
+    document.getElementById('p-pbtn').textContent = '⏸';
+  });
+  
+  playerAudio.addEventListener('pause', () => {
+    document.getElementById('p-pbtn').textContent = '▶';
   });
 }
 
-// ==================== РЕНДЕР ====================
-function render() {
-  buildHeader();
-  let hash = location.hash.slice(1) || '/';
-  if (!sess && hash !== '/') {
-    location.hash = '/';
-    return;
-  }
-  if (hash === '/' || hash === '') renderHome();
-  else if (hash === '/feed') renderFeed();
-  else if (hash === '/beats') renderBeats();
-  else if (hash === '/drumkits') renderDrumkits();
-  else if (hash === '/services') renderServices();
-  else if (hash === '/music') renderMusic();
-  else if (hash === '/profile') renderProfile(sess ? sess.id : null);
-  else if (hash === '/bmarks') renderBookmarks();
-  else if (hash === '/admin') renderAdmin();
-  else if (hash.startsWith('/board/')) renderBoard(hash.slice(7));
-  else if (hash.startsWith('/thread/')) renderThread(hash.slice(8));
-  else if (hash.startsWith('/profile/')) renderProfile(hash.slice(9));
-  else renderHome();
-}
-function showPage(id) { 
-  let pages = ['p-home', 'p-board', 'p-thread', 'p-beats', 'p-drumkits', 'p-services', 'p-music', 'p-profile', 'p-admin', 'p-bmarks', 'p-feed'];
-  for (let i = 0; i < pages.length; i++) {
-    let p = document.getElementById(pages[i]);
-    if (p) p.classList.remove('on');
-  }
-  let page = document.getElementById(id);
-  if (page) page.classList.add('on'); 
+function playAudio(url, title) {
+  if (!playerAudio) initPlayer();
+  if (playerAudio.src !== url) playerAudio.src = url;
+  document.getElementById('p-ttl').textContent = title;
+  document.getElementById('player').style.display = 'flex';
+  playerAudio.play();
 }
 
-// ==================== ЗАПУСК ====================
-document.addEventListener('DOMContentLoaded', function() {
-  document.body.classList.toggle('light', _theme === 'light');
-  var logo = document.getElementById('logo');
-  if (logo) logo.onclick = function() { nav('#/'); };
-  var msgBd = document.getElementById('msg-bd');
-  if (msgBd) msgBd.onclick = closeMsgPanel;
-  var searchOv = document.getElementById('search-ov');
-  if (searchOv) searchOv.onclick = function(e) { if (e.target === e.currentTarget) closeSearch(); };
-  var pClose = document.getElementById('p-close');
-  if (pClose) pClose.addEventListener('click', function() { player.hide(); });
-  var pPbtn = document.getElementById('p-pbtn');
-  if (pPbtn) pPbtn.addEventListener('click', function() { player.toggle(); });
-  var pBar = document.getElementById('p-bar');
-  if (pBar) pBar.addEventListener('click', function(e) { if (player.audio) { var rect = e.target.getBoundingClientRect(); player.audio.currentTime = ((e.clientX - rect.left) / rect.width) * player.audio.duration; } });
-  var pVol = document.querySelector('.p-vol');
-  if (pVol) pVol.addEventListener('input', function(e) { if (player.audio) player.audio.volume = parseFloat(e.target.value); });
-  
-  var mbBtns = document.querySelectorAll('.mb-btn');
-  for (var i = 0; i < mbBtns.length; i++) {
-    mbBtns[i].addEventListener('click', function() {
-      var action = this.getAttribute('data-nav');
-      var pathMap = { home: '/', feed: '/feed', beats: '/beats', drumkits: '/drumkits', services: '/services', admin: '/admin' };
-      nav('#' + pathMap[action]);
-    });
+// ==================== ДРУЗЬЯ И ПОДПИСКИ ====================
+async function toggleFriend(userId) {
+  try {
+    await apiCall(`/friends/${userId}`, 'POST');
+    toast('Друг добавлен/удалён');
+    render();
+  } catch (err) {
+    toast(err.message, true);
   }
+}
+
+async function toggleFollow(userId) {
+  try {
+    await apiCall(`/follow/${userId}`, 'POST');
+    toast('Подписка оформлена/отменена');
+    render();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+// ==================== УВЕДОМЛЕНИЯ ====================
+function toggleNotif() {
+  const p = document.getElementById('notif-panel');
+  if (p.style.display === 'flex') {
+    p.style.display = 'none';
+    return;
+  }
+  p.innerHTML = '<div class="ph">Уведомления<button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button></div><div class="empty">Нет уведомлений</div>';
+  p.style.display = 'flex';
+}
+
+// ==================== ПОИСКОВЫЕ ВКЛАДКИ ====================
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('s-inp')?.addEventListener('input', performSearch);
   
+  document.querySelectorAll('[data-search-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-search-tab]').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      currentSearchTab = btn.getAttribute('data-search-tab');
+      performSearch();
+    });
+  });
+  
+  const mbBtns = document.querySelectorAll('.mb-btn');
+  mbBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const navTo = btn.getAttribute('data-nav');
+      const map = { home: '/', feed: '/feed', beats: '/beats', drumkits: '/drumkits', services: '/services' };
+      nav(`#${map[navTo] || '/'}`);
+    });
+  });
+  
+  document.getElementById('logo')?.addEventListener('click', () => nav('#/'));
+  document.getElementById('msg-bd')?.addEventListener('click', closeMsgPanel);
+  document.getElementById('search-ov')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeSearch();
+  });
+  document.getElementById('story-prev')?.addEventListener('click', prevStory);
+  document.getElementById('story-next')?.addEventListener('click', nextStory);
+  
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') document.body.classList.add('light');
+  
+  initPlayer();
   render();
 });
+
+function navToProfileByUsername(username) {
+  // Заглушка - нужно получить ID по username
+  toast(`Переход к профилю @${username}`);
+}
 </script>
 </body>
 </html>
